@@ -3,17 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Énoncé – Karte (Test)</title>
-<style>
-  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
-         font-family: system-ui, sans-serif; background: #111; color: #eee; }
-  p { color: #999; }
-</style>
+<title>Énoncé – Karte der Fieldtrips</title>
+<link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <h1>Testseite</h1>
-    <p>GitHub Pages funktioniert. Hier entsteht die Punktwolkenkarte.</p>
-  </main>
+  <div id="karte"></div>
+
+  <header id="kopf">
+    <h1 id="titel">Karte</h1>
+    <p id="untertitel"></p>
+  </header>
+
+  <footer id="legende">
+    <div class="zeile"><span class="strich"></span><span id="route-label">Route</span></div>
+    <div class="zeile"><span class="punkt"></span><span>Station (anklicken)</span></div>
+    <p id="quellen"></p>
+    <p class="hilfe">Ziehen: drehen · Rechte Maustaste: verschieben · Mausrad: zoomen · Doppelklick: auf Punkt zoomen</p>
+  </footer>
+
+  <aside id="blatt" hidden>
+    <button id="blatt-zu" aria-label="Schliessen">×</button>
+    <div id="blatt-inhalt"></div>
+  </aside>
+
+  <div id="laden">Lade Gelände …</div>
+
+  <script src="vendor/potree/libs/jquery/jquery-3.1.1.min.js"></script>
+  <script src="vendor/potree/libs/other/BinaryHeap.js"></script>
+  <script src="vendor/potree/libs/tween/tween.min.js"></script>
+  <script src="vendor/potree/libs/proj4/proj4.js"></script>
+  <script src="vendor/potree/build/potree/potree.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

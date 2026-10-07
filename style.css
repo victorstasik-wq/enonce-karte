@@ -1,0 +1,75 @@
+:root {
+  --bg-oben: #0d0f1f;
+  --bg-unten: #2a2f63;
+  --text: #eceef5;
+  --text-leise: #a3a8c3;
+  --linie: rgba(255,255,255,.14);
+  --panel: rgba(14,16,32,.92);
+  --route: #ff6a3d;
+  --station: #ffd23f;
+  --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg-oben); color: var(--text); font-family: var(--font); }
+
+#karte {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--bg-oben) 0%, var(--bg-unten) 100%);
+}
+
+#kopf, #legende { text-shadow: 0 1px 3px rgba(0,0,0,.9); }
+#kopf { position: absolute; top: 16px; left: 16px; pointer-events: none; max-width: calc(100% - 32px); }
+#kopf h1 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: .02em; }
+#kopf p { margin: 4px 0 0; font-size: 13px; color: var(--text-leise); }
+
+#legende {
+  position: absolute; left: 16px; bottom: 16px; max-width: min(460px, calc(100% - 32px));
+  font-size: 12px; color: var(--text-leise); line-height: 1.5;
+}
+#legende .zeile { display: flex; align-items: center; gap: 8px; color: var(--text); }
+#legende .strich { width: 22px; height: 3px; background: var(--route); border-radius: 2px; }
+#legende .punkt { width: 10px; height: 10px; background: var(--station); border-radius: 50%; margin: 0 6px; }
+#legende p { margin: 6px 0 0; }
+#legende .hilfe { opacity: .8; }
+
+#laden { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: var(--text-leise); font-size: 14px; }
+
+/* Stationsmarker (Potree-Annotation) */
+.annotation { opacity: 1 !important; pointer-events: auto; }
+.annotation-titlebar {
+  background: var(--station) !important; color: #111 !important;
+  border: 0 !important; font-size: 12px !important; padding: 1px 9px !important;
+}
+.annotation-label { font-family: var(--font) !important; }
+
+/* Informationsblatt */
+#blatt {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(440px, 100%);
+  background: var(--panel); border-left: 1px solid var(--linie);
+  overflow-y: auto; padding: 20px 22px 40px; box-sizing: border-box;
+  font-size: 14px; line-height: 1.55;
+}
+#blatt[hidden] { display: none; }
+#blatt-zu {
+  position: sticky; top: 0; float: right; background: none; border: 0; color: var(--text);
+  font-size: 26px; line-height: 1; cursor: pointer; padding: 0 4px;
+}
+#blatt h2 { margin: 0 0 2px; font-size: 22px; }
+#blatt h3 { margin: 22px 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-leise); font-weight: 600; }
+#blatt .meta { color: var(--text-leise); font-size: 13px; }
+#blatt dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0; font-size: 13px; }
+#blatt dt { color: var(--text-leise); }
+#blatt dd { margin: 0; }
+#blatt figure { margin: 0 0 12px; }
+#blatt img { width: 100%; height: auto; display: block; border-radius: 2px; }
+#blatt figcaption { font-size: 12px; color: var(--text-leise); margin-top: 4px; }
+#blatt .lit { border-top: 1px solid var(--linie); padding: 10px 0; }
+#blatt .lit blockquote { margin: 6px 0; padding-left: 10px; border-left: 2px solid var(--station); }
+#blatt .lit .bezug { color: var(--text-leise); font-size: 13px; }
+#blatt .hinweis { color: var(--text-leise); font-style: italic; font-size: 13px; }
+#blatt .leer { color: var(--text-leise); font-size: 13px; }
+
+@media (max-width: 640px) {
+  #legende .hilfe { display: none; }
+  #blatt { top: 40%; width: 100%; border-left: 0; border-top: 1px solid var(--linie); }
+}

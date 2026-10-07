@@ -1,0 +1,16 @@
+{
+  "start": "F_01",
+  "fieldtrips": [
+    {
+      "id": "F_01",
+      "titel": "Fieldtrip 1",
+      "gelaende": {
+        "pfad": "pointclouds/F_01_gelaende/metadata.json",
+        "quelle": "swissALTI3D 2024/2025, 10-m-Raster, Schummerung (Licht aus Nordwest)",
+        "copyright": "© swisstopo"
+      },
+      "route": "data/route_F_01.json",
+      "stationen": "data/stationen_F_01.json"
+    }
+  ]
+}

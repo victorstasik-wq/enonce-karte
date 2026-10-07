@@ -1,0 +1,45 @@
+{
+	"version": "2.0",
+	"name": "F_01_gelaende_10m",
+	"description": "",
+	"points": 2360000,
+	"projection": "",
+	"hierarchy": {
+		"firstChunkSize": 9504, 
+		"stepSize": 4, 
+		"depth": 4
+	},
+	"offset": [2603005, 1135005, 1108.0699999999999],
+	"scale": [0.01, 0.01, 0.01],
+	"spacing": 124.921875,
+	"boundingBox": {
+		"min": [2603005, 1135005, 1108.0699999999999], 
+		"max": [2618995, 1150995, 17098.07]
+	},
+	"encoding": "BROTLI",
+	"attributes": [
+		{
+			"name": "position",
+			"description": "",
+			"size": 12,
+			"numElements": 3,
+			"elementSize": 4,
+			"type": "int32",
+			"min": [2603005, 1135005, 1108.0699999999999],
+			"max": [2618995, 1150995, 3626.71],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		},{
+			"name": "rgb",
+			"description": "",
+			"size": 6,
+			"numElements": 3,
+			"elementSize": 2,
+			"type": "uint16",
+			"min": [17920, 17920, 17920],
+			"max": [65024, 65024, 65024],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		}
+	]
+}
