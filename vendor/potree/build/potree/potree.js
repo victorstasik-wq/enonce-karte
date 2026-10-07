@@ -66351,7 +66351,7 @@ void main() {
 				}else {
 					let response = await fetch(urlOctree, {
 						headers: {
-							'content-type': 'multipart/byteranges',
+							/* Header entfernt: GitHub Pages lehnt GET mit content-type multipart/byteranges ab (400) */
 							'Range': `bytes=${first}-${last}`,
 						},
 					});
@@ -66555,7 +66555,7 @@ void main() {
 
 			let response = await fetch(hierarchyPath, {
 				headers: {
-					'content-type': 'multipart/byteranges',
+					/* Header entfernt: GitHub Pages lehnt GET mit content-type multipart/byteranges ab (400) */
 					'Range': `bytes=${first}-${last}`,
 				},
 			});
