@@ -1,22 +1,27 @@
 [
   {
     "id": "F1_01",
-    "datum": "",
+    "titel": "LÄMMEREN_GLACIER",
+    "datum": "27/09/2026",
     "lv95": {
       "e": 2609632.6,
       "n": 1137583.96,
       "h": 2690.3,
-      "e_text": "2'609'632.60",
-      "n_text": "1'137'583.96"
+      "e_text": "2’609’632.60",
+      "n_text": "1’137’583.96"
     },
     "ortung": {
       "methode": "",
       "genauigkeit_m": null,
-      "bezug": ""
+      "bezug": "Glacier edge, east"
     },
-    "fotos": [],
+    "fotos": [
+      { "datei": "photos/F1_01_foto_01.jpg", "legende": "Ice sheet over dark scree" },
+      { "datei": "photos/F1_01_foto_02.jpg", "legende": "Crevassed glacier ice above bedrock" }
+    ],
     "modell": {},
-    "beschreibung": "",
+    "beschreibung": "Edge of the Lämmeren Glacier (Lämmerengletscher), the small glacier descending from the Schwarzhorn above the Lämmerenhütte. The glacier has retreated strongly; at this point only a thin remnant of ice is left, partly covered by debris and cut by crevasses and meltwater channels.",
+    "schaetzung": "Own estimate from the site visit, not yet backed by measurements: at the present rate of melting, the remaining ice here could disappear within roughly two to four years.",
     "notizen": "",
     "literatur": []
   }

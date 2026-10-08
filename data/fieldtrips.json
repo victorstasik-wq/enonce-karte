@@ -1,16 +1,32 @@
 {
+  "projekt": "Énoncé théorique — Victor Stasik",
   "start": "F_01",
   "fieldtrips": [
     {
       "id": "F_01",
-      "titel": "Fieldtrip 1",
+      "titel": "Fieldtrip 01",
+      "ort": "Lämmerenhütte",
+      "nav": "F1 Lämmerenhütte",
       "gelaende": {
         "pfad": "pointclouds/F_01_gelaende/metadata.json",
         "quelle": "swissALTI3D 2024/2025, 10 m grid, hillshade (light from north-west)",
         "copyright": "© swisstopo"
       },
+      "verdichtung": [
+        {
+          "pfad": "pointclouds/F1_01_verdichtet/metadata.json",
+          "hinweis": "Around F1_01 (4 × 4 km) the points are densified to 2.5 m by interpolation of the 10 m grid; this adds no measured detail."
+        }
+      ],
       "route": "data/route_F_01.json",
       "stationen": "data/stationen_F_01.json"
+    },
+    {
+      "id": "F_02",
+      "titel": "Fieldtrip 02",
+      "ort": "Cabane de Chanrion",
+      "nav": "F2 Cabane de Chanrion",
+      "inaktiv": true
     }
   ]
 }

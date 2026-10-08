@@ -4,26 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Énoncé – Fieldtrip Map</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div id="karte"></div>
 
   <header id="kopf">
-    <h1 id="titel">Map</h1>
-    <p id="untertitel"></p>
+    <div class="kopf-links">
+      <div id="projekt" class="leise klein"></div>
+      <h1 id="titel">Map</h1>
+      <div id="untertitel" class="leise"></div>
+    </div>
+    <nav id="nav" aria-label="Fieldtrips"></nav>
   </header>
 
+  <section id="liste" aria-label="Stations">
+    <div class="label">Stations</div>
+    <div id="liste-eintraege"></div>
+  </section>
+
   <footer id="legende">
-    <div class="zeile"><span class="strich"></span><span id="route-label">Route</span></div>
-    <div class="zeile"><span class="punkt"></span><span>Station (click to open)</span></div>
-    <p id="quellen"></p>
-    <p class="hilfe">Drag: rotate · Right mouse: pan · Scroll: zoom · Double-click: zoom to point</p>
+    <div class="legende-links">
+      <div class="zeile"><span class="strich"></span><span id="route-label">Route</span></div>
+      <div class="zeile"><span class="punkt"></span><span>Station — click to open</span></div>
+      <p id="quellen" class="quelle"></p>
+    </div>
+    <p class="hilfe">Drag: rotate · Right mouse: pan · Scroll: zoom</p>
   </footer>
 
   <aside id="blatt" hidden>
-    <button id="blatt-zu" aria-label="Close">×</button>
     <div id="blatt-inhalt"></div>
   </aside>
 
@@ -34,6 +48,6 @@
   <script src="vendor/potree/libs/tween/tween.min.js"></script>
   <script src="vendor/potree/libs/proj4/proj4.js"></script>
   <script src="vendor/potree/build/potree/potree.js"></script>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>
