@@ -41,6 +41,28 @@
           "pfad": "pointclouds/F_01_2m/dicht_2615_1146/metadata.json"
         }
       ],
+      "ebenen": [
+        {
+          "id": "gletscher_F1_01",
+          "name": "Lämmeren Glacier — extent (Swiss Glacier Inventory)",
+          "an": true,
+          "farbe": "#9cc8ea",
+          "grau": "pointclouds/F1_01_gletscher/grau/metadata.json",
+          "farbig": "pointclouds/F1_01_gletscher/farbig/metadata.json",
+          "umriss": "data/gletscher_F1_01.json",
+          "quelle": "Glacier outline: Swiss Glacier Inventory (GLAMOS), swisstopo layer “Gletscherausdehnung”, data status 31.08.2020."
+        }
+      ],
+      "start": {
+        "ziel": [
+          2614700,
+          1144400,
+          2300
+        ],
+        "azimut": 45,
+        "neigung": 35,
+        "abstand": 25000
+      },
       "route": "data/route_F_01.json",
       "stationen": "data/stationen_F_01.json"
     },

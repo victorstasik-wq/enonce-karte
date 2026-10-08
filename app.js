@@ -101,8 +101,20 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   viewer.scene.scene.add(linie);
 }
 
-// ---------- Startansicht: schräg von Süden ----------
-{
+// ---------- Ansichten ----------
+// Kamera aus Zielpunkt, Richtung (Azimut ab Nord im Uhrzeigersinn, vom Ziel zur Kamera), Neigung und Abstand
+function ansicht(a) {
+  const az = THREE.MathUtils.degToRad(a.azimut), ne = THREE.MathUtils.degToRad(a.neigung);
+  const [e, n, h] = a.ziel;
+  return { ziel: [e, n, h], pos: [e + a.abstand * Math.sin(az) * Math.cos(ne), n + a.abstand * Math.cos(az) * Math.cos(ne), h + a.abstand * Math.sin(ne)] };
+}
+
+// ---------- Startansicht ----------
+if (ft.start) {
+  const s = ansicht(ft.start);
+  viewer.scene.view.position.set(...s.pos);
+  viewer.scene.view.lookAt(new THREE.Vector3(...s.ziel));
+} else {   // ohne Angabe: schräg von Süden
   const groesse = bb.getSize(new THREE.Vector3());
   const ziel = new THREE.Vector3(mitte.x, mitte.y + groesse.y * 0.05, bb.min.z + groesse.z * 0.3);
   const pos = new THREE.Vector3(mitte.x, bb.min.y - groesse.y * 0.02, bb.max.z + groesse.y * 0.2);
@@ -110,11 +122,44 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   viewer.scene.view.lookAt(ziel);
 }
 
+// ---------- Zusätzliche Ebenen (z. B. Gletscherfläche), in der Legende ein- und ausschaltbar ----------
+async function ladeEbene(eb) {
+  const [grau, farbig, umriss] = await Promise.all([laden(eb.grau, eb.id + "_grau"), laden(eb.farbig, eb.id + "_farbig"), json(eb.umriss)]);
+  for (const pc of [grau, farbig]) { stil(pc); viewer.scene.addPointCloud(pc); }
+  const linien = umriss.ringe.map((ring) => {
+    const o = ring[0];
+    const geo = new LineGeometry();
+    geo.setPositions(ring.flatMap(([e, n, h]) => [e - o[0], n - o[1], h - o[2]]));
+    const mat = new LineMaterial({ color: new THREE.Color(eb.farbe).getHex(), linewidth: 2, resolution: new THREE.Vector2(1, 1) });
+    viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
+    mat.depthTest = false;
+    const l = new Line2(geo, mat);
+    l.renderOrder = 998; l.position.set(o[0], o[1], o[2]); l.computeLineDistances();
+    viewer.scene.scene.add(l);
+    return l;
+  });
+  const knopf = document.createElement("button");
+  knopf.className = "zeile ebene";
+  knopf.innerHTML = `<span class="flaeche" style="--farbe:${esc(eb.farbe)}"></span><span>${esc(eb.name)}</span>`;
+  const setze = (an) => {
+    farbig.visible = an; grau.visible = !an; linien.forEach((l) => { l.visible = an; });
+    knopf.setAttribute("aria-pressed", String(an));
+  };
+  knopf.addEventListener("click", () => setze(knopf.getAttribute("aria-pressed") !== "true"));
+  $id("ebenen").append(knopf);
+  setze(eb.an !== false);
+}
+for (const eb of ft.ebenen || []) ladeEbene(eb).catch((err) => console.warn("Ebene", eb.id, err));
+if ((ft.ebenen || []).length) {
+  $id("quellen").textContent += " " + ft.ebenen.map((eb) => eb.quelle).filter(Boolean).join(" ");
+}
+
 // ---------- Stationen ----------
 const stationen = await json(ft.stationen);
 $id("untertitel").textContent = `${ft.ort} · ${stationen.length} station${stationen.length === 1 ? "" : "s"}`;
 
 function blick(st) {
+  if (st.blick) return ansicht(st.blick);   // eigene Ansicht je Station (z. B. ganzer Gletscher)
   const ziel = [st.lv95.e, st.lv95.n, st.lv95.h];
   return { ziel, pos: [ziel[0], ziel[1] - 650, ziel[2] + 420] };
 }

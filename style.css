@@ -91,3 +91,11 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
   #legende .hilfe { display: none; }
   #blatt { top: 35%; width: 100%; border-left: 0; border-top: 1px solid var(--wet-stone); padding: 20px 16px 32px; }
 }
+
+/* Zusätzliche Ebenen in der Legende (Knopf zum Ein-/Ausschalten) */
+#ebenen { display: flex; flex-direction: column; gap: 6px; }
+#legende .ebene { pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; color: var(--frost); text-align: left; }
+#legende .ebene .flaeche { width: 24px; height: 12px; flex: none; margin: 0 2px; border: 1.5px solid var(--farbe); background: color-mix(in srgb, var(--farbe) 55%, transparent); }
+#legende .ebene[aria-pressed="false"] { color: var(--silt); }
+#legende .ebene[aria-pressed="false"] .flaeche { background: transparent; }
+#legende .ebene:focus-visible { outline: 1px solid var(--frost); outline-offset: 3px; }

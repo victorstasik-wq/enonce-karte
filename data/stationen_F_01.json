@@ -16,13 +16,29 @@
       "bezug": "Glacier edge, east"
     },
     "fotos": [
-      { "datei": "photos/F1_01_foto_01.jpg", "legende": "Ice sheet over dark scree" },
-      { "datei": "photos/F1_01_foto_02.jpg", "legende": "Crevassed glacier ice above bedrock" }
+      {
+        "datei": "photos/F1_01_foto_01.jpg",
+        "legende": "Ice sheet over dark scree"
+      },
+      {
+        "datei": "photos/F1_01_foto_02.jpg",
+        "legende": "Crevassed glacier ice above bedrock"
+      }
     ],
     "modell": {},
     "beschreibung": "Edge of the Lämmeren Glacier (Lämmerengletscher), the small glacier descending from the Schwarzhorn above the Lämmerenhütte. The glacier has retreated strongly; at this point only a thin remnant of ice is left, partly covered by debris and cut by crevasses and meltwater channels.",
     "schaetzung": "Own estimate from the site visit, not yet backed by measurements: at the present rate of melting, the remaining ice here could disappear within roughly two to four years.",
     "notizen": "",
-    "literatur": []
+    "literatur": [],
+    "blick": {
+      "ziel": [
+        2609780,
+        1137250,
+        2800
+      ],
+      "azimut": 15,
+      "neigung": 38,
+      "abstand": 2600
+    }
   }
 ]
