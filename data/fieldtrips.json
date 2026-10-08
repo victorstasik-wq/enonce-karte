@@ -8,28 +8,41 @@
       "ort": "Lämmerenhütte",
       "nav": "F1 Lämmerenhütte",
       "gelaende": {
-        "pfad": "pointclouds/F_01_gelaende/metadata.json",
-        "quelle": "swissALTI3D 2024/2025, 10 m grid, hillshade (light from north-west)",
+        "pfad": "pointclouds/F_01_basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024/2025 — measured 2 m points along the route (±500 m) and within 2 km of the stations, 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
         "copyright": "© swisstopo"
       },
+      "verdichtung": [
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2607_1134/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2607_1138/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2611_1134/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2611_1138/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2611_1142/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2615_1134/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2615_1138/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2615_1142/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_01_2m/dicht_2615_1146/metadata.json"
+        }
+      ],
       "route": "data/route_F_01.json",
-      "stationen": "data/stationen_F_01.json",
-      "flaeche": {
-        "hoehen": "terrain/F_01_hoehen_10m.bin",
-        "textur": "terrain/F_01_modell.jpg",
-        "nx": 1600,
-        "ny": 1600,
-        "schritt": 10,
-        "e0": 2603005,
-        "n0": 1135005,
-        "textur_bbox": [
-          2603000,
-          1135000,
-          2619000,
-          1151000
-        ],
-        "quelle": "swissALTI3D 2024/2025 (10 m grid), shown as a surface; shading computed from the grid (light from north-west, cast shadows, ambient occlusion)"
-      }
+      "stationen": "data/stationen_F_01.json"
     },
     {
       "id": "F_02",

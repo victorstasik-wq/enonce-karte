@@ -10,10 +10,12 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
 - `photos/` – Fotos der Stationen (900 px)
-- `flaeche.js` + `terrain/` – Gelände als Fläche (aktuelle Darstellung): `F_01_hoehen_10m.bin` = 10-m-Höhenraster
-  (1600 × 1600, Uint16 in Dezimetern, 0 = keine Daten, Zeile 0 = Süden), `F_01_modell.jpg` = vorgerechnete Schattierung
-  (4096 px über 16 km; Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht)
-- `pointclouds/F_01_gelaende/` – Gelände als Potree-Punktwolke (frühere Darstellung, wird nur ohne `flaeche` geladen)
+- `pointclouds/F_01_basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
+- `pointclouds/F_01_2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) entlang der Route (±500 m) und
+  im Umkreis von 2 km um die Stationen, in 4-km-Blöcken. Grauwerte = berechnete Schattierung
+  (Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht, lokales Relief)
+- `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
+  in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header
   `content-type: multipart/byteranges` bei den Range-Anfragen ist entfernt, weil GitHub Pages solche Anfragen mit 400 ablehnt.
 
@@ -22,7 +24,7 @@ Direktaufruf einer Station: `index.html?ft=F_01&station=ID`
 ## Quellen und Lizenzen
 
 - Gelände: swissALTI3D 2024/2025, Bundesamt für Landestopografie swisstopo, © swisstopo.
-  Auf 10 m gemittelt (236 Kacheln). Zwischen den 10-m-Punkten wird die Fläche geglättet; feinere Formen sind nicht in den Daten.
+  Entlang der Route 2-m-Kacheln (240), sonst auf 10 m gemittelt (236 Kacheln). Zwischen den Messpunkten wird die Fläche geglättet; feinere Formen als die Rasterweite sind nicht in den Daten.
   Schattierung aus dem Gelände berechnet.
 - Route: nach der Wanderung in Strava exakt nachgezeichnet (`F_01.gpx`), nicht per GPS aufgezeichnet. Umrechnung WGS84 → LV95 mit
   den Näherungsformeln von swisstopo (Genauigkeit etwa 1 m).

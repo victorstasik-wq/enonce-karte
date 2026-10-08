@@ -2,7 +2,7 @@ import * as THREE from "./vendor/potree/libs/three.js/build/three.module.js";
 import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
-import { ladeFlaeche } from "./flaeche.js";
+import { ladeGelaende } from "./flaeche.js?v=7";
 
 const $id = (id) => document.getElementById(id);
 
@@ -11,7 +11,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => (
 ));
 
 async function json(pfad) {
-  const r = await fetch(pfad);
+  const r = await fetch(pfad, { cache: "no-cache" });   // Konfiguration immer frisch laden
   if (!r.ok) throw new Error(`${pfad}: ${r.status}`);
   return r.json();
 }
@@ -21,7 +21,7 @@ const viewer = new Potree.Viewer($id("karte"));
 window.viewer = viewer;
 viewer.setEDLEnabled(false);
 viewer.setFOV(60);
-viewer.setPointBudget(6_000_000);
+viewer.setPointBudget(8_000_000);
 viewer.setBackground(null);   // Hintergrund kommt aus dem CSS (schwarz)
 viewer.setControls(viewer.orbitControls);
 // volle Bildschirmauflösung (Retina), sonst wird nur mit halber Auflösung gerendert und hochskaliert
@@ -62,10 +62,10 @@ const laden = (pfad, name) => new Promise((ok, fehler) => {
 
 let bb;
 if (ft.flaeche) {
-  // Gelände als Fläche
-  const f = await ladeFlaeche(ft.flaeche, viewer.renderer);
-  viewer.scene.scene.add(f.mesh);
-  // gleiche Startansicht wie bei der Punktwolke: deren Box ist ein Würfel (Höhe = Seitenlänge)
+  // Gelände als Fläche (Übersicht + nachgeladene 2-m-Detailkacheln)
+  const f = await ladeGelaende(ft.flaeche, viewer);
+  viewer.scene.scene.add(f.gruppe);
+  // gleiche Art Startansicht wie bei der Punktwolke: deren Box ist ein Würfel (Höhe = Seitenlänge)
   bb = f.bb.clone();
   bb.max.z = bb.min.z + (bb.max.x - bb.min.x);
   $id("laden").remove();
@@ -92,7 +92,10 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   geo.setPositions(lokal);
   const mat = new LineMaterial({ color: 0x202f3a, linewidth: 2.5, resolution: new THREE.Vector2(1, 1) });
   viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
+  // Route immer sichtbar über den dichten Punkten (sonst verdecken die Punkte die Linie)
+  mat.depthTest = false;
   const linie = new Line2(geo, mat);
+  linie.renderOrder = 999;
   linie.position.set(o[0], o[1], o[2]);
   linie.computeLineDistances();
   viewer.scene.scene.add(linie);
