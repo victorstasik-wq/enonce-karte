@@ -53,7 +53,8 @@ function stil(pc) {
   const m = pc.material;
   m.activeAttributeName = "rgba";
   m.pointSizeType = Potree.PointSizeType.FIXED;   // feine, feste Punktgrösse
-  m.size = 1.2;
+  // Punktgrösse in Bildschirmpixeln; bei Retina (devicePixelRatio 2) sonst nur halb so gross
+  m.size = 1.2 * Math.min(window.devicePixelRatio || 1, 2);
   m.shape = Potree.PointShape.SQUARE;
 }
 const laden = (pfad, name) => new Promise((ok, fehler) => {
