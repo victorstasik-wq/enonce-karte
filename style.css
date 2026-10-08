@@ -1,50 +1,53 @@
 :root {
-  /* Palette A, gemessen am Rinnsal-Foto; Gestaltung nach Victors Design-Canvas (08.10.2026) */
-  --slate: #202f3a;      /* Text, Route */
-  --wet-stone: #3b4b58;
-  --stone: #5e6e7c;      /* leiser Text */
-  --frost: #d4e2eb;      /* Linien */
+  /* Palette A, gemessen am Rinnsal-Foto; schwarzer Hintergrund (Victor, 08.10.2026) */
+  --slate: #202f3a;      /* Route, Kästen hinter Text */
+  --wet-stone: #3b4b58;  /* Linien */
+  --stone: #5e6e7c;
+  --silt: #889aaa;       /* leiser Text */
+  --sand: #a8b6bb;       /* Beschriftungen */
+  --frost: #d4e2eb;      /* Text */
   --station: #ff6400;    /* Stationspunkt */
-  --bg: #ffffff;
+  --bg: #0f1113;
+  --kasten: rgba(32, 47, 58, 0.85);   /* Slate, hinter Text über dem Gelände */
   --font: "Hanken Grotesk", system-ui, sans-serif;
 }
 
-html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--slate); font-family: var(--font); font-size: 15px; line-height: 1.45; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--frost); font-family: var(--font); font-size: 15px; line-height: 1.45; }
 #karte { position: absolute; inset: 0; background: var(--bg); }
 
-.leise { color: var(--stone); }
+.leise { color: var(--sand); }
 .klein { font-size: 13px; letter-spacing: 0.04em; }
-.label { font-size: 12px; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
+.label { font-size: 12px; letter-spacing: 0.08em; color: var(--sand); text-transform: uppercase; }
 
 /* Kopf */
 #kopf { position: absolute; left: 32px; right: 32px; top: 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; pointer-events: none; }
-#kopf .kopf-links { display: flex; flex-direction: column; gap: 4px; }
-#kopf h1 { margin: 0 0 0 -12px; padding: 2px 12px 4px; font-size: 28px; font-weight: 600; letter-spacing: 0.01em; background: rgba(255,255,255,.53); align-self: flex-start; }
-/* weisser Schein hinter Text, der über dem Gelände liegt */
-#kopf, #liste, #legende { text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #fff; }
-#nav { display: flex; gap: 20px; flex-wrap: wrap; pointer-events: auto; }
-#nav a, #nav span { color: var(--stone); text-decoration: none; }
-#nav a[aria-current="page"] { color: var(--slate); text-decoration: underline; text-underline-offset: 4px; }
+#kopf .kopf-links { display: flex; flex-direction: column; gap: 4px; background: var(--kasten); padding: 10px 14px 12px; margin: -10px 0 0 -14px; }
+#kopf h1 { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 0.01em; }
+#nav { display: flex; gap: 20px; flex-wrap: wrap; pointer-events: auto; background: var(--kasten); padding: 8px 14px; margin: -8px -14px 0 0; }
+#nav a, #nav span { color: var(--silt); text-decoration: none; }
+#nav a[aria-current="page"] { color: var(--frost); text-decoration: underline; text-underline-offset: 4px; }
 #nav span[aria-disabled="true"] { cursor: default; }
 
 /* Stationsliste */
-#liste { position: absolute; left: 32px; top: 190px; width: 260px; display: flex; flex-direction: column; gap: 10px; }
-#liste-eintraege a { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--frost); color: var(--slate); text-decoration: none; }
-#liste-eintraege a:last-child { border-bottom: 1px solid var(--frost); }
+#liste { position: absolute; left: 18px; top: 176px; width: 260px; display: flex; flex-direction: column; gap: 10px; background: var(--kasten); padding: 12px 14px 14px; }
+#liste-eintraege a { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--wet-stone); color: var(--frost); text-decoration: none; }
+#liste-eintraege a:last-child { border-bottom: 1px solid var(--wet-stone); }
 #liste-eintraege a:hover .liste-id { text-decoration: underline; text-underline-offset: 3px; }
 .liste-id { font-weight: 600; }
-.liste-meta { font-size: 13px; color: var(--stone); }
+.liste-meta { font-size: 13px; color: var(--sand); }
 
 /* Legende */
-#legende { position: absolute; left: 32px; right: 32px; bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; font-size: 13px; color: var(--stone); pointer-events: none; }
-.legende-links { display: flex; flex-direction: column; gap: 6px; max-width: 560px; }
-#legende .zeile { display: flex; align-items: center; gap: 10px; color: var(--slate); }
-#legende .strich { width: 24px; height: 3px; background: var(--slate); flex: none; }
+#legende { position: absolute; left: 32px; right: 32px; bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; font-size: 13px; color: var(--sand); pointer-events: none; }
+.legende-links { display: flex; flex-direction: column; gap: 6px; max-width: 560px; background: var(--kasten); padding: 10px 14px; margin: 0 0 -10px -14px; }
+#legende .zeile { display: flex; align-items: center; gap: 10px; color: var(--frost); }
+/* Routenmuster: dunkle Linie auf hellem Grund, wie die Route auf dem Gelände */
+#legende .strich { width: 28px; height: 10px; flex: none; background: linear-gradient(#e8eaec 0 35%, var(--slate) 35% 65%, #e8eaec 65%); }
 #legende .punkt { width: 12px; height: 12px; border-radius: 50%; background: var(--station); margin: 0 6px; flex: none; }
 #legende p { margin: 0; }
-#legende .quelle, #legende .hilfe { color: #8794a0; }
+#legende .quelle { color: var(--silt); }
+#legende .hilfe { color: var(--silt); background: var(--kasten); padding: 6px 12px; margin: 0 -12px -6px 0; }
 
-#laden { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: var(--stone); font-size: 14px; }
+#laden { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: var(--sand); font-size: 14px; }
 
 /* Stationsmarker (Potree-Annotation) */
 .annotation { opacity: 1 !important; pointer-events: auto; padding: 0 !important; transform: translate(-4px, -50%) !important; }
@@ -55,30 +58,30 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 .annotation-titlebar::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--station); flex: none; }
 .annotation-label {
   font-family: var(--font) !important; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-  color: var(--slate); background: rgba(255,255,255,.53); padding: 2px 8px; line-height: 1.45 !important;
+  color: var(--frost); background: var(--kasten); padding: 2px 8px; line-height: 1.45 !important;
 }
 
 /* Informationsblatt */
 #blatt {
   position: absolute; top: 0; right: 0; bottom: 0; width: min(460px, 100%); box-sizing: border-box;
-  padding: 28px 32px 40px; background: #fff; border-left: 1px solid var(--frost); overflow-y: auto;
+  padding: 28px 32px 40px; background: var(--bg); border-left: 1px solid var(--wet-stone); overflow-y: auto;
 }
 #blatt[hidden] { display: none; }
 #blatt-inhalt { display: flex; flex-direction: column; gap: 22px; }
 .blatt-kopf { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .blatt-kopf h2 { margin: 4px 0 0; font-size: 26px; font-weight: 600; line-height: 1.2; }
-#blatt-zu { background: none; border: 0; color: var(--slate); font: inherit; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 44px; }
-.felder { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; border-top: 1px solid var(--frost); padding-top: 14px; margin: 0; }
-.felder dt { font-size: 12px; letter-spacing: 0.08em; color: var(--stone); text-transform: uppercase; }
+#blatt-zu { background: none; border: 0; color: var(--frost); font: inherit; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 44px; }
+.felder { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; border-top: 1px solid var(--wet-stone); padding-top: 14px; margin: 0; }
+.felder dt { font-size: 12px; letter-spacing: 0.08em; color: var(--sand); text-transform: uppercase; }
 .felder dd { margin: 0; }
 .fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: var(--frost); }
+.fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: var(--slate); }
 .abschnitt { display: flex; flex-direction: column; gap: 6px; }
 .abschnitt p { margin: 0; }
-.abschnitt .schaetzung { font-size: 13px; color: var(--stone); }
-.lit { border-top: 1px solid var(--frost); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-.lit blockquote { margin: 0; padding-left: 12px; border-left: 2px solid var(--slate); }
-.lit .bezug, .leer, .hinweis { font-size: 13px; color: var(--stone); }
+.abschnitt .schaetzung { font-size: 13px; color: var(--silt); }
+.lit { border-top: 1px solid var(--wet-stone); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.lit blockquote { margin: 0; padding-left: 12px; border-left: 2px solid var(--frost); }
+.lit .bezug, .leer, .hinweis { font-size: 13px; color: var(--silt); }
 .hinweis { font-style: italic; }
 
 @media (max-width: 760px) {
@@ -86,5 +89,5 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
   #liste { display: none; }
   #legende { left: 16px; right: 16px; }
   #legende .hilfe { display: none; }
-  #blatt { top: 35%; width: 100%; border-left: 0; border-top: 1px solid var(--frost); padding: 20px 16px 32px; }
+  #blatt { top: 35%; width: 100%; border-left: 0; border-top: 1px solid var(--wet-stone); padding: 20px 16px 32px; }
 }

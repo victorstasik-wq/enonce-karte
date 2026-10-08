@@ -12,14 +12,24 @@
         "quelle": "swissALTI3D 2024/2025, 10 m grid, hillshade (light from north-west)",
         "copyright": "© swisstopo"
       },
-      "verdichtung": [
-        {
-          "pfad": "pointclouds/F1_01_verdichtet/metadata.json",
-          "hinweis": "Around F1_01 (4 × 4 km) the points are densified to 2.5 m by interpolation of the 10 m grid; this adds no measured detail."
-        }
-      ],
       "route": "data/route_F_01.json",
-      "stationen": "data/stationen_F_01.json"
+      "stationen": "data/stationen_F_01.json",
+      "flaeche": {
+        "hoehen": "terrain/F_01_hoehen_10m.bin",
+        "textur": "terrain/F_01_modell.jpg",
+        "nx": 1600,
+        "ny": 1600,
+        "schritt": 10,
+        "e0": 2603005,
+        "n0": 1135005,
+        "textur_bbox": [
+          2603000,
+          1135000,
+          2619000,
+          1151000
+        ],
+        "quelle": "swissALTI3D 2024/2025 (10 m grid), shown as a surface; shading computed from the grid (light from north-west, cast shadows, ambient occlusion)"
+      }
     },
     {
       "id": "F_02",

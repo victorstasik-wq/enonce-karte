@@ -2,6 +2,7 @@ import * as THREE from "./vendor/potree/libs/three.js/build/three.module.js";
 import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
+import { ladeFlaeche } from "./flaeche.js";
 
 const $id = (id) => document.getElementById(id);
 
@@ -21,8 +22,10 @@ window.viewer = viewer;
 viewer.setEDLEnabled(false);
 viewer.setFOV(60);
 viewer.setPointBudget(6_000_000);
-viewer.setBackground(null);   // Hintergrund kommt aus dem CSS (weiss)
+viewer.setBackground(null);   // Hintergrund kommt aus dem CSS (schwarz)
 viewer.setControls(viewer.orbitControls);
+// volle Bildschirmauflösung (Retina), sonst wird nur mit halber Auflösung gerendert und hochskaliert
+viewer.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
 // ---------- Konfiguration ----------
 const params = new URLSearchParams(location.search);
@@ -40,11 +43,12 @@ $id("nav").innerHTML = konfig.fieldtrips.map((f) => f.inaktiv
   : `<a href="?ft=${encodeURIComponent(f.id)}"${f.id === ft.id ? ' aria-current="page"' : ""}>${esc(f.nav)}</a>`
 ).join("");
 
-const hinweise = (ft.verdichtung || []).map((v) => v.hinweis).filter(Boolean);
+const hinweise = ft.flaeche ? [] : (ft.verdichtung || []).map((v) => v.hinweis).filter(Boolean);
+const quelle = ft.flaeche ? ft.flaeche.quelle : ft.gelaende.quelle;
 $id("quellen").textContent =
-  `Terrain: ${ft.gelaende.quelle}, ${ft.gelaende.copyright}.` + (hinweise.length ? " " + hinweise.join(" ") : "");
+  `Terrain: ${quelle}, ${ft.gelaende.copyright}.` + (hinweise.length ? " " + hinweise.join(" ") : "");
 
-// ---------- Gelände (Basis + Verdichtungen) ----------
+// ---------- Gelände ----------
 function stil(pc) {
   const m = pc.material;
   m.activeAttributeName = "rgba";
@@ -56,15 +60,26 @@ const laden = (pfad, name) => new Promise((ok, fehler) => {
   Potree.loadPointCloud(pfad, name, (e) => e.pointcloud ? ok(e.pointcloud) : fehler(e));
 });
 
-const wolke = await laden(ft.gelaende.pfad, ft.id);
-stil(wolke);
-viewer.scene.addPointCloud(wolke);
-$id("laden").remove();
-for (const [i, v] of (ft.verdichtung || []).entries()) {
-  laden(v.pfad, `${ft.id}_dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
+let bb;
+if (ft.flaeche) {
+  // Gelände als Fläche
+  const f = await ladeFlaeche(ft.flaeche, viewer.renderer);
+  viewer.scene.scene.add(f.mesh);
+  // gleiche Startansicht wie bei der Punktwolke: deren Box ist ein Würfel (Höhe = Seitenlänge)
+  bb = f.bb.clone();
+  bb.max.z = bb.min.z + (bb.max.x - bb.min.x);
+  $id("laden").remove();
+} else {
+  // Gelände als Punktwolke (Basis + Verdichtungen)
+  const wolke = await laden(ft.gelaende.pfad, ft.id);
+  stil(wolke);
+  viewer.scene.addPointCloud(wolke);
+  $id("laden").remove();
+  for (const [i, v] of (ft.verdichtung || []).entries()) {
+    laden(v.pfad, `${ft.id}_dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
+  }
+  bb = wolke.boundingBox.clone().applyMatrix4(wolke.matrixWorld);
 }
-
-const bb = wolke.boundingBox.clone().applyMatrix4(wolke.matrixWorld);
 const mitte = bb.getCenter(new THREE.Vector3());
 
 // ---------- Route ----------
@@ -101,9 +116,24 @@ function blick(st) {
   return { ziel, pos: [ziel[0], ziel[1] - 650, ziel[2] + 420] };
 }
 
+// Langsamer, weicher Flug zur Station (Potree selbst fliegt in 0,5 s)
+const FLUGDAUER = 2800;   // Millisekunden
 function flugZu(st) {
   const b = blick(st);
-  Potree.Utils.moveTo(viewer.scene, new THREE.Vector3(...b.pos), new THREE.Vector3(...b.ziel));
+  const view = viewer.scene.view;
+  const cam = viewer.scene.getActiveCamera();
+  const p0 = view.position.clone();
+  const z0 = p0.clone().add(cam.getWorldDirection(new THREE.Vector3()).multiplyScalar(view.radius));
+  const p1 = new THREE.Vector3(...b.pos), z1 = new THREE.Vector3(...b.ziel);
+  const t = { x: 0 };
+  TWEEN.removeAll();
+  new TWEEN.Tween(t).to({ x: 1 }, FLUGDAUER)
+    .easing(TWEEN.Easing.Cubic.InOut)
+    .onUpdate(() => {
+      view.position.lerpVectors(p0, p1, t.x);
+      view.lookAt(new THREE.Vector3().lerpVectors(z0, z1, t.x));
+    })
+    .start();
 }
 
 const hoehe = (st) => (st.lv95.h != null ? `${Math.round(st.lv95.h)} m a.s.l.` : "");
@@ -175,6 +205,7 @@ for (const st of stationen) {
     cameraPosition: b.pos,   // Potree fliegt beim Klick selbst hierhin
     cameraTarget: b.ziel,
   });
+  a.moveHere = () => flugZu(st);   // eigener, langsamerer Flug statt Potree-Standard
   viewer.scene.annotations.add(a);
   a.addEventListener("click", () => zeigeBlatt(st));
 }
