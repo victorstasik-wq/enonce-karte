@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Énoncé – Karte der Fieldtrips</title>
+<title>Énoncé – Fieldtrip Map</title>
 <link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,23 +11,23 @@
   <div id="karte"></div>
 
   <header id="kopf">
-    <h1 id="titel">Karte</h1>
+    <h1 id="titel">Map</h1>
     <p id="untertitel"></p>
   </header>
 
   <footer id="legende">
     <div class="zeile"><span class="strich"></span><span id="route-label">Route</span></div>
-    <div class="zeile"><span class="punkt"></span><span>Station (anklicken)</span></div>
+    <div class="zeile"><span class="punkt"></span><span>Station (click to open)</span></div>
     <p id="quellen"></p>
-    <p class="hilfe">Ziehen: drehen · Rechte Maustaste: verschieben · Mausrad: zoomen · Doppelklick: auf Punkt zoomen</p>
+    <p class="hilfe">Drag: rotate · Right mouse: pan · Scroll: zoom · Double-click: zoom to point</p>
   </footer>
 
   <aside id="blatt" hidden>
-    <button id="blatt-zu" aria-label="Schliessen">×</button>
+    <button id="blatt-zu" aria-label="Close">×</button>
     <div id="blatt-inhalt"></div>
   </aside>
 
-  <div id="laden">Lade Gelände …</div>
+  <div id="laden">Loading terrain …</div>
 
   <script src="vendor/potree/libs/jquery/jquery-3.1.1.min.js"></script>
   <script src="vendor/potree/libs/other/BinaryHeap.js"></script>

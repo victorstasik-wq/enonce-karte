@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "F1_01",
+    "datum": "",
+    "lv95": {
+      "e": 2609632.6,
+      "n": 1137583.96,
+      "h": 2690.3,
+      "e_text": "2'609'632.60",
+      "n_text": "1'137'583.96"
+    },
+    "ortung": {
+      "methode": "",
+      "genauigkeit_m": null,
+      "bezug": ""
+    },
+    "fotos": [],
+    "modell": {},
+    "beschreibung": "",
+    "notizen": "",
+    "literatur": []
+  }
+]

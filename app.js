@@ -32,7 +32,7 @@ const ftId = params.get("ft") || konfig.start;
 const ft = konfig.fieldtrips.find((f) => f.id === ftId) || konfig.fieldtrips[0];
 
 $id("titel").textContent = ft.titel;
-$id("quellen").textContent = `Gelände: ${ft.gelaende.quelle}, ${ft.gelaende.copyright}`;
+$id("quellen").textContent = `Terrain: ${ft.gelaende.quelle}, ${ft.gelaende.copyright}`;
 
 // ---------- Gelände ----------
 const wolke = await new Promise((ok, fehler) => {
@@ -78,8 +78,8 @@ startansicht();
 // ---------- Stationen ----------
 const stationen = await json(ft.stationen);
 $id("untertitel").textContent = stationen.length
-  ? `${stationen.length} Station${stationen.length > 1 ? "en" : ""}`
-  : "Noch keine Stationen eingetragen";
+  ? `${stationen.length} station${stationen.length > 1 ? "s" : ""}`
+  : "No stations yet";
 
 function blick(st) {
   const ziel = [st.lv95.e, st.lv95.n, st.lv95.h];
@@ -105,11 +105,11 @@ function zeigeBlatt(st) {
     ${f.legende ? `<figcaption>${esc(f.legende)}</figcaption>` : ""}</figure>`).join("");
   const lit = (st.literatur || []).map((l) => `
     <div class="lit">
-      <div><strong>${esc(l.kurz || l.quelle_id)}</strong>${l.seite ? `, S. ${esc(l.seite)}` : ""}</div>
+      <div><strong>${esc(l.kurz || l.quelle_id)}</strong>${l.seite ? `, p. ${esc(l.seite)}` : ""}</div>
       ${l.verifiziert && l.zitat
-        ? `<blockquote>„${esc(l.zitat)}“</blockquote>`
-        : `<div class="hinweis">Zitat noch nicht am Original geprüft – wird nicht angezeigt.</div>`}
-      ${l.bezug ? `<div class="bezug">Eigener Bezug: ${esc(l.bezug)}</div>` : ""}
+        ? `<blockquote>“${esc(l.zitat)}”</blockquote>`
+        : `<div class="hinweis">Quotation not yet checked against the original – not shown.</div>`}
+      ${l.bezug ? `<div class="bezug">Own interpretation: ${esc(l.bezug)}</div>` : ""}
     </div>`).join("");
   const leer = (t) => `<p class="leer">${t}</p>`;
 
@@ -117,19 +117,19 @@ function zeigeBlatt(st) {
     <h2>${esc(st.id)}</h2>
     <div class="meta">${esc(st.datum || "")}</div>
 
-    <h3>Ort</h3>
+    <h3>Location</h3>
     <dl>
       <dt>LV95</dt><dd>${esc(st.lv95.e_text ?? st.lv95.e)} / ${esc(st.lv95.n_text ?? st.lv95.n)}</dd>
-      <dt>Höhe</dt><dd>${st.lv95.h != null ? esc(Math.round(st.lv95.h)) + " m ü. M." : "–"}</dd>
-      <dt>Bestimmt</dt><dd>${esc(o.methode || "–")}${o.genauigkeit_m != null ? `, ± ${esc(o.genauigkeit_m)} m` : ""}</dd>
-      <dt>Verortet</dt><dd>${esc(o.bezug || "–")}</dd>
+      <dt>Altitude</dt><dd>${st.lv95.h != null ? esc(Math.round(st.lv95.h)) + " m a.s.l." : "–"}</dd>
+      <dt>Located by</dt><dd>${esc(o.methode || "–")}${o.genauigkeit_m != null ? `, ± ${esc(o.genauigkeit_m)} m` : ""}</dd>
+      <dt>Marks</dt><dd>${esc(o.bezug || "–")}</dd>
     </dl>
 
-    <h3>Fotos</h3>${fotos || leer("Noch keine Fotos.")}
-    <h3>Modell</h3>${st.modell && st.modell.datei ? `<p>${esc(st.modell.datei)}</p>` : leer("Noch kein Scan.")}
-    <h3>Beschreibung</h3>${st.beschreibung ? `<p>${esc(st.beschreibung)}</p>` : leer("–")}
-    <h3>Notizen</h3>${st.notizen ? `<p>${esc(st.notizen)}</p>` : leer("–")}
-    <h3>Literatur</h3>${lit || leer("–")}
+    <h3>Photos</h3>${fotos || leer("No photos yet.")}
+    <h3>Model</h3>${st.modell && st.modell.datei ? `<p>${esc(st.modell.datei)}</p>` : leer("No scan yet.")}
+    <h3>Description</h3>${st.beschreibung ? `<p>${esc(st.beschreibung)}</p>` : leer("–")}
+    <h3>Notes</h3>${st.notizen ? `<p>${esc(st.notizen)}</p>` : leer("–")}
+    <h3>References</h3>${lit || leer("–")}
   `;
   $id("blatt").hidden = false;
 }

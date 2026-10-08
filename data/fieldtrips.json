@@ -6,7 +6,7 @@
       "titel": "Fieldtrip 1",
       "gelaende": {
         "pfad": "pointclouds/F_01_gelaende/metadata.json",
-        "quelle": "swissALTI3D 2024/2025, 10-m-Raster, Schummerung (Licht aus Nordwest)",
+        "quelle": "swissALTI3D 2024/2025, 10 m grid, hillshade (light from north-west)",
         "copyright": "© swisstopo"
       },
       "route": "data/route_F_01.json",
