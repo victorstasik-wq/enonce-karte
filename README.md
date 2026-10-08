@@ -14,6 +14,9 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `pointclouds/F_01_2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) entlang der Route (±500 m) und
   im Umkreis von 2 km um die Stationen, in 4-km-Blöcken. Grauwerte = berechnete Schattierung
   (Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht, lokales Relief)
+- Aufbau-Animation: jeder Punkt trägt im Attribut `gps-time` eine Wachstumszeit (0–1000), berechnet als Laufzeit
+  (Fast Marching) von der Route aus über ein aderartiges Rauschfeld. `app.js` blendet die Punkte über den
+  GPS-Time-Filter von Potree in etwa 9 s ein.
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header

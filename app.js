@@ -72,6 +72,8 @@ if (ft.flaeche) {
   $id("laden").remove();
 } else {
   // Gelände als Punktwolke (Basis + Verdichtungen)
+  // „Myzel“: Punkte wachsen von der Route aus (Wachstumszeit 0…1000 als gps-time in den Punktwolken)
+  viewer.setFilterGPSTimeRange(-1e9, -1e8);   // zuerst nichts zeigen
   const wolke = await laden(ft.gelaende.pfad, ft.id);
   stil(wolke);
   viewer.scene.addPointCloud(wolke);
@@ -80,6 +82,18 @@ if (ft.flaeche) {
     laden(v.pfad, `${ft.id}_dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
   }
   bb = wolke.boundingBox.clone().applyMatrix4(wolke.matrixWorld);
+  wachsen();
+}
+
+function wachsen(dauer = 9000) {
+  const t = { x: 0 };
+  setTimeout(() => {
+    new TWEEN.Tween(t).to({ x: 1 }, dauer)
+      .easing(TWEEN.Easing.Sinusoidal.InOut)
+      .onUpdate(() => viewer.setFilterGPSTimeRange(-1e9, t.x * 1015))
+      .onComplete(() => viewer.setFilterGPSTimeRange(-1e9, 1e9))
+      .start();
+  }, 600);
 }
 const mitte = bb.getCenter(new THREE.Vector3());
 
@@ -167,6 +181,7 @@ function blick(st) {
 
 // Langsamer, weicher Flug zur Station (Potree selbst fliegt in 0,5 s)
 const FLUGDAUER = 2800;   // Millisekunden
+let flugTween = null;
 function flugZu(st) {
   const b = blick(st);
   const view = viewer.scene.view;
@@ -175,8 +190,8 @@ function flugZu(st) {
   const z0 = p0.clone().add(cam.getWorldDirection(new THREE.Vector3()).multiplyScalar(view.radius));
   const p1 = new THREE.Vector3(...b.pos), z1 = new THREE.Vector3(...b.ziel);
   const t = { x: 0 };
-  TWEEN.removeAll();
-  new TWEEN.Tween(t).to({ x: 1 }, FLUGDAUER)
+  if (flugTween) flugTween.stop();
+  flugTween = new TWEEN.Tween(t).to({ x: 1 }, FLUGDAUER)
     .easing(TWEEN.Easing.Cubic.InOut)
     .onUpdate(() => {
       view.position.lerpVectors(p0, p1, t.x);
