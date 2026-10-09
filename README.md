@@ -10,13 +10,13 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
 - `photos/` – Fotos der Stationen (900 px)
-- `pointclouds/F_01_basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
-- `pointclouds/F_01_2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) entlang der Route (±500 m) und
+- `pointclouds/F_01_v15/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
+- `pointclouds/F_01_v15/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) entlang der Route (±500 m) und
   im Umkreis von 2 km um die Stationen, in 4-km-Blöcken. Grauwerte = berechnete Schattierung
   (Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht, lokales Relief)
-- Aufbau-Animation: jeder Punkt trägt im Attribut `gps-time` eine Wachstumszeit (0–1000), berechnet als Laufzeit
+- Aufbau-Animation: jeder Punkt trägt im Attribut `point source id` eine Wachstumszeit (0–1000), berechnet als Laufzeit
   (Fast Marching) von der Route aus über ein aderartiges Rauschfeld. `app.js` blendet die Punkte über den
-  GPS-Time-Filter von Potree in etwa 9 s ein.
+  Point-Source-ID-Filter von Potree in etwa 9 s ein, sobald die erste Ansicht geladen ist (spätestens nach 6 s).
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header

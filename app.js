@@ -22,6 +22,7 @@ window.viewer = viewer;
 viewer.setEDLEnabled(false);
 viewer.setFOV(60);
 viewer.setPointBudget(8_000_000);
+Potree.maxNodesLoading = 8;   // mehr Teile der Punktwolke gleichzeitig laden (Standard 4)
 viewer.setBackground(null);   // Hintergrund kommt aus dem CSS (schwarz)
 viewer.setControls(viewer.orbitControls);
 // volle Bildschirmauflösung (Retina), sonst wird nur mit halber Auflösung gerendert und hochskaliert
@@ -72,12 +73,12 @@ if (ft.flaeche) {
   $id("laden").remove();
 } else {
   // Gelände als Punktwolke (Basis + Verdichtungen)
-  // „Myzel“: Punkte wachsen von der Route aus (Wachstumszeit 0…1000 als gps-time in den Punktwolken)
-  viewer.setFilterGPSTimeRange(-1e9, -1e8);   // zuerst nichts zeigen
+  // „Myzel“: Punkte wachsen von der Route aus. Die Wachstumszeit (0…1000) steckt im
+  // Attribut „point source id“ der Punktwolken; der Filter von Potree blendet sie ein.
+  viewer.setFilterPointSourceIDRange(0, -1);   // zuerst nichts zeigen (die Daten laden trotzdem)
   const wolke = await laden(ft.gelaende.pfad, ft.id);
   stil(wolke);
   viewer.scene.addPointCloud(wolke);
-  $id("laden").remove();
   for (const [i, v] of (ft.verdichtung || []).entries()) {
     laden(v.pfad, `${ft.id}_dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
   }
@@ -85,15 +86,24 @@ if (ft.flaeche) {
   wachsen();
 }
 
+// Erst wachsen lassen, wenn die Punkte der ersten Ansicht geladen sind (sonst kommen sie
+// nach dem Wachsen kachelweise nach). Spätestens nach WARTEN_MAX ms geht es trotzdem los.
 function wachsen(dauer = 9000) {
-  const t = { x: 0 };
-  setTimeout(() => {
+  const WARTEN_MAX = 6000, t0 = performance.now();
+  let ruhig = 0;
+  const pruefe = () => {
+    const alleDa = viewer.scene.pointclouds.length >= 1 + (ft.verdichtung || []).length;
+    ruhig = alleDa && Potree.numNodesLoading === 0 ? ruhig + 1 : 0;
+    if (ruhig < 3 && performance.now() - t0 < WARTEN_MAX) return setTimeout(pruefe, 200);
+    $id("laden")?.remove();
+    const t = { x: 0 };
     new TWEEN.Tween(t).to({ x: 1 }, dauer)
       .easing(TWEEN.Easing.Sinusoidal.InOut)
-      .onUpdate(() => viewer.setFilterGPSTimeRange(-1e9, t.x * 1015))
-      .onComplete(() => viewer.setFilterGPSTimeRange(-1e9, 1e9))
+      .onUpdate(() => viewer.setFilterPointSourceIDRange(0, t.x * 1015))
+      .onComplete(() => viewer.setFilterPointSourceIDRange(0, 65535))
       .start();
-  }, 600);
+  };
+  setTimeout(pruefe, 400);
 }
 const mitte = bb.getCenter(new THREE.Vector3());
 
