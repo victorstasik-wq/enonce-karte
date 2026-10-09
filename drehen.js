@@ -30,13 +30,30 @@ export class Drehsteuerung extends THREE.EventDispatcher {
     this.beiEingabe = null;                    // Rückruf, z. B. um einen laufenden Flug zu stoppen
     const el = viewer.renderer.domElement;
 
-    this.addEventListener("drag", (e) => {
-      if (e.drag.object) return;
+    // Drehen mit eigenen Pointer-Ereignissen. (Potrees „drag“ rechnet die erste Bewegung von einer
+    // veralteten Mausposition aus – kommt die Maus z. B. über einen Kasten ins Bild, springt die
+    // Ansicht beim ersten Klick.) Jede Bewegung zählt nur ab der letzten eigenen Position.
+    const zeiger = new Map();
+    el.addEventListener("pointerdown", (e) => {
+      zeiger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { el.setPointerCapture(e.pointerId); } catch {}
+    });
+    el.addEventListener("pointermove", (e) => {
+      const z = zeiger.get(e.pointerId);
+      if (!z) return;
+      const dx = e.clientX - z.x, dy = e.clientY - z.y;
+      z.x = e.clientX; z.y = e.clientY;
+      if (zeiger.size !== 1) return;              // zwei Finger: zoomen, nicht drehen
+      const max = 120;                           // Sicherheit gegen Ausreisser
       this.eingabe();
-      this.soll.az += (e.drag.lastDrag.x / el.clientWidth) * 200 * GRAD;
-      this.soll.ne += (e.drag.lastDrag.y / el.clientHeight) * 120 * GRAD;
+      this.soll.az += (THREE.MathUtils.clamp(dx, -max, max) / el.clientWidth) * 200 * GRAD;
+      this.soll.ne += (THREE.MathUtils.clamp(dy, -max, max) / el.clientHeight) * 120 * GRAD;
       this.soll.ne = THREE.MathUtils.clamp(this.soll.ne, -89 * GRAD, 89 * GRAD);
     });
+    const los = (e) => zeiger.delete(e.pointerId);
+    el.addEventListener("pointerup", los);
+    el.addEventListener("pointercancel", los);
+    el.addEventListener("contextmenu", (e) => e.preventDefault());
 
     // Zoom zur Maus. Der Punkt unter der Maus wird einmal pro Zoom-Geste gesucht (nicht bei
     // jedem einzelnen Trackpad-Schritt), damit nichts springt.

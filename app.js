@@ -3,7 +3,7 @@ import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
 import { ladeGelaende } from "./flaeche.js?v=7";
-import { Drehsteuerung } from "./drehen.js?v=4";
+import { Drehsteuerung } from "./drehen.js?v=5";
 
 const $id = (id) => document.getElementById(id);
 

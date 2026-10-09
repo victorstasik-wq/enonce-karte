@@ -99,3 +99,4 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 #legende .ebene[aria-pressed="false"] { color: var(--silt); }
 #legende .ebene[aria-pressed="false"] .flaeche { background: transparent; }
 #legende .ebene:focus-visible { outline: 1px solid var(--frost); outline-offset: 3px; }
+#karte canvas { touch-action: none; }   /* Drehen/Zoomen per Touch ohne Browser-Gesten */
