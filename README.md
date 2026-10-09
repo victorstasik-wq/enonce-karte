@@ -17,6 +17,8 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - Aufbau-Animation: jeder Punkt trägt im Attribut `point source id` eine Wachstumszeit (0–1000), berechnet als Laufzeit
   (Fast Marching) von der Route aus über ein aderartiges Rauschfeld. `app.js` blendet die Punkte über den
   Point-Source-ID-Filter von Potree in etwa 9 s ein, sobald die erste Ansicht geladen ist (spätestens nach 6 s).
+- `drehen.js` – Kamerasteuerung: Die Kamera kreist um die Mitte des Geländes und schaut auf sie; nur drehen/kippen
+  (Ziehen) und zoomen (Mausrad, Trackpad, zwei Finger), kein Verschieben, Zoom begrenzt auf 400 m bis 80 km.
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header

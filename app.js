@@ -3,6 +3,7 @@ import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
 import { ladeGelaende } from "./flaeche.js?v=7";
+import { Drehsteuerung } from "./drehen.js?v=1";
 
 const $id = (id) => document.getElementById(id);
 
@@ -147,6 +148,14 @@ if (ft.start) {
   viewer.scene.view.lookAt(ziel);
 }
 
+// ---------- Steuerung: Modell bleibt in der Mitte, nur drehen und zoomen ----------
+const drehpunkt = ft.start ? new THREE.Vector3(...ft.start.ziel)
+  : new THREE.Vector3(mitte.x, mitte.y, bb.min.z + bb.getSize(new THREE.Vector3()).z * 0.3);
+const steuerung = new Drehsteuerung(viewer, drehpunkt);
+steuerung.uebernehmen(drehpunkt);
+steuerung.beiEingabe = () => { if (flugTween) flugTween.stop(); };
+viewer.setControls(steuerung);
+
 // ---------- Zusätzliche Ebenen (z. B. Gletscherfläche), in der Legende ein- und ausschaltbar ----------
 async function ladeEbene(eb) {
   const [grau, farbig, umriss] = await Promise.all([laden(eb.grau, eb.id + "_grau"), laden(eb.farbig, eb.id + "_farbig"), json(eb.umriss)]);
@@ -197,16 +206,18 @@ function flugZu(st) {
   const view = viewer.scene.view;
   const cam = viewer.scene.getActiveCamera();
   const p0 = view.position.clone();
-  const z0 = p0.clone().add(cam.getWorldDirection(new THREE.Vector3()).multiplyScalar(view.radius));
+  const z0 = steuerung.blick.clone();
   const p1 = new THREE.Vector3(...b.pos), z1 = new THREE.Vector3(...b.ziel);
   const t = { x: 0 };
   if (flugTween) flugTween.stop();
+  steuerung.folgen = false;   // während des Flugs bewegt der Flug die Kamera
   flugTween = new TWEEN.Tween(t).to({ x: 1 }, FLUGDAUER)
     .easing(TWEEN.Easing.Cubic.InOut)
     .onUpdate(() => {
       view.position.lerpVectors(p0, p1, t.x);
       view.lookAt(new THREE.Vector3().lerpVectors(z0, z1, t.x));
     })
+    .onComplete(() => { flugTween = null; steuerung.uebernehmen(z1); })
     .start();
 }
 
