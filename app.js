@@ -3,7 +3,7 @@ import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
 import { ladeGelaende } from "./flaeche.js?v=7";
-import { Drehsteuerung } from "./drehen.js?v=5";
+import { Drehsteuerung } from "./drehen.js?v=6";
 
 const $id = (id) => document.getElementById(id);
 
@@ -31,6 +31,9 @@ viewer.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
 // ---------- Konfiguration ----------
 const params = new URLSearchParams(location.search);
+// Versuch „weiss“ (index.html?stil=weiss): weisser Hintergrund, Gelände fast schwarz, Route hellblau
+const WEISS = params.get("stil") === "weiss";
+if (WEISS) document.body.classList.add("weiss");
 const konfig = await json(params.get("konfig") || "data/fieldtrips.json");
 const ftId = params.get("ft") || konfig.start;
 const ft = konfig.fieldtrips.find((f) => f.id === ftId && !f.inaktiv) || konfig.fieldtrips[0];
@@ -58,6 +61,11 @@ function stil(pc) {
   // Punktgrösse in Bildschirmpixeln; bei Retina (devicePixelRatio 2) sonst nur halb so gross
   m.size = 1.2 * Math.min(window.devicePixelRatio || 1, 2);
   m.shape = Potree.PointShape.SQUARE;
+  if (WEISS && !/_farbig$/.test(pc.name)) {
+    // Grauwerte (Schattierung) in einen dunklen Bereich drücken: hell 0.95 -> 0.32, dunkel 0.3 -> 0.06
+    m.rgbBrightness = -0.9;
+    m.rgbContrast = -0.4305;
+  }
 }
 const laden = (pfad, name) => new Promise((ok, fehler) => {
   Potree.loadPointCloud(pfad, name, (e) => e.pointcloud ? ok(e.pointcloud) : fehler(e));
@@ -116,7 +124,7 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   const lokal = route.punkte.flatMap(([e, n, h]) => [e - o[0], n - o[1], h - o[2]]);
   const geo = new LineGeometry();
   geo.setPositions(lokal);
-  const mat = new LineMaterial({ color: 0x202f3a, linewidth: 2.5, resolution: new THREE.Vector2(1, 1) });
+  const mat = new LineMaterial({ color: WEISS ? 0xd4e2eb : 0x202f3a, linewidth: 2.5, resolution: new THREE.Vector2(1, 1) });
   viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
   // Route immer sichtbar über den dichten Punkten (sonst verdecken die Punkte die Linie)
   mat.depthTest = false;

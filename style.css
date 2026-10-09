@@ -100,3 +100,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 #legende .ebene[aria-pressed="false"] .flaeche { background: transparent; }
 #legende .ebene:focus-visible { outline: 1px solid var(--frost); outline-offset: 3px; }
 #karte canvas { touch-action: none; }   /* Drehen/Zoomen per Touch ohne Browser-Gesten */
+
+/* Versuch „weiss“ (index.html?stil=weiss) */
+body.weiss { --bg: #ffffff; }
+body.weiss #legende .strich { background: linear-gradient(transparent 0 35%, var(--frost) 35% 65%, transparent 65%); }
+body.weiss #laden { color: var(--stone); }
+body.weiss #blatt { background: #0f1113; }   /* Infoblatt bleibt dunkel */

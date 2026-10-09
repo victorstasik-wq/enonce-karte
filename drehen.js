@@ -1,6 +1,7 @@
 // Ruhige Kamerasteuerung ohne Verschieben.
 // Die Kamera kreist um einen Drehpunkt und schaut auf ihn.
-//  - Ziehen (Maus links oder rechts, ein Finger): drehen und kippen um den Drehpunkt
+//  - Ziehen mit links (ein Finger): drehen und kippen um den Drehpunkt
+//  - Ziehen mit rechts (oder Ctrl + Klick): verschieben
 //  - Mausrad / Trackpad / zwei Finger: zoomen zu der Stelle unter der Maus. Diese Stelle bleibt
 //    beim Zoomen unter der Maus und wird zum neuen Drehpunkt (wie bei Google Earth).
 //    Beim Herauszoomen gleitet der Drehpunkt zurück zur Mitte des Geländes (ganz draussen genau Mitte).
@@ -35,7 +36,12 @@ export class Drehsteuerung extends THREE.EventDispatcher {
     // Ansicht beim ersten Klick.) Jede Bewegung zählt nur ab der letzten eigenen Position.
     const zeiger = new Map();
     el.addEventListener("pointerdown", (e) => {
-      zeiger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      // rechte Maustaste (oder Ctrl-Klick am Mac): verschieben; sonst drehen
+      const schieben = e.button === 2 || (e.button === 0 && e.ctrlKey);
+      // beim Verschieben: Entfernung zum gegriffenen Geländepunkt, damit er der Maus folgt
+      let tiefe = null;
+      if (schieben) { const H = this.punktUnter(e.offsetX, e.offsetY); if (H) { const cam = viewer.scene.getActiveCamera(); tiefe = H.clone().sub(cam.position).dot(cam.getWorldDirection(new THREE.Vector3())); } }
+      zeiger.set(e.pointerId, { x: e.clientX, y: e.clientY, schieben, tiefe });
       try { el.setPointerCapture(e.pointerId); } catch {}
     });
     el.addEventListener("pointermove", (e) => {
@@ -46,6 +52,7 @@ export class Drehsteuerung extends THREE.EventDispatcher {
       if (zeiger.size !== 1) return;              // zwei Finger: zoomen, nicht drehen
       const max = 120;                           // Sicherheit gegen Ausreisser
       this.eingabe();
+      if (z.schieben) return this.schieben(THREE.MathUtils.clamp(dx, -max, max), THREE.MathUtils.clamp(dy, -max, max), el, z.tiefe);
       this.soll.az += (THREE.MathUtils.clamp(dx, -max, max) / el.clientWidth) * 200 * GRAD;
       this.soll.ne += (THREE.MathUtils.clamp(dy, -max, max) / el.clientHeight) * 120 * GRAD;
       this.soll.ne = THREE.MathUtils.clamp(this.soll.ne, -89 * GRAD, 89 * GRAD);
@@ -106,6 +113,19 @@ export class Drehsteuerung extends THREE.EventDispatcher {
       const anteil = ab0 >= HEIM_ABSTAND ? 1 : Math.min(1, Math.log(f) / Math.log(HEIM_ABSTAND / ab0));
       this.sollPunkt.lerp(this.heim, anteil);
     }
+  }
+
+  // Verschieben: Drehpunkt (und Blick) waagrecht in der Ebene bewegen, so dass das Gelände
+  // ungefähr der Maus folgt
+  schieben(dx, dy, el, tiefe = null) {
+    const fov = (this.viewer.scene.getActiveCamera().fov || 60) * GRAD;
+    const mProPx = (2 * (tiefe || this.soll.ab) * Math.tan(fov / 2)) / el.clientHeight;
+    const az = this.soll.az;
+    const rechts = new THREE.Vector3(-Math.cos(az), Math.sin(az), 0);
+    const vor = new THREE.Vector3(-Math.sin(az), -Math.cos(az), 0);
+    const kipp = Math.max(Math.sin(Math.abs(this.soll.ne)), 0.35);   // flacher Blick: Tiefe streckt sich
+    const d = rechts.multiplyScalar(-dx * mProPx).add(vor.multiplyScalar(dy * mProPx / kipp));
+    this.sollPunkt.add(d);
   }
 
   eingabe() {
