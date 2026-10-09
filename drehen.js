@@ -1,10 +1,9 @@
 // Ruhige Kamerasteuerung: Das Modell bleibt in der Bildmitte.
-// Die Kamera kreist immer um einen festen Drehpunkt (die Mitte des Geländes) und schaut auf ihn.
+// Die Kamera kreist um einen Drehpunkt und schaut auf ihn: ohne offene Station die Mitte des
+// Geländes, bei offener Station die Station (bzw. ihr Blickziel).
 //  - Ziehen (Maus links oder rechts, ein Finger): drehen und kippen
 //  - Mausrad / Trackpad / zwei Finger: näher oder weiter weg
 //  - Verschieben gibt es nicht; Doppelklick springt nicht mehr.
-// Nach einem Flug zu einer Station schaut die Kamera auf die Station; sobald man dreht oder zoomt,
-// gleitet der Blick weich zurück auf die Mitte.
 import * as THREE from "./vendor/potree/libs/three.js/build/three.module.js";
 
 const GRAD = Math.PI / 180;
@@ -59,11 +58,23 @@ export class Drehsteuerung extends THREE.EventDispatcher {
   }
 
   eingabe() {
-    if (!this.folgen) {          // Flug läuft noch: abbrechen und von der aktuellen Lage aus weiter
+    if (!this.folgen) {          // Flug läuft noch: abbrechen, Drehpunkt des Flugziels übernehmen
       this.beiEingabe?.();
+      if (this.naechsterDrehpunkt) this.drehpunkt.copy(this.naechsterDrehpunkt);
       this.uebernehmen();
     }
-    this.zurMitte = true;
+    this.zurMitte = true;        // Blick gleitet weich auf den Drehpunkt
+  }
+
+  // Ein Flug übernimmt die Kamera; danach gilt p als Drehpunkt
+  fliegen(p) {
+    this.folgen = false;
+    this.naechsterDrehpunkt = p.clone();
+  }
+  angekommen(p) {
+    this.drehpunkt.copy(p);
+    this.naechsterDrehpunkt = null;
+    this.uebernehmen(p);
   }
 
   // Werte aus der aktuellen Kamera ableiten (Start, nach einem Flug)

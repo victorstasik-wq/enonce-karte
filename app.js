@@ -3,7 +3,7 @@ import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
 import { ladeGelaende } from "./flaeche.js?v=7";
-import { Drehsteuerung } from "./drehen.js?v=1";
+import { Drehsteuerung } from "./drehen.js?v=2";
 
 const $id = (id) => document.getElementById(id);
 
@@ -153,6 +153,7 @@ const drehpunkt = ft.start ? new THREE.Vector3(...ft.start.ziel)
   : new THREE.Vector3(mitte.x, mitte.y, bb.min.z + bb.getSize(new THREE.Vector3()).z * 0.3);
 const steuerung = new Drehsteuerung(viewer, drehpunkt);
 steuerung.uebernehmen(drehpunkt);
+const startPos = viewer.scene.view.position.clone();   // für den Rückflug zur Gesamtansicht
 steuerung.beiEingabe = () => { if (flugTween) flugTween.stop(); };
 viewer.setControls(steuerung);
 
@@ -203,21 +204,27 @@ const FLUGDAUER = 2800;   // Millisekunden
 let flugTween = null;
 function flugZu(st) {
   const b = blick(st);
+  flug(b, new THREE.Vector3(...b.ziel));   // bei offener Station dreht sich alles um die Station
+}
+// zurück zur Gesamtansicht (beim Schliessen des Blatts); danach wieder um die Mitte drehen
+function flugZurueck() {
+  flug({ pos: startPos.toArray(), ziel: drehpunkt.toArray() }, drehpunkt);
+}
+function flug(b, neuerDrehpunkt) {
   const view = viewer.scene.view;
-  const cam = viewer.scene.getActiveCamera();
   const p0 = view.position.clone();
   const z0 = steuerung.blick.clone();
   const p1 = new THREE.Vector3(...b.pos), z1 = new THREE.Vector3(...b.ziel);
   const t = { x: 0 };
   if (flugTween) flugTween.stop();
-  steuerung.folgen = false;   // während des Flugs bewegt der Flug die Kamera
+  steuerung.fliegen(neuerDrehpunkt);   // während des Flugs bewegt der Flug die Kamera
   flugTween = new TWEEN.Tween(t).to({ x: 1 }, FLUGDAUER)
     .easing(TWEEN.Easing.Cubic.InOut)
     .onUpdate(() => {
       view.position.lerpVectors(p0, p1, t.x);
       view.lookAt(new THREE.Vector3().lerpVectors(z0, z1, t.x));
     })
-    .onComplete(() => { flugTween = null; steuerung.uebernehmen(z1); })
+    .onComplete(() => { flugTween = null; steuerung.angekommen(neuerDrehpunkt); })
     .start();
 }
 
@@ -265,7 +272,7 @@ function zeigeBlatt(st) {
       ${lit || `<p class="leer">–</p>`}
     </div>`;
   $id("blatt").hidden = false;
-  $id("blatt-zu").addEventListener("click", () => { $id("blatt").hidden = true; });
+  $id("blatt-zu").addEventListener("click", () => { $id("blatt").hidden = true; flugZurueck(); });
 }
 
 function oeffne(st) { flugZu(st); zeigeBlatt(st); }
