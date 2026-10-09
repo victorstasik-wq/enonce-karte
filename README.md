@@ -10,9 +10,10 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
 - `photos/` – Fotos der Stationen (900 px)
-- `pointclouds/F_01_v15/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
-- `pointclouds/F_01_v15/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) entlang der Route (±500 m) und
-  im Umkreis von 2 km um die Stationen, in 4-km-Blöcken. Grauwerte = berechnete Schattierung
+- `pointclouds/F_01_v17/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
+- `pointclouds/F_01_v17/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) im Gelände um Route und Station, in 4-km-Blöcken.
+  Der Rand folgt wo möglich Graten und Einzugsgebietsgrenzen (Wasserscheiden der geglätteten Geländeoberfläche),
+  begrenzt auf die Umgebung der Route und auf die vorhandenen 2-m-Kacheln. Grauwerte = berechnete Schattierung
   (Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht, lokales Relief)
 - Aufbau-Animation: jeder Punkt trägt im Attribut `point source id` eine Wachstumszeit (0–1000), berechnet als Laufzeit
   (Fast Marching) von der Route aus über ein aderartiges Rauschfeld. `app.js` blendet die Punkte über den
