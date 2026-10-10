@@ -31,9 +31,6 @@ viewer.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
 // ---------- Konfiguration ----------
 const params = new URLSearchParams(location.search);
-// Versuch „weiss“ (index.html?stil=weiss): weisser Hintergrund, Gelände fast schwarz, Route hellblau
-const WEISS = params.get("stil") === "weiss";
-if (WEISS) document.body.classList.add("weiss");
 const konfig = await json(params.get("konfig") || "data/fieldtrips.json");
 const ftId = params.get("ft") || konfig.start;
 const ft = konfig.fieldtrips.find((f) => f.id === ftId && !f.inaktiv) || konfig.fieldtrips[0];
@@ -61,11 +58,6 @@ function stil(pc) {
   // Punktgrösse in Bildschirmpixeln; bei Retina (devicePixelRatio 2) sonst nur halb so gross
   m.size = 1.2 * Math.min(window.devicePixelRatio || 1, 2);
   m.shape = Potree.PointShape.SQUARE;
-  if (WEISS && !/_farbig$/.test(pc.name)) {
-    // Grauwerte (Schattierung) in einen dunklen Bereich drücken: hell 0.95 -> 0.32, dunkel 0.3 -> 0.06
-    m.rgbBrightness = -0.9;
-    m.rgbContrast = -0.4305;
-  }
 }
 const laden = (pfad, name) => new Promise((ok, fehler) => {
   Potree.loadPointCloud(pfad, name, (e) => e.pointcloud ? ok(e.pointcloud) : fehler(e));
@@ -82,7 +74,8 @@ if (ft.flaeche) {
   $id("laden").remove();
 } else {
   // Gelände als Punktwolke (Basis + Verdichtungen)
-  // „Myzel“: Punkte wachsen von der Route aus. Die Wachstumszeit (0…1000) steckt im
+  // Verdichten: überall erscheinen zuerst wenige Punkte, dann immer mehr. Jeder Punkt hat eine
+  // zufällige Erscheinungszeit (0…1008, 64 Stufen); sie steckt im
   // Attribut „point source id“ der Punktwolken; der Filter von Potree blendet sie ein.
   viewer.setFilterPointSourceIDRange(0, -1);   // zuerst nichts zeigen (die Daten laden trotzdem)
   const wolke = await laden(ft.gelaende.pfad, ft.id);
@@ -97,7 +90,7 @@ if (ft.flaeche) {
 
 // Erst wachsen lassen, wenn die Punkte der ersten Ansicht geladen sind (sonst kommen sie
 // nach dem Wachsen kachelweise nach). Spätestens nach WARTEN_MAX ms geht es trotzdem los.
-function wachsen(dauer = 9000) {
+function wachsen(dauer = 7000) {
   const WARTEN_MAX = 6000, t0 = performance.now();
   let ruhig = 0;
   const pruefe = () => {
@@ -107,8 +100,9 @@ function wachsen(dauer = 9000) {
     $id("laden")?.remove();
     const t = { x: 0 };
     new TWEEN.Tween(t).to({ x: 1 }, dauer)
-      .easing(TWEEN.Easing.Sinusoidal.InOut)
-      .onUpdate(() => viewer.setFilterPointSourceIDRange(0, t.x * 1015))
+      .easing(TWEEN.Easing.Linear.None)
+      // hoch 3: lange wenige Punkte, dann rasch dichter (sonst wirkt die Ansicht schon bei 20 % voll)
+      .onUpdate(() => viewer.setFilterPointSourceIDRange(0, Math.pow(t.x, 3) * 1015))
       .onComplete(() => viewer.setFilterPointSourceIDRange(0, 65535))
       .start();
   };
@@ -124,7 +118,7 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   const lokal = route.punkte.flatMap(([e, n, h]) => [e - o[0], n - o[1], h - o[2]]);
   const geo = new LineGeometry();
   geo.setPositions(lokal);
-  const mat = new LineMaterial({ color: WEISS ? 0xd4e2eb : 0x202f3a, linewidth: 2.5, resolution: new THREE.Vector2(1, 1) });
+  const mat = new LineMaterial({ color: 0x202f3a, linewidth: 2.5, resolution: new THREE.Vector2(1, 1) });
   viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
   // Route immer sichtbar über den dichten Punkten (sonst verdecken die Punkte die Linie)
   mat.depthTest = false;

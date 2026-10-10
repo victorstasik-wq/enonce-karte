@@ -1,0 +1,56 @@
+{
+	"version": "2.0",
+	"name": "gletscher_grau",
+	"description": "",
+	"points": 142168,
+	"projection": "",
+	"hierarchy": {
+		"firstChunkSize": 1540, 
+		"stepSize": 4, 
+		"depth": 0
+	},
+	"offset": [2609299, 1136745, 2597.9500000000003],
+	"scale": [0.01, 0.01, 0.01],
+	"spacing": 8.671875,
+	"boundingBox": {
+		"min": [2609299, 1136745, 2597.9500000000003], 
+		"max": [2610409, 1137855, 3707.9500000000003]
+	},
+	"encoding": "BROTLI",
+	"attributes": [
+		{
+			"name": "position",
+			"description": "",
+			"size": 12,
+			"numElements": 3,
+			"elementSize": 4,
+			"type": "int32",
+			"min": [2609299, 1136745, 2597.9500000000003],
+			"max": [2610409, 1137845, 3060.5],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		},{
+			"name": "rgb",
+			"description": "",
+			"size": 6,
+			"numElements": 3,
+			"elementSize": 2,
+			"type": "uint16",
+			"min": [19968, 20992, 22272],
+			"max": [60416, 60672, 60928],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		},{
+			"name": "point source id",
+			"description": "",
+			"size": 2,
+			"numElements": 1,
+			"elementSize": 2,
+			"type": "uint16",
+			"min": [0],
+			"max": [1008],
+			"scale": [1],
+			"offset": [0]
+		}
+	]
+}

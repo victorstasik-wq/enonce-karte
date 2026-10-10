@@ -8,46 +8,46 @@
       "ort": "Lämmerenhütte",
       "nav": "F1 Lämmerenhütte",
       "gelaende": {
-        "pfad": "pointclouds/F_01_v17/basis_10m/metadata.json",
+        "pfad": "pointclouds/F_01_v18/basis_10m/metadata.json",
         "quelle": "swissALTI3D 2024/2025 — measured 2 m points in the terrain around the route and the station (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
         "copyright": "© swisstopo"
       },
       "verdichtung": [
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2607_1134/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2607_1134/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2607_1138/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2607_1138/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2611_1134/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2611_1134/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2611_1138/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2611_1138/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2611_1142/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2611_1142/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2615_1134/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2615_1134/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2615_1138/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2615_1138/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2615_1142/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2615_1142/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2615_1146/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2615_1146/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2615_1150/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2615_1150/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2619_1146/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2619_1146/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_01_v17/2m/dicht_2619_1150/metadata.json"
+          "pfad": "pointclouds/F_01_v18/2m/dicht_2619_1150/metadata.json"
         }
       ],
       "ebenen": [
@@ -56,8 +56,8 @@
           "name": "Lämmeren Glacier — extent (Swiss Glacier Inventory)",
           "an": true,
           "farbe": "#9cc8ea",
-          "grau": "pointclouds/F1_01_gletscher_v17/grau/metadata.json",
-          "farbig": "pointclouds/F1_01_gletscher_v17/farbig/metadata.json",
+          "grau": "pointclouds/F1_01_gletscher_v18/grau/metadata.json",
+          "farbig": "pointclouds/F1_01_gletscher_v18/farbig/metadata.json",
           "umriss": "data/gletscher_F1_01.json",
           "quelle": "Glacier outline: Swiss Glacier Inventory (GLAMOS), swisstopo layer “Gletscherausdehnung”, data status 31.08.2020."
         }

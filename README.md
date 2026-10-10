@@ -10,14 +10,14 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
 - `photos/` – Fotos der Stationen (900 px)
-- `pointclouds/F_01_v17/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
-- `pointclouds/F_01_v17/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) im Gelände um Route und Station, in 4-km-Blöcken.
+- `pointclouds/F_01_v18/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
+- `pointclouds/F_01_v18/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) im Gelände um Route und Station, in 4-km-Blöcken.
   Der Rand folgt wo möglich Graten und Einzugsgebietsgrenzen (Wasserscheiden der geglätteten Geländeoberfläche),
   begrenzt auf die Umgebung der Route und auf die vorhandenen 2-m-Kacheln. Grauwerte = berechnete Schattierung
   (Licht Nordwest 35°, weiche Schlagschatten, Himmelssicht, lokales Relief)
-- Aufbau-Animation: jeder Punkt trägt im Attribut `point source id` eine Wachstumszeit (0–1000), berechnet als Laufzeit
-  (Fast Marching) von der Route aus über ein aderartiges Rauschfeld. `app.js` blendet die Punkte über den
-  Point-Source-ID-Filter von Potree in etwa 9 s ein, sobald die erste Ansicht geladen ist (spätestens nach 6 s).
+- Aufbau-Animation: Die Punktwolke verdichtet sich überall gleichzeitig. Jeder Punkt trägt im Attribut `point source id`
+  eine zufällige Erscheinungszeit (0–1008, 64 Stufen); `app.js` blendet die Punkte über den Point-Source-ID-Filter von
+  Potree in etwa 7 s ein (zuerst wenige, dann immer mehr), sobald die erste Ansicht geladen ist (spätestens nach 6 s).
 - `drehen.js` – Kamerasteuerung ohne Verschieben: Ziehen dreht/kippt um den Drehpunkt; Zoomen geht zur Stelle unter der
   Maus, die dabei zum neuen Drehpunkt wird. Beim Herauszoomen gleitet der Drehpunkt zurück zur Mitte (ab 25 km genau Mitte).
   Station öffnen: Drehpunkt = Station; Blatt schliessen: Rückflug zur Gesamtansicht.
