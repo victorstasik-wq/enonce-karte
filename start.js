@@ -31,6 +31,18 @@ $id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.l
   ? `<li class="inaktiv"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">coming soon</span></li>`
   : `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark"></span></a></li>`).join("");
 
+// ---------- Menü „Content“: nur die Liste scrollt, die Seite selbst nicht ----------
+{
+  const klapp = document.querySelector(".inhalt-aufklapp"), liste = document.querySelector(".inhalt-liste");
+  const hoehe = () => {
+    if (!klapp.open) return;
+    const unten = window.innerWidth <= 760 ? 48 : 64;   // Platz für den swisstopo-Hinweis
+    liste.style.maxHeight = `${Math.max(160, window.innerHeight - liste.getBoundingClientRect().top - unten)}px`;
+  };
+  klapp.addEventListener("toggle", hoehe);
+  window.addEventListener("resize", hoehe);
+}
+
 // ---------- Hintergrund: langsam drehendes Gelände ----------
 const ft = konfig.fieldtrips.find((f) => f.id === konfig.start && !f.inaktiv);
 if (ft && ft.gelaende && ft.start) {
