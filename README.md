@@ -12,7 +12,7 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
 - `photos/` – Fotos der Stationen (900 px, im Infoblatt); `photos/gross/` – dieselben Fotos mit 1800 px für das Foto-Fenster
-  (Klick auf ein Foto: Fenster 70 % × 70 %, weiss mit 90 % Deckkraft, Fotos ohne Rand; blättern mit Pfeilen, Tastatur oder Wischen). Das Infoblatt ist ebenfalls weiss mit 90 % Deckkraft.
+  (Klick auf ein Foto: hochkantiges Fenster, 92 % der Bildschirmhöhe, weiss mit 90 % Deckkraft, Fotos ohne Rand; blättern mit Pfeilen, Tastatur oder Wischen). Das Infoblatt ist ebenfalls weiss mit 90 % Deckkraft.
   Neue Fotos: in `rohdaten/<Station>/fotos` legen, Legenden in `station.txt`; sie werden verkleinert und in
   `data/stationen_F_01.json` eingetragen (`datei`, `gross`, `legende`).
 - `pointclouds/F_01_v18/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)

@@ -312,6 +312,8 @@ const galerie = (() => {
   document.body.appendChild(el);
   const img = el.querySelector("img"), text = el.querySelector("figcaption"), zahl = el.querySelector(".galerie-zahl");
   let liste = [], nr = 0, vorherFokus = null;
+  const fenster = el.querySelector(".galerie-fenster");
+  fenster.tabIndex = -1;
   const quelle = (f) => f.gross || f.datei;
   const beschrifte = () => {
     const f = liste[nr];
@@ -353,7 +355,7 @@ const galerie = (() => {
       img.src = quelle(liste[nr]);
       beschrifte();
       el.hidden = false;
-      el.querySelector(".galerie-zu").focus();
+      fenster.focus();   // Fokus ins Fenster (Tastatur: Pfeile/Esc), ohne Rahmen um das ×
     },
   };
 })();

@@ -113,13 +113,16 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 #galerie { position: fixed; inset: 0; z-index: 100000; }   /* über den Potree-Beschriftungen */
 #galerie[hidden] { display: none; }
 .galerie-fenster {
-  position: absolute; left: 15vw; top: 15vh; width: 70vw; height: 70vh; box-sizing: border-box;
-  padding: 28px 64px 44px; display: flex; align-items: center; justify-content: center;
+  /* hochkant: so hoch wie möglich, Breite im Verhältnis der (hochformatigen) Fotos */
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  height: 92vh; width: min(94vw, calc(92vh * 0.78)); box-sizing: border-box;
+  padding: 44px 56px 48px; display: flex; align-items: center; justify-content: center;
   background: rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   color: #000;
 }
 .galerie-fenster figure { margin: 0; height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
 .galerie-fenster img { max-width: 100%; max-height: calc(100% - 28px); object-fit: contain; display: block; }
+.galerie-fenster:focus { outline: none; }
 .galerie-fenster figcaption { font-size: 13px; color: #000; text-align: center; min-height: 18px; }
 .galerie-pfeil, .galerie-zu { position: absolute; background: none; border: 0; color: #000; font: inherit; cursor: pointer; min-width: 44px; min-height: 44px; }
 .galerie-pfeil { top: 50%; transform: translateY(-50%); font-size: 40px; line-height: 1; }
@@ -130,7 +133,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 .galerie-zahl { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 12px; color: #000; letter-spacing: .08em; }
 .galerie-pfeil:focus-visible, .galerie-zu:focus-visible { outline: 1px solid var(--slate); outline-offset: 2px; }
 @media (max-width: 700px) {
-  .galerie-fenster { left: 4vw; top: 10vh; width: 92vw; height: 80vh; padding: 24px 40px 40px; }
+  .galerie-fenster { width: 94vw; height: 86vh; padding: 40px 36px 44px; }
 }
 
 /* Credits: kleiner Knopf in der Legende, Quellenangaben in einem weissen Fenster */
