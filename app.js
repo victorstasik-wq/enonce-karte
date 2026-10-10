@@ -336,7 +336,7 @@ const galerie = (() => {
     img.src = quelle(liste[nr]);
     beschrifte();
   };
-  const zu = () => { el.hidden = true; vorherFokus?.focus(); };
+  const zu = () => { el.hidden = true; $id("blatt").classList.remove("eingeklappt"); vorherFokus?.focus(); };
   el.querySelector(".zurueck").addEventListener("click", () => blaettern(-1));
   el.querySelector(".weiter").addEventListener("click", () => blaettern(1));
   el.querySelector(".galerie-zu").addEventListener("click", zu);
@@ -360,6 +360,7 @@ const galerie = (() => {
       liste = fotos; nr = i || 0; vorherFokus = document.activeElement;
       // andere aufgeklappte Dinge zuklappen, damit es ruhig wird
       document.querySelectorAll("details[open]").forEach((d) => { d.open = false; });
+      $id("blatt").classList.add("eingeklappt");   // Seitenleiste (Infoblatt) einklappen, solange das Fenster offen ist
       img.src = quelle(liste[nr]);
       beschrifte();
       el.hidden = false;

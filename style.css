@@ -235,3 +235,9 @@ body.karte-seite .credits-knopf:hover, body.karte-seite .credits-knopf:focus-vis
 body.karte-seite #nav { flex-direction: column; align-items: flex-end; gap: 8px; margin: 12px 0 0; padding: 0; }
 .nav-klapp[open] #nav { animation: aufklappen .3s ease-out; }
 @media (prefers-reduced-motion: reduce) { .nav-klapp[open] #nav { animation: none; } }
+
+/* Infoblatt klappt nach rechts weg, solange das Foto-Fenster offen ist */
+#blatt { transition: transform .35s ease, opacity .35s ease; }
+#blatt.eingeklappt { transform: translateX(100%); opacity: 0; pointer-events: none; }
+@media (max-width: 760px) { #blatt.eingeklappt { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) { #blatt { transition: none; } }
