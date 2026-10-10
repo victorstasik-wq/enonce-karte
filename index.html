@@ -3,64 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Énoncé – Fieldtrip Map</title>
+<title>Assembled Periphery (Archive)</title>
+<meta name="description" content="Assembled Periphery (Archive) — Énoncé théorique, Victor Stasik, EPFL Architecture. Fieldtrips, stations and terrain.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
-<link rel="stylesheet" href="style.css?v=23">
+<link rel="stylesheet" href="style.css?v=24">
 </head>
-<body>
-  <div id="karte"></div>
+<body class="start">
+  <div id="hintergrund" aria-hidden="true"></div>
+  <div class="start-verlauf" aria-hidden="true"></div>
 
-  <header id="kopf">
-    <div class="kopf-links">
-      <div id="projekt" class="leise klein"></div>
-      <h1 id="titel">Map</h1>
-      <div id="untertitel" class="leise"></div>
-    </div>
-    <nav id="nav" aria-label="Fieldtrips"></nav>
-  </header>
+  <main class="start-inhalt">
+    <p class="start-ober" id="projekt">Énoncé théorique — Victor Stasik · EPFL Architecture</p>
+    <h1 class="start-titel">Assembled Periphery <span>(Archive)</span></h1>
+    <p class="start-text">Introduction — text to follow.</p>
+    <nav aria-label="Fieldtrips">
+      <div class="label">Fieldtrips</div>
+      <ul class="start-liste" id="fieldtrips"></ul>
+    </nav>
+  </main>
 
-  <section id="liste" aria-label="Stations">
-    <div class="label">Stations</div>
-    <div id="liste-eintraege"></div>
-  </section>
-
-  <footer id="legende">
-    <div class="legende-links">
-      <div class="zeile"><span class="strich"></span><span id="route-label">Route</span></div>
-      <div class="zeile"><span class="punkt"></span><span>Station — click to open</span></div>
-      <div id="ebenen"></div>
-      <button id="credits-knopf" class="credits-knopf" aria-haspopup="dialog">© swisstopo · Credits</button>
-    </div>
-    <p class="hilfe">Drag: rotate · Right-drag: move · Scroll: zoom</p>
-  </footer>
-
-  <div id="credits" hidden role="dialog" aria-modal="true" aria-labelledby="credits-titel">
-    <div class="credits-kasten">
-      <div class="blatt-kopf">
-        <h2 id="credits-titel">Credits &amp; sources</h2>
-        <button id="credits-zu" aria-label="Close">×</button>
-      </div>
-      <p id="quellen"></p>
-      <p>Viewer: Potree 1.8.2 (Markus Schütz et al.), with three.js.</p>
-      <p>Énoncé théorique, EPFL Architecture — Victor Stasik.</p>
-    </div>
-  </div>
-
-  <aside id="blatt" hidden>
-    <div id="blatt-inhalt"></div>
-  </aside>
-
-  <div id="laden">Loading terrain …</div>
+  <p class="start-credit">Background: terrain of Fieldtrip 01, swissALTI3D © swisstopo</p>
 
   <script src="vendor/potree/libs/jquery/jquery-3.1.1.min.js"></script>
   <script src="vendor/potree/libs/other/BinaryHeap.js"></script>
   <script src="vendor/potree/libs/tween/tween.min.js"></script>
   <script src="vendor/potree/libs/proj4/proj4.js"></script>
   <script src="vendor/potree/build/potree/potree.js"></script>
-  <script type="module" src="app.js?v=29"></script>
+  <script type="module" src="start.js?v=1"></script>
 </body>
 </html>

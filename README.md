@@ -5,7 +5,9 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 
 ## Aufbau
 
-- `index.html`, `app.js`, `style.css` – die Seite
+- `index.html`, `start.js` – Startseite „Assembled Periphery (Archive)“: Titel, Einleitung (Platzhalter), Liste der Fieldtrips,
+  im Hintergrund dreht sich langsam das Gelände von Fieldtrip 01. Alte Links `index.html?ft=…` leiten zur Karte weiter.
+- `karte.html`, `app.js`, `style.css` – die Fieldtrip-Karte
 - `data/fieldtrips.json` – welche Fieldtrips es gibt und welche Dateien dazugehören
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
@@ -29,7 +31,7 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header
   `content-type: multipart/byteranges` bei den Range-Anfragen ist entfernt, weil GitHub Pages solche Anfragen mit 400 ablehnt.
 
-Direktaufruf einer Station: `index.html?ft=F_01&station=ID`
+Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
 
 ## Quellen und Lizenzen
 

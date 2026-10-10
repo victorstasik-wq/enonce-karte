@@ -35,9 +35,9 @@ const konfig = await json(params.get("konfig") || "data/fieldtrips.json");
 const ftId = params.get("ft") || konfig.start;
 const ft = konfig.fieldtrips.find((f) => f.id === ftId && !f.inaktiv) || konfig.fieldtrips[0];
 
-$id("projekt").textContent = konfig.projekt || "";
+$id("projekt").innerHTML = `<a href="index.html" class="zurueck-start">← Assembled Periphery (Archive)</a>`;
 $id("titel").textContent = ft.titel;
-document.title = `${ft.titel} – Énoncé Fieldtrip Map`;
+document.title = `${ft.titel} – Assembled Periphery (Archive)`;
 
 // Navigation: aktive Fieldtrips als Link, noch nicht vorhandene als grauer Text
 $id("nav").innerHTML = konfig.fieldtrips.map((f) => f.inaktiv

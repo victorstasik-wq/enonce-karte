@@ -143,3 +143,34 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 .credits-kasten h2 { margin: 4px 0 0; font-size: 20px; font-weight: 600; }
 .credits-kasten p { margin: 12px 0 0; }
 #credits-zu { background: none; border: 0; color: #000; font: inherit; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 44px; }
+
+/* Link zurück zur Startseite (Karte) */
+.zurueck-start { color: #fff; text-decoration: none; }
+.zurueck-start:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Startseite „Assembled Periphery (Archive)“ */
+body.start { overflow: auto; }
+#hintergrund { position: fixed; top: 0; bottom: 0; left: 22vw; width: 100vw; pointer-events: none; }
+.start-verlauf { position: fixed; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(15, 17, 19, 0.92) 0%, rgba(15, 17, 19, 0.75) 38%, rgba(15, 17, 19, 0) 70%); }
+.start-inhalt { position: relative; z-index: 1; box-sizing: border-box; min-height: 100vh; max-width: 640px; padding: 12vh 48px 96px;
+  display: flex; flex-direction: column; gap: 22px; }
+.start-ober { margin: 0; font-size: 13px; letter-spacing: 0.04em; color: #fff; }
+.start-titel { margin: 0; font-size: clamp(38px, 6vw, 76px); line-height: 1.02; font-weight: 600; letter-spacing: 0.01em; text-transform: uppercase; color: #fff; }
+.start-titel span { display: block; font-weight: 400; }
+.start-text { margin: 0; max-width: 46ch; font-size: 16px; color: #fff; }
+.start-liste { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, 0.25); }
+.start-liste li { border-bottom: 1px solid rgba(255, 255, 255, 0.25); }
+.start-liste a, .start-liste .inaktiv { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; color: #fff; text-decoration: none; }
+.start-liste .inaktiv { opacity: .5; }
+.start-liste a:hover .ft-name, .start-liste a:focus-visible .ft-name { text-decoration: underline; text-underline-offset: 4px; }
+.start-liste a:focus-visible { outline: 1px solid #fff; outline-offset: 2px; }
+.ft-name { font-size: 20px; font-weight: 600; }
+.ft-meta { font-size: 13px; letter-spacing: 0.04em; }
+.start-credit { position: fixed; right: 24px; bottom: 16px; margin: 0; font-size: 12px; color: #fff; z-index: 1; }
+@media (max-width: 760px) {
+  #hintergrund { left: 0; }
+  .start-verlauf { background: rgba(15, 17, 19, 0.7); }
+  .start-inhalt { padding: 10vh 20px 72px; }
+  .start-credit { left: 20px; right: 20px; }
+}
