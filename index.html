@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body class="start">
   <div id="hintergrund" aria-hidden="true"></div>
@@ -20,14 +20,19 @@
     <p class="start-ober" id="projekt"><span class="mark">Énoncé théorique — Victor Stasik · EPFL Architecture</span></p>
     <h1 class="start-titel"><span class="mark">Assembled Periphery</span><br><span class="mark leicht">(Archive)</span></h1>
     <p class="start-text"><span class="mark">Introduction — text to follow.</span></p>
-    <nav aria-label="Fieldtrips">
-      <div class="label"><span class="mark">Fieldtrips</span></div>
-      <ul class="start-liste" id="fieldtrips"></ul>
-    </nav>
-    <nav aria-label="Archive">
-      <div class="label"><span class="mark">Archive</span></div>
-      <ul class="start-liste" id="bereiche"></ul>
-    </nav>
+    <details class="inhalt-aufklapp">
+      <summary><span class="mark">Content</span><span class="mark zeichen" aria-hidden="true">+</span></summary>
+      <div class="inhalt-liste">
+        <nav aria-label="Fieldtrips">
+        <div class="label"><span class="mark">Fieldtrips</span></div>
+        <ul class="start-liste" id="fieldtrips"></ul>
+      </nav>
+      <nav aria-label="Archive">
+        <div class="label"><span class="mark">Archive</span></div>
+        <ul class="start-liste" id="bereiche"></ul>
+      </nav>
+      </div>
+    </details>
   </main>
 
   <p class="start-credit"><span class="mark">Background: terrain of Fieldtrip 01, swissALTI3D © swisstopo</span></p>
