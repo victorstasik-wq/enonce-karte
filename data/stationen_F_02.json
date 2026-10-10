@@ -1,0 +1,35 @@
+[
+  {
+    "id": "F2_01",
+    "titel": "OTEMMA_GLACIER",
+    "datum": "",
+    "lv95": {
+      "e": 2599222.88,
+      "n": 1087781.71,
+      "h": 2541.5,
+      "e_text": "2’599’222.88",
+      "n_text": "1’087’781.71"
+    },
+    "ortung": {
+      "methode": "",
+      "genauigkeit_m": null,
+      "bezug": ""
+    },
+    "fotos": [],
+    "modell": {},
+    "beschreibung": "",
+    "schaetzung": "",
+    "notizen": "",
+    "literatur": [],
+    "blick": {
+      "ziel": [
+        2600600,
+        1088900,
+        2750
+      ],
+      "azimut": 245,
+      "neigung": 32,
+      "abstand": 7500
+    }
+  }
+]

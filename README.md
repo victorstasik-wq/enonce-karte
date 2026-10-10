@@ -26,6 +26,9 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `drehen.js` – Kamerasteuerung ohne Verschieben: Ziehen dreht/kippt um den Drehpunkt; Zoomen geht zur Stelle unter der
   Maus, die dabei zum neuen Drehpunkt wird. Beim Herauszoomen gleitet der Drehpunkt zurück zur Mitte (ab 25 km genau Mitte).
   Station öffnen: Drehpunkt = Station; Blatt schliessen: Rückflug zur Gesamtansicht.
+- Fieldtrip 02 (Cabane de Chanrion / Val de Bagnes): `pointclouds/F_02_v1/` (Basis 10 m + 2 m in 4-km-Blöcken),
+  `pointclouds/F2_01_gletscher_v1/` (Glacier d'Otemma zentral, SGI B82-27), `data/route_F_02.json`, `data/stationen_F_02.json`,
+  `data/gletscher_F2_01.json`. Gelände: swissALTI3D 2024, 264 Kacheln à 2 m (E 2588–2605 / N 1082–1100 km).
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header

@@ -80,7 +80,73 @@
       "titel": "Fieldtrip 02",
       "ort": "Cabane de Chanrion",
       "nav": "F2 Cabane de Chanrion",
-      "inaktiv": true
+      "gelaende": {
+        "pfad": "pointclouds/F_02_v1/basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024 — measured 2 m points in the terrain around the route and the station (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
+        "copyright": "© swisstopo"
+      },
+      "verdichtung": [
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2588_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2588_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2588_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2592_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2592_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2592_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2592_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2596_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2596_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2596_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2600_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_02_v1/2m/dicht_2600_1090/metadata.json"
+        }
+      ],
+      "ebenen": [
+        {
+          "id": "gletscher_F2_01",
+          "name": "Otemma Glacier — extent (Swiss Glacier Inventory)",
+          "an": true,
+          "farbe": "#9cc8ea",
+          "grau": "pointclouds/F2_01_gletscher_v1/grau/metadata.json",
+          "farbig": "pointclouds/F2_01_gletscher_v1/farbig/metadata.json",
+          "umriss": "data/gletscher_F2_01.json",
+          "quelle": "Glacier outline: Swiss Glacier Inventory (GLAMOS), swisstopo layer “Gletscherausdehnung”, data status 31.08.2020."
+        }
+      ],
+      "start": {
+        "ziel": [
+          2597600,
+          1090700,
+          2400
+        ],
+        "azimut": 330,
+        "neigung": 35,
+        "abstand": 26000
+      },
+      "route": "data/route_F_02.json",
+      "stationen": "data/stationen_F_02.json"
     },
     {
       "id": "F_03",
