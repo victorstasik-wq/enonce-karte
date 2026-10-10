@@ -172,7 +172,7 @@ body.start { overflow: auto; }
   #hintergrund { left: 0; }
   .start-verlauf { background: rgba(15, 17, 19, 0.7); }
   .start-inhalt { padding: 10vh 20px 72px; }
-  .start-credit { left: 20px; right: 20px; }
+  .start-credit { position: relative; right: auto; bottom: auto; padding: 0 20px 24px; }
 }
 
 /* Startseite: Text wie mit weissem Marker hinterlegt (weisser Grund, schwarze Schrift, je Zeile) */

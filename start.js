@@ -26,6 +26,11 @@ const zeilen = await Promise.all(konfig.fieldtrips.map(async (f) => {
 }));
 $id("fieldtrips").innerHTML = zeilen.join("");
 
+// ---------- weitere Bereiche: Notebook / Fieldnotes, Literature ----------
+$id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.link
+  ? `<li class="inaktiv"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">coming soon</span></li>`
+  : `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark"></span></a></li>`).join("");
+
 // ---------- Hintergrund: langsam drehendes Gelände ----------
 const ft = konfig.fieldtrips.find((f) => f.id === konfig.start && !f.inaktiv);
 if (ft && ft.gelaende && ft.start) {

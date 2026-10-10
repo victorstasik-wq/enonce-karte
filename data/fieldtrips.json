@@ -81,6 +81,44 @@
       "ort": "Cabane de Chanrion",
       "nav": "F2 Cabane de Chanrion",
       "inaktiv": true
+    },
+    {
+      "id": "F_03",
+      "titel": "Fieldtrip 03",
+      "ort": "",
+      "nav": "F3",
+      "inaktiv": true
+    },
+    {
+      "id": "F_04",
+      "titel": "Fieldtrip 04",
+      "ort": "",
+      "nav": "F4",
+      "inaktiv": true
+    },
+    {
+      "id": "F_05",
+      "titel": "Fieldtrip 05",
+      "ort": "",
+      "nav": "F5",
+      "inaktiv": true
+    },
+    {
+      "id": "F_06",
+      "titel": "Fieldtrip 06",
+      "ort": "",
+      "nav": "F6",
+      "inaktiv": true
+    }
+  ],
+  "bereiche": [
+    {
+      "name": "Notebook / Fieldnotes",
+      "inaktiv": true
+    },
+    {
+      "name": "Literature",
+      "inaktiv": true
     }
   ]
 }
