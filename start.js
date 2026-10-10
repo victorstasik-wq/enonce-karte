@@ -17,12 +17,12 @@ const konfig = await json("data/fieldtrips.json");
 // ---------- Liste der Fieldtrips ----------
 const zeilen = await Promise.all(konfig.fieldtrips.map(async (f) => {
   if (f.inaktiv) {
-    return `<li class="inaktiv"><span class="ft-name">${esc(f.nav)}</span><span class="ft-meta">coming soon</span></li>`;
+    return `<li class="inaktiv"><span class="ft-name mark">${esc(f.nav)}</span><span class="ft-meta mark">coming soon</span></li>`;
   }
   let n = null;
   try { n = (await json(f.stationen)).length; } catch {}
   const meta = n == null ? "" : `${n} station${n === 1 ? "" : "s"}`;
-  return `<li><a href="karte.html?ft=${encodeURIComponent(f.id)}"><span class="ft-name">${esc(f.nav)}</span><span class="ft-meta">${esc(meta)}</span></a></li>`;
+  return `<li><a href="karte.html?ft=${encodeURIComponent(f.id)}"><span class="ft-name mark">${esc(f.nav)}</span><span class="ft-meta mark">${esc(meta)}</span></a></li>`;
 }));
 $id("fieldtrips").innerHTML = zeilen.join("");
 
