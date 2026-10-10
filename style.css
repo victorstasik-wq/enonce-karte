@@ -200,11 +200,10 @@ body.karte-seite #projekt, body.karte-seite #titel, body.karte-seite #untertitel
 body.karte-seite #nav a, body.karte-seite #nav span,
 body.karte-seite #liste .label, body.karte-seite .liste-id, body.karte-seite .liste-meta,
 body.karte-seite #legende .zeile > span:not(.strich):not(.punkt):not(.flaeche),
-body.karte-seite .credits-knopf, body.karte-seite #legende .hilfe, body.karte-seite #laden {
+body.karte-seite #laden {
   background: #fff; color: #000; width: fit-content; padding: 0.06em 0.3em;
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
-body.karte-seite .credits-knopf { padding: 0.06em 0.3em; }
 body.karte-seite #liste-eintraege a { border-color: rgba(255, 255, 255, 0.35); }
 body.karte-seite #liste-eintraege a:last-child { border-bottom-color: rgba(255, 255, 255, 0.35); }
 /* Zurück zur Startseite: deutlich als eigener Knopf */
@@ -213,3 +212,9 @@ body.karte-seite .zurueck-start { pointer-events: auto; display: inline-block; c
 body.karte-seite .zurueck-start:hover, body.karte-seite .zurueck-start:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 /* Stationsbeschriftung auf der Karte ebenfalls weiss hinterlegt */
 body.karte-seite .annotation-label { background: #fff !important; color: #000 !important; }
+
+/* Credits und Bedienhinweis: nicht hinterlegt, nur weisse Schrift mit 15 % Deckkraft */
+body.karte-seite .credits-knopf, body.karte-seite #legende .hilfe, body.start .start-credit .mark {
+  background: none; color: rgba(255, 255, 255, 0.15); padding: 0;
+}
+body.karte-seite .credits-knopf:hover, body.karte-seite .credits-knopf:focus-visible { color: rgba(255, 255, 255, 0.6); }
