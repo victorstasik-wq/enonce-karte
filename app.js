@@ -283,7 +283,7 @@ function zeigeBlatt(st) {
   });
 }
 
-// ---------- Foto-Fenster: 70 % der Breite und Höhe, halbtransparent, durchblättern ----------
+// ---------- Foto-Fenster: 70 % der Breite und Höhe, weiss (90 % Deckkraft), durchblättern ----------
 const galerie = (() => {
   const el = document.createElement("div");
   el.id = "galerie";
@@ -293,7 +293,7 @@ const galerie = (() => {
   el.setAttribute("aria-label", "Photos");
   el.innerHTML = `
     <div class="galerie-fenster">
-      <figure><div class="galerie-buehne"><img alt=""></div><figcaption></figcaption></figure>
+      <figure><img alt=""><figcaption></figcaption></figure>
       <button class="galerie-pfeil zurueck" aria-label="Previous photo">‹</button>
       <button class="galerie-pfeil weiter" aria-label="Next photo">›</button>
       <div class="galerie-zahl"></div>
@@ -301,8 +301,7 @@ const galerie = (() => {
     </div>`;
   document.body.appendChild(el);
   const img = el.querySelector("img"), text = el.querySelector("figcaption"), zahl = el.querySelector(".galerie-zahl");
-  const buehne = el.querySelector(".galerie-buehne");
-  let liste = [], nr = 0, vorherFokus = null, laeuft = false;
+  let liste = [], nr = 0, vorherFokus = null;
   const quelle = (f) => f.gross || f.datei;
   const beschrifte = () => {
     const f = liste[nr];
@@ -312,52 +311,13 @@ const galerie = (() => {
     el.querySelectorAll(".galerie-pfeil").forEach((b) => { b.hidden = liste.length < 2; });
     for (const d of [1, -1]) if (liste.length > 1) new Image().src = quelle(liste[(nr + d + liste.length) % liste.length]);   // vorladen
   };
-  // Eine Seite (Vorderseite = Foto, Rückseite = Papier) genau über dem Foto in der Bühne
-  const seite = (src) => {
-    const r = img.getBoundingClientRect(), b = buehne.getBoundingClientRect();
-    const s = document.createElement("div");
-    s.className = "galerie-seite";
-    Object.assign(s.style, { left: `${r.left - b.left}px`, top: `${r.top - b.top}px`, width: `${r.width}px`, height: `${r.height}px` });
-    s.innerHTML = `<div class="vorne"><img src="${src}" alt=""></div><div class="hinten"></div>`;
-    buehne.appendChild(s);
-    return s;
-  };
-  const warte = (a) => new Promise((ok) => { a.onfinish = ok; a.oncancel = ok; });
-  const DAUER = 750;
-  const leicht = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Umblättern wie in einem Notizbuch: Rücken links.
-  // vor: die aktuelle Seite hebt sich und dreht um die linke Kante nach links weg, darunter liegt das nächste Foto.
-  // zurück: die vorige Seite kommt von links zurück und legt sich über das aktuelle Foto.
-  async function blaettern(d) {
-    if (liste.length < 2 || laeuft) return;
-    const alt = img.src;
+  // Blättern: das Foto wechselt direkt (ohne Animation)
+  const blaettern = (d) => {
+    if (liste.length < 2) return;
     nr = (nr + d + liste.length) % liste.length;
-    const neu = new URL(quelle(liste[nr]), location.href).href;
-    if (leicht) { img.src = neu; beschrifte(); return; }
-    laeuft = true;
-    try {
-      if (d > 0) {
-        const s = seite(alt);                       // alte Seite liegt oben
-        img.src = neu; await img.decode().catch(() => {});
-        beschrifte();
-        await warte(s.animate([
-          { transform: "rotateY(0deg)" },
-          { transform: "rotateY(-180deg)" },
-        ], { duration: DAUER, easing: "cubic-bezier(.45,.05,.35,1)" }));
-        s.remove();
-      } else {
-        const unten = seite(alt);                   // aktuelles Foto bleibt sichtbar liegen …
-        img.src = neu; await img.decode().catch(() => {});
-        const s = seite(neu);                       // … bis die vorige Seite darüber zurückgeklappt ist
-        beschrifte();
-        await warte(s.animate([
-          { transform: "rotateY(-180deg)" },
-          { transform: "rotateY(0deg)" },
-        ], { duration: DAUER, easing: "cubic-bezier(.45,.05,.35,1)" }));
-        s.remove(); unten.remove();
-      }
-    } finally { laeuft = false; }
-  }
+    img.src = quelle(liste[nr]);
+    beschrifte();
+  };
   const zu = () => { el.hidden = true; vorherFokus?.focus(); };
   el.querySelector(".zurueck").addEventListener("click", () => blaettern(-1));
   el.querySelector(".weiter").addEventListener("click", () => blaettern(1));

@@ -12,42 +12,43 @@
   --font: "Hanken Grotesk", system-ui, sans-serif;
 }
 
-html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--frost); font-family: var(--font); font-size: 15px; line-height: 1.45; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: #fff; font-family: var(--font); font-size: 15px; line-height: 1.45; }
 #karte { position: absolute; inset: 0; background: var(--bg); }
 
-.leise { color: var(--sand); }
+.leise { color: #fff; }
 .klein { font-size: 13px; letter-spacing: 0.04em; }
-.label { font-size: 12px; letter-spacing: 0.08em; color: var(--sand); text-transform: uppercase; }
+.label { font-size: 12px; letter-spacing: 0.08em; color: #fff; text-transform: uppercase; }
 
 /* Kopf */
 #kopf { position: absolute; left: 32px; right: 32px; top: 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; pointer-events: none; }
 #kopf .kopf-links { display: flex; flex-direction: column; gap: 4px; background: var(--kasten); padding: 10px 14px 12px; margin: -10px 0 0 -14px; }
 #kopf h1 { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 0.01em; }
 #nav { display: flex; gap: 20px; flex-wrap: wrap; pointer-events: auto; background: var(--kasten); padding: 8px 14px; margin: -8px -14px 0 0; }
-#nav a, #nav span { color: var(--silt); text-decoration: none; }
-#nav a[aria-current="page"] { color: var(--frost); text-decoration: underline; text-underline-offset: 4px; }
+#nav a, #nav span { color: #fff; text-decoration: none; }
+#nav span[aria-disabled="true"] { opacity: .5; }
+#nav a[aria-current="page"] { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 #nav span[aria-disabled="true"] { cursor: default; }
 
 /* Stationsliste */
 #liste { position: absolute; left: 18px; top: 176px; width: 260px; display: flex; flex-direction: column; gap: 10px; background: var(--kasten); padding: 12px 14px 14px; }
-#liste-eintraege a { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--wet-stone); color: var(--frost); text-decoration: none; }
+#liste-eintraege a { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--wet-stone); color: #fff; text-decoration: none; }
 #liste-eintraege a:last-child { border-bottom: 1px solid var(--wet-stone); }
 #liste-eintraege a:hover .liste-id { text-decoration: underline; text-underline-offset: 3px; }
 .liste-id { font-weight: 600; }
-.liste-meta { font-size: 13px; color: var(--sand); }
+.liste-meta { font-size: 13px; color: #fff; }
 
 /* Legende */
-#legende { position: absolute; left: 32px; right: 32px; bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; font-size: 13px; color: var(--sand); pointer-events: none; }
+#legende { position: absolute; left: 32px; right: 32px; bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; font-size: 13px; color: #fff; pointer-events: none; }
 .legende-links { display: flex; flex-direction: column; gap: 6px; max-width: 560px; background: var(--kasten); padding: 10px 14px; margin: 0 0 -10px -14px; }
-#legende .zeile { display: flex; align-items: center; gap: 10px; color: var(--frost); }
+#legende .zeile { display: flex; align-items: center; gap: 10px; color: #fff; }
 /* Routenmuster: dunkle Linie auf hellem Grund, wie die Route auf dem Gelände */
 #legende .strich { width: 28px; height: 10px; flex: none; background: linear-gradient(#e8eaec 0 35%, var(--slate) 35% 65%, #e8eaec 65%); }
 #legende .punkt { width: 12px; height: 12px; border-radius: 50%; background: var(--station); margin: 0 6px; flex: none; }
 #legende p { margin: 0; }
-#legende .quelle { color: var(--silt); }
-#legende .hilfe { color: var(--silt); background: var(--kasten); padding: 6px 12px; margin: 0 -12px -6px 0; }
+#legende .quelle { color: #fff; }
+#legende .hilfe { color: #fff; background: var(--kasten); padding: 6px 12px; margin: 0 -12px -6px 0; }
 
-#laden { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: var(--sand); font-size: 14px; }
+#laden { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff; font-size: 14px; }
 
 /* Stationsmarker (Potree-Annotation) */
 .annotation { opacity: 1 !important; pointer-events: auto; padding: 0 !important; transform: translate(-4px, -50%) !important; }
@@ -58,32 +59,36 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 .annotation-titlebar::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--station); flex: none; }
 .annotation-label {
   font-family: var(--font) !important; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-  color: var(--frost); background: var(--kasten); padding: 2px 8px; line-height: 1.45 !important;
+  color: #fff; background: var(--kasten); padding: 2px 8px; line-height: 1.45 !important;
 }
 
 /* Informationsblatt */
 #blatt {
   position: absolute; top: 0; right: 0; bottom: 0; width: min(460px, 100%); box-sizing: border-box;
-  padding: 28px 32px 40px; background: var(--bg); border-left: 1px solid var(--wet-stone); overflow-y: auto;
+  padding: 28px 32px 40px; overflow-y: auto;
+  /* weiss mit 90 % Deckkraft, dunkle Schrift */
+  background: rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: #000; --linie: rgba(0, 0, 0, 0.15);
 }
 #blatt[hidden] { display: none; }
+#blatt .leise, #blatt .label { color: #000; }
 #blatt-inhalt { display: flex; flex-direction: column; gap: 22px; }
 .blatt-kopf { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .blatt-kopf h2 { margin: 4px 0 0; font-size: 26px; font-weight: 600; line-height: 1.2; }
-#blatt-zu { background: none; border: 0; color: var(--frost); font: inherit; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 44px; }
-.felder { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; border-top: 1px solid var(--wet-stone); padding-top: 14px; margin: 0; }
-.felder dt { font-size: 12px; letter-spacing: 0.08em; color: var(--sand); text-transform: uppercase; }
+#blatt-zu { background: none; border: 0; color: #000; font: inherit; font-size: 26px; line-height: 1; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 44px; }
+.felder { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; border-top: 1px solid var(--linie); padding-top: 14px; margin: 0; }
+.felder dt { font-size: 12px; letter-spacing: 0.08em; color: #000; text-transform: uppercase; }
 .felder dd { margin: 0; }
 .fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .fotos .foto { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
-.fotos .foto:focus-visible { outline: 1px solid var(--frost); outline-offset: 2px; }
-.fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: var(--slate); }
+.fotos .foto:focus-visible { outline: 1px solid var(--slate); outline-offset: 2px; }
+.fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: rgba(32, 47, 58, 0.08); }
 .abschnitt { display: flex; flex-direction: column; gap: 6px; }
 .abschnitt p { margin: 0; }
-.abschnitt .schaetzung { font-size: 13px; color: var(--silt); }
-.lit { border-top: 1px solid var(--wet-stone); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-.lit blockquote { margin: 0; padding-left: 12px; border-left: 2px solid var(--frost); }
-.lit .bezug, .leer, .hinweis { font-size: 13px; color: var(--silt); }
+.abschnitt .schaetzung { font-size: 13px; color: #000; }
+.lit { border-top: 1px solid var(--linie); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.lit blockquote { margin: 0; padding-left: 12px; border-left: 2px solid #000; }
+.lit .bezug, .leer, .hinweis { font-size: 13px; color: #000; }
 .hinweis { font-style: italic; }
 
 @media (max-width: 760px) {
@@ -91,47 +96,38 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
   #liste { display: none; }
   #legende { left: 16px; right: 16px; }
   #legende .hilfe { display: none; }
-  #blatt { top: 35%; width: 100%; border-left: 0; border-top: 1px solid var(--wet-stone); padding: 20px 16px 32px; }
+  #blatt { top: 35%; width: 100%; border-top: 1px solid var(--linie); padding: 20px 16px 32px; }
 }
 
 /* Zusätzliche Ebenen in der Legende (Knopf zum Ein-/Ausschalten) */
 #ebenen { display: flex; flex-direction: column; gap: 6px; }
-#legende .ebene { pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; color: var(--frost); text-align: left; }
+#legende .ebene { pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; color: #fff; text-align: left; }
 #legende .ebene .flaeche { width: 24px; height: 12px; flex: none; margin: 0 2px; border: 1.5px solid var(--farbe); background: color-mix(in srgb, var(--farbe) 55%, transparent); }
-#legende .ebene[aria-pressed="false"] { color: var(--silt); }
+#legende .ebene[aria-pressed="false"] { color: #fff; opacity: .5; }
 #legende .ebene[aria-pressed="false"] .flaeche { background: transparent; }
 #legende .ebene:focus-visible { outline: 1px solid var(--frost); outline-offset: 3px; }
 #karte canvas { touch-action: none; }   /* Drehen/Zoomen per Touch ohne Browser-Gesten */
 
 
-/* Foto-Fenster (Galerie): weiss, 80 % Deckkraft; Umblättern wie in einem Notizbuch */
+/* Foto-Fenster (Galerie): weiss, 90 % Deckkraft, Fotos ohne Rand */
 #galerie { position: fixed; inset: 0; z-index: 100000; }   /* über den Potree-Beschriftungen */
 #galerie[hidden] { display: none; }
 .galerie-fenster {
   position: absolute; left: 15vw; top: 15vh; width: 70vw; height: 70vh; box-sizing: border-box;
   padding: 28px 64px 44px; display: flex; align-items: center; justify-content: center;
-  background: rgba(255, 255, 255, 0.8); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  border: 1px solid rgba(32, 47, 58, 0.18); color: var(--slate);
+  background: rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: #000;
 }
 .galerie-fenster figure { margin: 0; height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-.galerie-buehne { position: relative; flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; perspective: 2200px; }
-.galerie-buehne > img, .galerie-seite .vorne img {
-  box-sizing: border-box; display: block; object-fit: contain;
-  border: 1px solid rgba(32, 47, 58, 0.25); padding: 6px; background: #fff;
-}
-.galerie-buehne > img { max-width: 100%; max-height: 100%; }
-.galerie-seite { position: absolute; transform-origin: left center; transform-style: preserve-3d; z-index: 2; }
-.galerie-seite .vorne, .galerie-seite .hinten { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.galerie-seite .vorne img { width: 100%; height: 100%; box-shadow: 0 2px 14px rgba(15, 17, 19, 0.18); }
-.galerie-seite .hinten { transform: rotateY(180deg); background: #f3f3f1; border: 1px solid rgba(32, 47, 58, 0.25); box-sizing: border-box; }
-.galerie-fenster figcaption { font-size: 13px; color: var(--stone); text-align: center; min-height: 18px; }
-.galerie-pfeil, .galerie-zu { position: absolute; background: none; border: 0; color: var(--slate); font: inherit; cursor: pointer; min-width: 44px; min-height: 44px; }
+.galerie-fenster img { max-width: 100%; max-height: calc(100% - 28px); object-fit: contain; display: block; }
+.galerie-fenster figcaption { font-size: 13px; color: #000; text-align: center; min-height: 18px; }
+.galerie-pfeil, .galerie-zu { position: absolute; background: none; border: 0; color: #000; font: inherit; cursor: pointer; min-width: 44px; min-height: 44px; }
 .galerie-pfeil { top: 50%; transform: translateY(-50%); font-size: 40px; line-height: 1; }
 .galerie-pfeil.zurueck { left: 10px; }
 .galerie-pfeil.weiter { right: 10px; }
 .galerie-pfeil[hidden] { display: none; }
 .galerie-zu { top: 6px; right: 8px; font-size: 26px; line-height: 1; }
-.galerie-zahl { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 12px; color: var(--stone); letter-spacing: .08em; }
+.galerie-zahl { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 12px; color: #000; letter-spacing: .08em; }
 .galerie-pfeil:focus-visible, .galerie-zu:focus-visible { outline: 1px solid var(--slate); outline-offset: 2px; }
 @media (max-width: 700px) {
   .galerie-fenster { left: 4vw; top: 10vh; width: 92vw; height: 80vh; padding: 24px 40px 40px; }
