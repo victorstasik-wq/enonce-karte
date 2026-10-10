@@ -44,6 +44,12 @@ $id("nav").innerHTML = konfig.fieldtrips.map((f) => f.inaktiv
   ? `<span aria-disabled="true" title="Not online yet">${esc(f.nav)}</span>`
   : `<a href="?ft=${encodeURIComponent(f.id)}"${f.id === ft.id ? ' aria-current="page"' : ""}>${esc(f.nav)}</a>`
 ).join("");
+// Fieldtrip-Menü oben rechts: klappt auf; Klick daneben oder Esc schliesst es
+{
+  const klapp = $id("nav-klapp");
+  document.addEventListener("pointerdown", (e) => { if (klapp.open && !klapp.contains(e.target)) klapp.open = false; });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && klapp.open) klapp.open = false; });
+}
 
 const hinweise = ft.flaeche ? [] : (ft.verdichtung || []).map((v) => v.hinweis).filter(Boolean);
 const quelle = ft.flaeche ? ft.flaeche.quelle : ft.gelaende.quelle;
@@ -352,6 +358,8 @@ const galerie = (() => {
     oeffne(fotos, i) {
       if (!fotos.length) return;
       liste = fotos; nr = i || 0; vorherFokus = document.activeElement;
+      // andere aufgeklappte Dinge zuklappen, damit es ruhig wird
+      document.querySelectorAll("details[open]").forEach((d) => { d.open = false; });
       img.src = quelle(liste[nr]);
       beschrifte();
       el.hidden = false;
