@@ -283,6 +283,16 @@ function zeigeBlatt(st) {
   });
 }
 
+// ---------- Credits (Quellenangaben), über den kleinen Knopf in der Legende ----------
+{
+  const box = $id("credits"), knopf = $id("credits-knopf");
+  const zu = () => { box.hidden = true; knopf.focus(); };
+  knopf.addEventListener("click", () => { box.hidden = false; $id("credits-zu").focus(); });
+  $id("credits-zu").addEventListener("click", zu);
+  box.addEventListener("click", (e) => { if (e.target === box) zu(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !box.hidden) zu(); });
+}
+
 // ---------- Foto-Fenster: 70 % der Breite und Höhe, weiss (90 % Deckkraft), durchblättern ----------
 const galerie = (() => {
   const el = document.createElement("div");
