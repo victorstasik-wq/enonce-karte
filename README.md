@@ -9,7 +9,10 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `data/fieldtrips.json` – welche Fieldtrips es gibt und welche Dateien dazugehören
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
 - `data/stationen_F_01.json` – Stationen von F_01
-- `photos/` – Fotos der Stationen (900 px)
+- `photos/` – Fotos der Stationen (900 px, im Infoblatt); `photos/gross/` – dieselben Fotos mit 1800 px für das Foto-Fenster
+  (Klick auf ein Foto: Fenster 70 % × 70 %, halbtransparent, blättern mit Pfeilen, Tastatur oder Wischen).
+  Neue Fotos: in `rohdaten/<Station>/fotos` legen, Legenden in `station.txt`; sie werden verkleinert und in
+  `data/stationen_F_01.json` eingetragen (`datei`, `gross`, `legende`).
 - `pointclouds/F_01_v18/basis_10m/` – Gelände als Potree-Punktwolke, 10-m-Punkte (ausserhalb der dichten Zone)
 - `pointclouds/F_01_v18/2m/dicht_EEEE_NNNN/` – gemessene 2-m-Punkte (swissALTI3D) im Gelände um Route und Station, in 4-km-Blöcken.
   Der Rand folgt wo möglich Graten und Einzugsgebietsgrenzen (Wasserscheiden der geglätteten Geländeoberfläche),

@@ -75,6 +75,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 .felder dt { font-size: 12px; letter-spacing: 0.08em; color: var(--sand); text-transform: uppercase; }
 .felder dd { margin: 0; }
 .fotos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.fotos .foto { padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
+.fotos .foto:focus-visible { outline: 1px solid var(--frost); outline-offset: 2px; }
 .fotos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: var(--slate); }
 .abschnitt { display: flex; flex-direction: column; gap: 6px; }
 .abschnitt p { margin: 0; }
@@ -101,3 +103,27 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 #legende .ebene:focus-visible { outline: 1px solid var(--frost); outline-offset: 3px; }
 #karte canvas { touch-action: none; }   /* Drehen/Zoomen per Touch ohne Browser-Gesten */
 
+
+/* Foto-Fenster (Galerie) */
+#galerie { position: fixed; inset: 0; z-index: 100000; }   /* über den Potree-Beschriftungen */
+#galerie[hidden] { display: none; }
+.galerie-fenster {
+  position: absolute; left: 15vw; top: 15vh; width: 70vw; height: 70vh; box-sizing: border-box;
+  padding: 28px 64px 44px; display: flex; align-items: center; justify-content: center;
+  background: rgba(15, 17, 19, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid var(--wet-stone);
+}
+.galerie-fenster figure { margin: 0; height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+.galerie-fenster img { max-width: 100%; max-height: calc(100% - 28px); object-fit: contain; display: block; border: 1px solid rgba(212, 226, 235, 0.35); padding: 6px; background: rgba(15, 17, 19, 0.4); }
+.galerie-fenster figcaption { font-size: 13px; color: var(--sand); text-align: center; min-height: 18px; }
+.galerie-pfeil, .galerie-zu { position: absolute; background: none; border: 0; color: var(--frost); font: inherit; cursor: pointer; min-width: 44px; min-height: 44px; }
+.galerie-pfeil { top: 50%; transform: translateY(-50%); font-size: 40px; line-height: 1; }
+.galerie-pfeil.zurueck { left: 10px; }
+.galerie-pfeil.weiter { right: 10px; }
+.galerie-pfeil[hidden] { display: none; }
+.galerie-zu { top: 6px; right: 8px; font-size: 26px; line-height: 1; }
+.galerie-zahl { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 12px; color: var(--silt); letter-spacing: .08em; }
+.galerie-pfeil:focus-visible, .galerie-zu:focus-visible { outline: 1px solid var(--frost); outline-offset: 2px; }
+@media (max-width: 700px) {
+  .galerie-fenster { left: 4vw; top: 10vh; width: 92vw; height: 80vh; padding: 24px 40px 40px; }
+}

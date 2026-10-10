@@ -236,8 +236,10 @@ function zeigeBlatt(st) {
   const o = st.ortung || {};
   const feld = (k, v) => `<dt>${k}</dt><dd>${v ? esc(v) : "–"}</dd>`;
   const ortung = [o.methode, o.genauigkeit_m != null ? `± ${o.genauigkeit_m} m` : ""].filter(Boolean).join(", ");
-  const fotos = (st.fotos || []).map((f) =>
-    `<img src="${esc(f.datei)}" alt="${esc(st.id + (f.legende ? ": " + f.legende : ""))}" loading="lazy">`).join("");
+  const fotos = (st.fotos || []).map((f, i) =>
+    `<button class="foto" data-i="${i}" aria-label="Open photo ${i + 1}${f.legende ? ": " + esc(f.legende) : ""}">
+      <img src="${esc(f.datei)}" alt="${esc(st.id + (f.legende ? ": " + f.legende : ""))}" loading="lazy">
+    </button>`).join("");
   const lit = (st.literatur || []).map((l) => `
     <div class="lit">
       <div><strong>${esc(l.kurz || l.quelle_id)}</strong>${l.seite ? `, p. ${esc(l.seite)}` : ""}</div>
@@ -275,7 +277,70 @@ function zeigeBlatt(st) {
     </div>`;
   $id("blatt").hidden = false;
   $id("blatt-zu").addEventListener("click", () => { $id("blatt").hidden = true; flugZurueck(); });
+  $id("blatt-inhalt").querySelector(".fotos")?.addEventListener("click", (ev) => {
+    const b = ev.target.closest("button.foto");
+    if (b) galerie.oeffne(st.fotos || [], Number(b.dataset.i));
+  });
 }
+
+// ---------- Foto-Fenster: 70 % der Breite und Höhe, halbtransparent, durchblättern ----------
+const galerie = (() => {
+  const el = document.createElement("div");
+  el.id = "galerie";
+  el.hidden = true;
+  el.setAttribute("role", "dialog");
+  el.setAttribute("aria-modal", "true");
+  el.setAttribute("aria-label", "Photos");
+  el.innerHTML = `
+    <div class="galerie-fenster">
+      <figure><img alt=""><figcaption></figcaption></figure>
+      <button class="galerie-pfeil zurueck" aria-label="Previous photo">‹</button>
+      <button class="galerie-pfeil weiter" aria-label="Next photo">›</button>
+      <div class="galerie-zahl"></div>
+      <button class="galerie-zu" aria-label="Close photos">×</button>
+    </div>`;
+  document.body.appendChild(el);
+  const img = el.querySelector("img"), text = el.querySelector("figcaption"), zahl = el.querySelector(".galerie-zahl");
+  let liste = [], nr = 0, vorherFokus = null;
+  const zeige = () => {
+    const f = liste[nr];
+    img.src = f.gross || f.datei;
+    img.alt = f.legende || "";
+    text.textContent = f.legende || "";
+    zahl.textContent = `${nr + 1} / ${liste.length}`;
+    el.querySelectorAll(".galerie-pfeil").forEach((b) => { b.hidden = liste.length < 2; });
+    // nächstes Foto schon vorladen
+    if (liste.length > 1) new Image().src = liste[(nr + 1) % liste.length].gross || liste[(nr + 1) % liste.length].datei;
+  };
+  const blaettern = (d) => { if (liste.length > 1) { nr = (nr + d + liste.length) % liste.length; zeige(); } };
+  const zu = () => { el.hidden = true; vorherFokus?.focus(); };
+  el.querySelector(".zurueck").addEventListener("click", () => blaettern(-1));
+  el.querySelector(".weiter").addEventListener("click", () => blaettern(1));
+  el.querySelector(".galerie-zu").addEventListener("click", zu);
+  el.addEventListener("click", (e) => { if (e.target === el) zu(); });   // Klick neben das Fenster schliesst
+  document.addEventListener("keydown", (e) => {
+    if (el.hidden) return;
+    if (e.key === "Escape") zu();
+    else if (e.key === "ArrowLeft") blaettern(-1);
+    else if (e.key === "ArrowRight") blaettern(1);
+  });
+  // Wischen auf dem Handy
+  let x0 = null;
+  el.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
+  el.addEventListener("pointerup", (e) => {
+    if (x0 != null && Math.abs(e.clientX - x0) > 50) blaettern(e.clientX < x0 ? 1 : -1);
+    x0 = null;
+  });
+  return {
+    oeffne(fotos, i) {
+      if (!fotos.length) return;
+      liste = fotos; nr = i || 0; vorherFokus = document.activeElement;
+      zeige();
+      el.hidden = false;
+      el.querySelector(".galerie-zu").focus();
+    },
+  };
+})();
 
 function oeffne(st) { flugZu(st); zeigeBlatt(st); }
 

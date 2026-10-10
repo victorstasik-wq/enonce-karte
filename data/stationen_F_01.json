@@ -18,11 +18,13 @@
     "fotos": [
       {
         "datei": "photos/F1_01_foto_01.jpg",
-        "legende": "Ice sheet over dark scree"
+        "legende": "Ice sheet over dark scree",
+        "gross": "photos/gross/F1_01_foto_01.jpg"
       },
       {
         "datei": "photos/F1_01_foto_02.jpg",
-        "legende": "Crevassed glacier ice above bedrock"
+        "legende": "Crevassed glacier ice above bedrock",
+        "gross": "photos/gross/F1_01_foto_02.jpg"
       }
     ],
     "modell": {},
