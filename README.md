@@ -46,21 +46,26 @@ Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
 - Viewer: Potree 1.8.2 (Markus Schütz u. a.), siehe `vendor/potree/LICENSE`. Enthält three.js, jQuery, tween.js, proj4js.
 - Konvertierung: PotreeConverter 2.1.1, Kodierung BROTLI.
 
-## Übersichtskarte Valais (`valais.html`, `valais.js`)
+## Übersichtskarte „Western Alps (Overview)“ (`valais.html`, `valais.js`)
 
-Menüpunkt „Valais (Overview)“ (Startseite unter Content → Overview, Karte im Fieldtrips-Menü; Eintrag `uebersicht`
-in `data/fieldtrips.json`). Leaflet 1.9.4 (`vendor/leaflet/`, BSD-2-Lizenz).
+Gebiet: Kanton Wallis; Bezirke Aigle und Riviera–Pays-d'Enhaut (VD); Verwaltungskreise Frutigen-Niedersimmental,
+Obersimmental-Saanen, Interlaken-Oberhasli (BE). Leaflet 1.9.4 (`vendor/leaflet/`, BSD-2). Menüeintrag `uebersicht` in
+`data/fieldtrips.json`. Daten in `data/valais/` (Dateiname bleibt aus historischen Gründen „valais“).
 
-- Grundkarte: swissALTI3D-Reliefschattierung (multidirektional) als Kachel von wmts.geo.admin.ch, im CSS invertiert (dunkel).
-  **Braucht Internet und den geo.admin-Dienst**; die eigenen Ebenen liegen im Repository.
-- Permafrost: BAFU, Hinweiskarte der potenziellen Permafrostverbreitung (Datenstand 31.10.2005), Kachel von wmts.geo.admin.ch.
-  Modell aus einem Höhenmodell, keine gemessene Verbreitung.
-- Gletscher (`data/valais/gletscher_JJJJ.json`): GLAMOS Swiss Glacier Inventories SGI1850 (r1992), SGI1931 (r2022),
-  SGI1973 (r1976), SGI2010 (r2010), SGI2016 (r2020), geladen 13.10.2026 von doi.glamos.ch. Alle Gletscher, deren Umriss
-  den Kanton berührt; auf 4 m vereinfacht. SGI1931 war in LV03 und wurde nach LV95 umgerechnet.
-  Achtung: Die Inventare beruhen auf verschiedenen Quellen und Methoden. In diesen Dateien ist die Fläche 2016 grösser als 2010
-  (ganze Schweiz 961 gegen 944 km²); Flächen deshalb nicht ohne Prüfung direkt vergleichen.
-- Almen (`almen.json`): Landwirtschaftliche Nutzungsflächen BLW + Kanton VS, Bezugsjahr 2025, Code 930 „Sömmerungsweiden“
-  (geodienste.ch, WFS). Landwirtschaft (`landwirtschaft.json`, wird erst beim Einschalten geladen): alle anderen Codes.
-  Flächen zusammengefasst und vereinfacht (6–8 m, Teile < 400 m² weggelassen).
-- Rohdaten und Download-Skript: `ET/rohdaten/valais/` (`lade_valais.command`).
+- Live von wmts.geo.admin.ch (braucht Internet): Relief (swissALTI3D-Reliefschattierung, invertiert) und historische Karte
+  (`ch.swisstopo.zeitreihen`, Jahr per Regler). Alle anderen Ebenen liegen im Repository.
+- Gletscher: GLAMOS SGI1850/1931/1973/2010/2016 (DOIs 10.18750/inventory.sgiJJJJ.rJJJJ). Methoden verschieden; 2016 ist
+  in den Dateien flächenmässig grösser als 2010 → nicht ungeprüft vergleichen.
+- Permafrost: BAFU-Hinweiskarte 2005 (GeoTIFF 25 m), Klassen 1–3 und 4–6 zusammengefasst, Ränder geglättet (~30 m).
+  Zuordnung Rasterwert 0–5 = Legendenklasse 1–6, geprüft an den BAFU-Kachelfarben.
+- Almen = LNF-Code 930; Landwirtschaft = LNF-Codes < 900; Codes 901–998 (Wald, Bäume, Gärten …) nicht gezeigt.
+  VS und BE über geodienste.ch (WFS), VD über api3.geo.admin.ch (bei geodienste nicht frei).
+- Gebäude an Sömmerungsweiden: swissTLM3D-Gebäude ≤ 30 m von Code 930 (räumliche Auswahl, kein Alpgebäude-Register).
+- Ehemalig: BFS Arealstatistik Zeitreihe, Erhebungen 1979–83 und 2013–17; NOAS04 45–49 = Alpwirtschaft (geprüft: ~75 %
+  dieser Hektaren liegen in Sömmerungsweiden; Code 72 deckt sich mit den Gletschern 2016). Weich gezeichnet.
+- Energie: BFE PV-Grossanlagen, BFE Elektrizitätsproduktionsanlagen (**CSV verwenden – das GeoPackage ist bei 100'000
+  Zeilen abgeschnitten**), BFE Wasserkraft, BFE Stauanlagen, BAV Seilbahnen, swissTLM3D (Wasserversorgung, Leitungen,
+  Kraftwerk-/Unterwerkareale, Staubauten, Transportseile, Windturbinen), swissNAMES3D (Hütten). Höhe der PV-Anlagen =
+  tiefster Punkt des nächsten TLM-Gebäudes (≤ 150 m), ungefähr. Inselanlagen fehlen im Register weitgehend.
+- Rohdaten und Skripte: `ET/rohdaten/alpen/`, `ET/rohdaten/valais/` (`lade_valais.command`, `lade_alpen.command`,
+  `lade_vd.py`, Verarbeitung in `verarbeitung/v2/`).

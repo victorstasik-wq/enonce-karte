@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Valais (Overview) – Assembled Periphery (Archive)</title>
+<title>Western Alps (Overview) – Assembled Periphery (Archive)</title>
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="style.css?v=36">
+<link rel="stylesheet" href="style.css?v=37">
 </head>
 <body class="karte-seite valais-seite">
   <div id="karte"></div>
@@ -17,8 +17,8 @@
   <header id="kopf">
     <div class="kopf-links">
       <div id="projekt" class="leise klein"><a href="index.html" class="zurueck-start">← Assembled Periphery (Archive)</a></div>
-      <h1 id="titel">Valais (Overview)</h1>
-      <div id="untertitel" class="leise">Glaciers 1850–2016 · permafrost · alpine pastures · agriculture</div>
+      <h1 id="titel">Western Alps (Overview)</h1>
+      <div id="untertitel" class="leise">Valais · Vaud Alps · Bernese Oberland</div>
     </div>
     <details class="nav-klapp" id="nav-klapp">
       <summary><span class="mark">Fieldtrips</span><span class="mark zeichen" aria-hidden="true">+</span></summary>
@@ -29,9 +29,9 @@
   <footer id="legende">
     <div class="legende-links">
       <div id="ebenen"></div>
-      <button id="credits-knopf" class="credits-knopf" aria-haspopup="dialog">© swisstopo · GLAMOS · BAFU · BLW · Credits</button>
+      <button id="credits-knopf" class="credits-knopf" aria-haspopup="dialog">© swisstopo · GLAMOS · BAFU · BLW · BFE · BFS · BAV · Credits</button>
     </div>
-    <p class="hilfe">Drag: move · Scroll: zoom · Click a glacier: name</p>
+    <p class="hilfe">Drag: move · Scroll: zoom · Click an object: details</p>
   </footer>
 
   <div id="credits" hidden role="dialog" aria-modal="true" aria-labelledby="credits-titel">
@@ -49,6 +49,6 @@
   <div id="laden">Loading map …</div>
 
   <script src="vendor/leaflet/leaflet.js"></script>
-  <script type="module" src="valais.js?v=1"></script>
+  <script type="module" src="valais.js?v=2"></script>
 </body>
 </html>
