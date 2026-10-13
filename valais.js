@@ -22,6 +22,7 @@ const F = {
   solarGross: "#ffd400", pv: "#fff07a", wasserkraft: "#38b6ff", stau: "#9fe3ff", wasser: "#5fe0d0",
   leitung: "#c7a6ff", energieareal: "#c7a6ff", seilbahn: "#e0e0e0", transportseil: "#a0a0a0",
   huette: "#ff4f7b", wind: "#ffffff",
+  sieg1900: "#e9d5b0", siegWeg: "#ff2d2d", gwrNutzlos: "#ffa600", gwrAbbruch: "#9a9a9a", gwrAbbruchAlp: "#ff7a4d",
 };
 
 // ---------- Karte ----------
@@ -98,15 +99,30 @@ E({ name: "Buildings on or next to summer pastures (≤ 30 m)", art: "quadrat", 
       popup(e.latlng, `<strong>${esc(p.name || "Building")}</strong><br>swissTLM3D: ${esc(p.objektart)}${p.nutzung ? ` · ${esc(p.nutzung)}` : ""}${zeile("Altitude", p.hoehe != null ? `${p.hoehe} m` : "")}`); }) }) });
 
 // Ehemalige Flächen und Anlagen
-G("Former — change 1979/85 → 2013/17 (BFS land use statistics)", false);
-E({ name: "Alpine pasture → forest or shrub", art: "voll", farbe: F.alpWald, datei: "ehemalig_alp_zu_wald.json", bau: flaeche(F.alpWald, 0.6, "ehemalig") });
-E({ name: "Alpine pasture → unproductive (grass, rock, scree)", art: "voll", farbe: F.alpUnprod, datei: "ehemalig_alp_zu_unproduktiv.json", bau: flaeche(F.alpUnprod, 0.6, "ehemalig") });
-E({ name: "Building area → no longer built", art: "voll", farbe: F.gebWeg, datei: "ehemalig_gebaeude_weg.json", bau: flaeche(F.gebWeg, 0.8, "ehemalig") });
+G("Former & abandoned", false);
+E({ name: "Alpine pasture → forest or shrub (BFS, 1979/85 → 2013/17)", art: "voll", farbe: F.alpWald, datei: "ehemalig_alp_zu_wald.json", bau: flaeche(F.alpWald, 0.6, "ehemalig") });
+E({ name: "Alpine pasture → unproductive (BFS, 1979/85 → 2013/17)", art: "voll", farbe: F.alpUnprod, datei: "ehemalig_alp_zu_unproduktiv.json", bau: flaeche(F.alpUnprod, 0.6, "ehemalig") });
+E({ name: "Building area → no longer built (BFS, 1979/85 → 2013/17)", art: "voll", farbe: F.gebWeg, datei: "ehemalig_gebaeude_weg.json", bau: flaeche(F.gebWeg, 0.8, "ehemalig") });
 E({ name: "Lifts and ropeways out of service (swissTLM3D)", art: "strich", farbe: F.ausserBetrieb, datei: "uebrige_bahnen.json",
   bau: linien(F.ausserBetrieb, 2, (p) => `<strong>${esc(p.name || p.objektart)}</strong><br>${esc(p.objektart)} · out of service`, "4 4", (f) => f.properties.ausser_betrieb === "Wahr") });
 const histJahr = { wert: 1900 };
 E({ name: "Historical map (Siegfried / national map)", art: "kachel", farbe: "#bbbbbb", jahr: histJahr,
   bau: () => L.tileLayer(wmts("ch.swisstopo.zeitreihen", `${histJahr.wert}1231`), { pane: "historisch", maxNativeZoom: 16, className: "historisch-kachel" }) });
+
+// Gebäude der Karte von 1900 (automatisch erkannt) und Gebäuderegister
+const sieg = (nurWeg) => (d) => L.geoJSON(d, { pane: "gebaeude", filter: (f) => !nurWeg || f.properties.heute_weg,
+  style: { stroke: true, weight: nurWeg ? 1.6 : 1, color: nurWeg ? F.siegWeg : F.sieg1900, opacity: 1, fill: true, fillColor: nurWeg ? F.siegWeg : F.sieg1900, fillOpacity: nurWeg ? 0.9 : 0.6 },
+  onEachFeature: (f, l) => l.on("click", (e) => { const p = f.properties || {};
+    popup(e.latlng, `<strong>Building symbol on the 1900 map</strong><br>automatically detected (may be wrong)`
+      + `${zeile("Nearest building today (swissTLM3D)", p.dist_heute != null ? (p.dist_heute > 5000 ? "none nearby" : `${p.dist_heute} m`) : "")}${p.auf_alp ? "<br>on or next to a summer pasture" : ""}`); }) });
+E({ name: "Buildings on the 1900 map (Siegfried, automatically detected)", art: "quadrat", farbe: F.sieg1900, datei: "siegfried_gebaeude.json", bau: sieg(false) });
+E({ name: "… of these: no building today within 60 m", art: "quadrat", farbe: F.siegWeg, datei: "siegfried_gebaeude.json", bau: sieg(true) });
+const gwr = (farbe, filt, r) => punkte(farbe, r, (p) => `<strong>${esc(p.name || "Building")}</strong> (GWR ${esc(p.egid)})<br>Status: ${esc(p.status)}`
+  + `${zeile("Category", [p.kategorie, p.klasse].filter(Boolean).join(", "))}${zeile("Built", p.gebaut)}${zeile("Demolished", p.abbruch)}${zeile("Municipality", p.gemeinde)}`
+  + `${p.auf_alp ? "<br>on or next to a summer pasture" : ""}`, "punkte", filt);
+E({ name: "Not usable (GWR building status)", art: "punkt", farbe: F.gwrNutzlos, datei: "gwr_status.json", bau: gwr(F.gwrNutzlos, (f) => f.properties.status === "not usable", 4.5) });
+E({ name: "Demolished 1999–2026: agricultural or on summer pastures (GWR)", art: "punkt", farbe: F.gwrAbbruchAlp, datei: "gwr_status.json", bau: gwr(F.gwrAbbruchAlp, (f) => f.properties.status === "demolished" && (f.properties.landw || f.properties.auf_alp), 3.5) });
+E({ name: "Demolished 1999–2026: all (GWR)", art: "punkt", farbe: F.gwrAbbruch, datei: "gwr_status.json", bau: gwr(F.gwrAbbruch, (f) => f.properties.status === "demolished", 2.5) });
 
 // Energie und Infrastruktur
 G("Energy & infrastructure", false);
@@ -242,6 +258,8 @@ Paul, F. “The New Swiss Glacier Inventory 2000 – Application of Remote Sensi
 <p><strong>Alpine summer pastures and agricultural land:</strong> Landwirtschaftliche Nutzungsflächen (LNF), Federal Office for Agriculture BLW and cantons VS, BE, VD, reference year 2025; VS and BE via geodienste.ch (WFS), VD via api3.geo.admin.ch. Summer pastures = use code 930 “Sömmerungsweiden”; agricultural land = all codes below 900 (utilised agricultural area, incl. hay meadows in the summer grazing area, 621–623). Codes 901–998 (forest, unproductive areas, single trees, gardens etc.) are not shown. Merged and simplified for display.</p>
 <p><strong>Buildings on summer pastures:</strong> swissTLM3D 2026-02 building footprints (swisstopo) within 30 m of a Sömmerungsweide. This is a spatial selection, not a register of alp buildings: it also catches e.g. holiday chalets or lift stations next to a pasture.</p>
 <p><strong>Former:</strong> BFS Arealstatistik (land use statistics), time series, hectare sample points; survey periods 1979–1983 and 2013–2017 in this area. Alpine pasture = NOAS04 basic categories 45–49; forest/shrub = 50–60 and 64; unproductive = 65, 69, 70; building areas = 1–14, settlement = 1–36. Hectares merged with soft edges. Lifts out of service: swissTLM3D attribute “ausser Betrieb”.</p>
+<p><strong>Buildings on the 1900 map:</strong> detected automatically by Claude (image analysis) in the swisstopo “Zeitreise” map, state 31 December 1900 (in this area mostly the Siegfried map 1:50,000), tiles at 2.5 m. Solid black building symbols are kept; tree symbols, stippling, lettering and rock drawing are filtered out, but not perfectly: buildings drawn together with roads or other buildings (village cores) are often missed, and single false detections occur. Candidates on rock, scree or glacier (BFS Arealstatistik 1979/85) are dropped unless near a building or hut today. “No building today” = no swissTLM3D 2026 building within 60 m of the detected symbol; the old map is generalised and its position can be off by tens of metres, so these are candidates to check, not proof of a lost building.</p>
+<p><strong>Building register:</strong> Eidg. Gebäude- und Wohnungsregister (GWR), BFS, public data of 13.10.2026 (cantons VS, BE, VD). Status “not usable” (1005) and “demolished” (1007, demolition years 1999–2026). Agricultural = building classes 1271, 1276, 1277, 1278. The register is kept by the municipalities; abandoned buildings are often not marked as such.</p>
 <p><strong>Energy &amp; infrastructure:</strong> BFE Photovoltaik-Grossanlagen (status 13.10.2026); BFE Elektrizitätsproduktionsanlagen (all registered, grid-connected plants, CSV, state 06.08.2026 — off-grid installations on huts and alps are largely missing); BFE Statistik der Wasserkraftanlagen; BFE Stauanlagen unter Bundesaufsicht; BAV Seilbahnen mit Bundeskonzession; swissTLM3D 2026-02 (water supply, power lines, power-plant and substation sites, reservoirs and weirs, material ropeways and lifts, wind turbines); huts and bivouacs from swissNAMES3D 2026 (buildings used as shelters or named “SAC/CAS/Hütte/Cabane/Refuge/Bivouac…”). Altitude of PV installations: lowest point of the nearest swissTLM3D building (≤ 150 m), therefore approximate.</p>`;
 
 const credits = $id("credits");

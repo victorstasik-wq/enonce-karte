@@ -69,3 +69,10 @@ Obersimmental-Saanen, Interlaken-Oberhasli (BE). Leaflet 1.9.4 (`vendor/leaflet/
   tiefster Punkt des nächsten TLM-Gebäudes (≤ 150 m), ungefähr. Inselanlagen fehlen im Register weitgehend.
 - Rohdaten und Skripte: `ET/rohdaten/alpen/`, `ET/rohdaten/valais/` (`lade_valais.command`, `lade_alpen.command`,
   `lade_vd.py`, Verarbeitung in `verarbeitung/v2/`).
+- Gebäude der Karte 1900 (`siegfried_gebaeude.json`): automatisch erkannt (Bildanalyse) in swisstopo „Zeitreise“ Stand
+  31.12.1900, Kacheln 2,5 m (`ET/rohdaten/siegfried_1900/`, Skripte `rohdaten/valais/siegfried/`). Nur strenge Kandidaten
+  (fast quadratisch, keine Strich-/Punktketten, nicht in Fels/Geröll/Gletscher 1979/85). „Heute weg“ = kein swissTLM3D-Gebäude
+  ≤ 60 m. Stichprobe von 48 „heute weg“-Kandidaten: etwa 6 von 10 sind echte Gebäudesignaturen. Kandidaten, kein Beweis.
+- GWR (`gwr_status.json`): öffentliches Gebäuderegister (BFS, 13.10.2026), Status 1005 „nicht nutzbar“ (111) und
+  1007 „abgebrochen“ (8929, Abbruch 1999–2026).
+
