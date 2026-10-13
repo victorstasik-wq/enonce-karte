@@ -26,6 +26,10 @@ const zeilen = await Promise.all(konfig.fieldtrips.map(async (f) => {
 }));
 $id("fieldtrips").innerHTML = zeilen.join("");
 
+// ---------- Übersichtskarten (z. B. Valais) ----------
+$id("uebersicht").innerHTML = (konfig.uebersicht || []).map((b) =>
+  `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">${esc(b.meta || "")}</span></a></li>`).join("");
+
 // ---------- weitere Bereiche: Notebook / Fieldnotes, Literature ----------
 $id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.link
   ? `<li class="inaktiv"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">coming soon</span></li>`

@@ -241,3 +241,32 @@ body.karte-seite #nav { flex-direction: column; align-items: flex-end; gap: 8px;
 #blatt.eingeklappt { transform: translateX(100%); opacity: 0; pointer-events: none; }
 @media (max-width: 760px) { #blatt.eingeklappt { transform: translateY(100%); } }
 @media (prefers-reduced-motion: reduce) { #blatt { transition: none; } }
+
+/* Übersichtskarte Valais (Leaflet) */
+.valais-seite #karte.leaflet-container { background: var(--bg); font-family: var(--font); }
+/* swisstopo-Relief invertiert: dunkler Grund, helle Grate */
+.valais-seite .relief-kachel { filter: invert(1) grayscale(1) brightness(0.62) contrast(1.15); }
+.valais-seite .permafrost-kachel { filter: saturate(0.6); }
+.valais-seite #kopf, .valais-seite #legende { z-index: 1000; }
+.valais-seite .legende-links { max-width: 460px; }
+.valais-seite #legende .ebene { display: block; }
+.valais-seite #legende .ebene[disabled] { opacity: .35; cursor: default; }
+.valais-seite #legende .ebene.unter { margin-left: 18px; }
+.valais-seite #legende .ebene.unter .zeile > span:last-child { font-size: 12px; }
+.valais-seite #legende .flaeche.linie { height: 0; border: 0; border-top: 1.5px solid var(--farbe); background: none; }
+.valais-seite #legende .flaeche.voll { border: 0; background: var(--farbe); opacity: .85; }
+.valais-seite #legende .flaeche.kachel { border: 0; background: var(--farbe); opacity: .7; }
+.valais-seite #legende .flaeche.titel { width: 0; margin: 0; border: 0; }
+.valais-seite #legende .ebene[aria-pressed="false"] .flaeche.voll,
+.valais-seite #legende .ebene[aria-pressed="false"] .flaeche.kachel { background: transparent; outline: 1px solid var(--farbe); }
+.valais-seite .leaflet-control-zoom a { background: #fff; color: #000; border: 0 !important; border-radius: 0 !important; font-family: var(--font); }
+.valais-seite .leaflet-control-zoom { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 24px 64px 0 !important; }
+.valais-popup .leaflet-popup-content-wrapper { background: #fff; color: #000; border-radius: 0; box-shadow: none; font: 13px/1.45 var(--font); }
+.valais-popup .leaflet-popup-content { margin: 6px 10px; }
+.valais-popup .leaflet-popup-tip { background: #fff; box-shadow: none; }
+.credits-kasten .lit-klein { font-size: 12px; line-height: 1.5; }
+@media (max-width: 760px) { .valais-seite .legende-links { max-width: none; } .valais-seite .leaflet-control-zoom { display: none; } }
+/* nur die Gletscher sind anklickbar: obere Canvas-Ebenen lassen Klicks durch */
+.valais-seite .leaflet-pane:not(.leaflet-gletscher-pane) > canvas { pointer-events: none; }
+/* Legende: dunkler Grund, damit die Musterfelder auch über weissen Gletschern lesbar sind */
+.valais-seite .legende-links { background: rgba(15, 17, 19, 0.82) !important; padding: 10px 14px 12px; margin: 0 0 -10px -14px; }

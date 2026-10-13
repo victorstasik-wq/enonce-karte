@@ -45,3 +45,22 @@ Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
   den Näherungsformeln von swisstopo (Genauigkeit etwa 1 m).
 - Viewer: Potree 1.8.2 (Markus Schütz u. a.), siehe `vendor/potree/LICENSE`. Enthält three.js, jQuery, tween.js, proj4js.
 - Konvertierung: PotreeConverter 2.1.1, Kodierung BROTLI.
+
+## Übersichtskarte Valais (`valais.html`, `valais.js`)
+
+Menüpunkt „Valais (Overview)“ (Startseite unter Content → Overview, Karte im Fieldtrips-Menü; Eintrag `uebersicht`
+in `data/fieldtrips.json`). Leaflet 1.9.4 (`vendor/leaflet/`, BSD-2-Lizenz).
+
+- Grundkarte: swissALTI3D-Reliefschattierung (multidirektional) als Kachel von wmts.geo.admin.ch, im CSS invertiert (dunkel).
+  **Braucht Internet und den geo.admin-Dienst**; die eigenen Ebenen liegen im Repository.
+- Permafrost: BAFU, Hinweiskarte der potenziellen Permafrostverbreitung (Datenstand 31.10.2005), Kachel von wmts.geo.admin.ch.
+  Modell aus einem Höhenmodell, keine gemessene Verbreitung.
+- Gletscher (`data/valais/gletscher_JJJJ.json`): GLAMOS Swiss Glacier Inventories SGI1850 (r1992), SGI1931 (r2022),
+  SGI1973 (r1976), SGI2010 (r2010), SGI2016 (r2020), geladen 13.10.2026 von doi.glamos.ch. Alle Gletscher, deren Umriss
+  den Kanton berührt; auf 4 m vereinfacht. SGI1931 war in LV03 und wurde nach LV95 umgerechnet.
+  Achtung: Die Inventare beruhen auf verschiedenen Quellen und Methoden. In diesen Dateien ist die Fläche 2016 grösser als 2010
+  (ganze Schweiz 961 gegen 944 km²); Flächen deshalb nicht ohne Prüfung direkt vergleichen.
+- Almen (`almen.json`): Landwirtschaftliche Nutzungsflächen BLW + Kanton VS, Bezugsjahr 2025, Code 930 „Sömmerungsweiden“
+  (geodienste.ch, WFS). Landwirtschaft (`landwirtschaft.json`, wird erst beim Einschalten geladen): alle anderen Codes.
+  Flächen zusammengefasst und vereinfacht (6–8 m, Teile < 400 m² weggelassen).
+- Rohdaten und Download-Skript: `ET/rohdaten/valais/` (`lade_valais.command`).

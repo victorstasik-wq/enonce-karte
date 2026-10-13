@@ -1,6 +1,9 @@
 {
   "projekt": "Énoncé théorique — Victor Stasik",
   "start": "F_01",
+  "uebersicht": [
+    { "name": "Valais (Overview)", "link": "valais.html", "meta": "glaciers · permafrost · pastures" }
+  ],
   "fieldtrips": [
     {
       "id": "F_01",

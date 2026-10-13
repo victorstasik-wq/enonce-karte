@@ -40,7 +40,7 @@ $id("titel").textContent = ft.titel;
 document.title = `${ft.titel} – Assembled Periphery (Archive)`;
 
 // Navigation: aktive Fieldtrips als Link, noch nicht vorhandene als grauer Text
-$id("nav").innerHTML = konfig.fieldtrips.map((f) => f.inaktiv
+$id("nav").innerHTML = (konfig.uebersicht || []).map((b) => `<a href="${esc(b.link)}">${esc(b.name)}</a>`).join("") + konfig.fieldtrips.map((f) => f.inaktiv
   ? `<span aria-disabled="true" title="Not online yet">${esc(f.nav)}</span>`
   : `<a href="?ft=${encodeURIComponent(f.id)}"${f.id === ft.id ? ' aria-current="page"' : ""}>${esc(f.nav)}</a>`
 ).join("");
