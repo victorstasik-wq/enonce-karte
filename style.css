@@ -291,3 +291,7 @@ body.karte-seite #nav { flex-direction: column; align-items: flex-end; gap: 8px;
 .valais-seite .regler input { width: 150px; accent-color: #fff; }
 .valais-seite .historisch-kachel { filter: invert(1) grayscale(1) brightness(0.85) contrast(1.1); }
 @media (max-width: 760px) { .valais-seite .legende-links { max-height: 45vh; width: auto; } }
+/* Gletscher-Animation: Jahreszahl und Wiederholen */
+.valais-seite .gl-jahr { font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600; min-width: 36px; }
+.valais-seite .gl-wieder { background: none; border: 1px solid rgba(255,255,255,.5); color: #fff; font: inherit; font-size: 11px; padding: 1px 8px; cursor: pointer; pointer-events: auto; }
+.valais-seite .gl-wieder:hover, .valais-seite .gl-wieder:focus-visible { border-color: #fff; }
