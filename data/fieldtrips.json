@@ -2,7 +2,11 @@
   "projekt": "Énoncé théorique — Victor Stasik",
   "start": "F_01",
   "uebersicht": [
-    { "name": "Western Alps (Overview)", "link": "valais.html", "meta": "Valais · Vaud Alps · Bernese Oberland" }
+    {
+      "name": "Western Alps (Overview)",
+      "link": "valais.html",
+      "meta": "Valais · Vaud Alps · Bernese Oberland"
+    }
   ],
   "fieldtrips": [
     {
@@ -84,58 +88,95 @@
       "ort": "Cabane de Chanrion",
       "nav": "F2 Cabane de Chanrion",
       "gelaende": {
-        "pfad": "pointclouds/F_02_v2/basis_10m/metadata.json",
-        "quelle": "swissALTI3D 2024 — measured 2 m points in the terrain around the route and the station (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
+        "pfad": "pointclouds/F_23_v1/basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024/2025 — one continuous terrain for Fieldtrips 02 and 03 (Val de Bagnes, Otemma to Le Châble): measured 2 m points around both routes and the station (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
         "copyright": "© swisstopo"
       },
       "verdichtung": [
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2588_1090/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2574_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2588_1094/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2574_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2588_1098/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2578_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2592_1082/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2578_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2592_1086/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2582_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2592_1090/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2582_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2592_1094/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2586_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2596_1082/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2586_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2596_1086/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1086/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2596_1090/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1090/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2600_1086/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/F_02_v2/2m/dicht_2600_1090/metadata.json"
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2602_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2602_1090/metadata.json"
         }
       ],
       "ebenen": [
         {
-          "id": "gletscher_F2_01",
-          "name": "Otemma Glacier — extent (Swiss Glacier Inventory)",
+          "id": "gletscher_otemma",
+          "name": "Otemma Glacier — extent 2016 (SGI2016)",
           "an": true,
           "farbe": "#9cc8ea",
-          "grau": "pointclouds/F2_01_gletscher_v2/grau/metadata.json",
-          "farbig": "pointclouds/F2_01_gletscher_v2/farbig/metadata.json",
+          "grau": "pointclouds/F_23_v1/gletscher_B82-27/grau/metadata.json",
+          "farbig": "pointclouds/F_23_v1/gletscher_B82-27/farbig/metadata.json",
           "umriss": "data/gletscher_F2_01.json",
-          "quelle": "Glacier outline: Swiss Glacier Inventory (GLAMOS), swisstopo layer “Gletscherausdehnung”, data status 31.08.2020."
+          "quelle": "Glacier outlines: Swiss Glacier Inventory 2016 (GLAMOS, doi:10.18750/inventory.sgi2016.r2020)."
+        },
+        {
+          "id": "gletscher_gietro",
+          "name": "Giétro Glacier — extent 2016 (SGI2016)",
+          "an": true,
+          "farbe": "#9cc8ea",
+          "grau": "pointclouds/F_23_v1/gletscher_B82-14/grau/metadata.json",
+          "farbig": "pointclouds/F_23_v1/gletscher_B82-14/farbig/metadata.json",
+          "umriss": "data/gletscher_F3_gietro.json",
+          "quelle": ""
         }
       ],
       "start": {
@@ -149,14 +190,129 @@
         "abstand": 26000
       },
       "route": "data/route_F_02.json",
-      "stationen": "data/stationen_F_02.json"
+      "stationen": "data/stationen_F_02.json",
+      "weitere_routen": [
+        {
+          "pfad": "data/route_F_03.json",
+          "name": "Route F3 (Mauvoisin – Le Châble)"
+        }
+      ]
     },
     {
       "id": "F_03",
       "titel": "Fieldtrip 03",
-      "ort": "",
-      "nav": "F3",
-      "inaktiv": true
+      "ort": "Mauvoisin – Le Châble",
+      "nav": "F3 Mauvoisin – Le Châble",
+      "gelaende": {
+        "pfad": "pointclouds/F_23_v1/basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024/2025 — one continuous terrain for Fieldtrips 02 and 03 (Val de Bagnes, Otemma to Le Châble): measured 2 m points around both routes and the station (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
+        "copyright": "© swisstopo"
+      },
+      "verdichtung": [
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2574_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2574_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2578_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2578_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2582_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2582_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2586_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2586_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2590_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2594_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2598_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2602_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/F_23_v1/2m/dicht_2602_1090/metadata.json"
+        }
+      ],
+      "ebenen": [
+        {
+          "id": "gletscher_otemma",
+          "name": "Otemma Glacier — extent 2016 (SGI2016)",
+          "an": true,
+          "farbe": "#9cc8ea",
+          "grau": "pointclouds/F_23_v1/gletscher_B82-27/grau/metadata.json",
+          "farbig": "pointclouds/F_23_v1/gletscher_B82-27/farbig/metadata.json",
+          "umriss": "data/gletscher_F2_01.json",
+          "quelle": "Glacier outlines: Swiss Glacier Inventory 2016 (GLAMOS, doi:10.18750/inventory.sgi2016.r2020)."
+        },
+        {
+          "id": "gletscher_gietro",
+          "name": "Giétro Glacier — extent 2016 (SGI2016)",
+          "an": true,
+          "farbe": "#9cc8ea",
+          "grau": "pointclouds/F_23_v1/gletscher_B82-14/grau/metadata.json",
+          "farbig": "pointclouds/F_23_v1/gletscher_B82-14/farbig/metadata.json",
+          "umriss": "data/gletscher_F3_gietro.json",
+          "quelle": ""
+        }
+      ],
+      "start": {
+        "ziel": [
+          2588300,
+          1097300,
+          1500
+        ],
+        "azimut": 200,
+        "neigung": 38,
+        "abstand": 25000
+      },
+      "route": "data/route_F_03.json",
+      "weitere_routen": [
+        {
+          "pfad": "data/route_F_02.json",
+          "name": "Route F2 (Cabane de Chanrion)"
+        }
+      ],
+      "stationen": "data/stationen_F_03.json"
     },
     {
       "id": "F_04",

@@ -26,9 +26,15 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `drehen.js` – Kamerasteuerung ohne Verschieben: Ziehen dreht/kippt um den Drehpunkt; Zoomen geht zur Stelle unter der
   Maus, die dabei zum neuen Drehpunkt wird. Beim Herauszoomen gleitet der Drehpunkt zurück zur Mitte (ab 25 km genau Mitte).
   Station öffnen: Drehpunkt = Station; Blatt schliessen: Rückflug zur Gesamtansicht.
-- Fieldtrip 02 (Cabane de Chanrion / Val de Bagnes): `pointclouds/F_02_v2/` (Basis 10 m + 2 m in 4-km-Blöcken),
-  `pointclouds/F2_01_gletscher_v2/` (Glacier d'Otemma zentral, SGI B82-27), `data/route_F_02.json`, `data/stationen_F_02.json`,
-  `data/gletscher_F2_01.json`. Gelände: swissALTI3D 2024, 264 Kacheln à 2 m (E 2588–2605 / N 1082–1100 km); NE-Ecke (51 Kacheln, E 2594–2604 / N 1094–1099) nach Victors Markierung entfernt.
+- Fieldtrip 02 (Cabane de Chanrion) und Fieldtrip 03 (Mauvoisin – Le Châble) teilen sich ein durchgehendes Gelände
+  im Val de Bagnes: `pointclouds/F_23_v1/` (`basis_10m`, `2m/dicht_*` in 21 Blöcken, `gletscher_B82-27` = Glacier d'Otemma,
+  `gletscher_B82-14` = Glacier du Giétro, je `grau`/`farbig`). Gelände: swissALTI3D 2 m, E 2574–2605 / N 1082–1107 km
+  (264 Kacheln von F2 + 122 neue für F3), NE-Schnitt von F2 beibehalten; Maske um beide Routen (±500 m) und Station F2_01.
+  Gletscherumrisse aus SGI2016 (GLAMOS): `data/gletscher_F2_01.json` (Otemma), `data/gletscher_F3_gietro.json` (Giétro).
+  Routen: `data/route_F_02.json`, `data/route_F_03.json` (aus `rohdaten/gpx/F_03.gpx`, Höhen aus dem 2-m-Modell).
+  In `fieldtrips.json` zeigt `weitere_routen` die jeweils andere Route gestrichelt und blass an.
+  Stationen: `data/stationen_F_02.json`, `data/stationen_F_03.json` (noch leer).
+  Build-Skripte: `rohdaten/gelaende/build_F_23/`. Die alten Ordner `pointclouds/F_02_v2/` und `F2_01_gletscher_v2/` werden nicht mehr verwendet.
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header

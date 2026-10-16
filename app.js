@@ -135,6 +135,25 @@ $id("route-label").textContent = `Route — ${route.typ}`;
   viewer.scene.scene.add(linie);
 }
 
+// Route(n) eines anschliessenden Fieldtrips im selben Gelände: leiser, gestrichelt
+for (const w of ft.weitere_routen || []) {
+  json(w.pfad).then((r) => {
+    const o = r.punkte[0];
+    const geo = new LineGeometry();
+    geo.setPositions(r.punkte.flatMap(([e, n, h]) => [e - o[0], n - o[1], h - o[2]]));
+    const mat = new LineMaterial({ color: 0x5e6e7c, linewidth: 1.6, dashed: true, dashSize: 60, gapSize: 40, resolution: new THREE.Vector2(1, 1) });
+    viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
+    mat.depthTest = false;
+    const l = new Line2(geo, mat);
+    l.renderOrder = 997; l.position.set(o[0], o[1], o[2]); l.computeLineDistances();
+    viewer.scene.scene.add(l);
+    const z = document.createElement("div");
+    z.className = "zeile";
+    z.innerHTML = `<span class="strich weitere"></span><span>${esc(w.name)}</span>`;
+    $id("route-label").closest(".zeile").after(z);
+  }).catch((err) => console.warn("weitere Route", err));
+}
+
 // ---------- Ansichten ----------
 // Kamera aus Zielpunkt, Richtung (Azimut ab Nord im Uhrzeigersinn, vom Ziel zur Kamera), Neigung und Abstand
 function ansicht(a) {

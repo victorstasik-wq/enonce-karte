@@ -295,3 +295,5 @@ body.karte-seite #nav { flex-direction: column; align-items: flex-end; gap: 8px;
 .valais-seite .gl-jahr { font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 600; min-width: 36px; }
 .valais-seite .gl-wieder { background: none; border: 1px solid rgba(255,255,255,.5); color: #fff; font: inherit; font-size: 11px; padding: 1px 8px; cursor: pointer; pointer-events: auto; }
 .valais-seite .gl-wieder:hover, .valais-seite .gl-wieder:focus-visible { border-color: #fff; }
+/* leise Route eines anschliessenden Fieldtrips */
+#legende .strich.weitere { background: repeating-linear-gradient(90deg, #5e6e7c 0 7px, transparent 7px 11px); height: 3px; }
