@@ -2,8 +2,6 @@ import * as THREE from "./vendor/potree/libs/three.js/build/three.module.js";
 import { Line2 } from "./vendor/potree/libs/three.js/lines/Line2.js";
 import { LineGeometry } from "./vendor/potree/libs/three.js/lines/LineGeometry.js";
 import { LineMaterial } from "./vendor/potree/libs/three.js/lines/LineMaterial.js";
-import { LineSegments2 } from "./vendor/potree/libs/three.js/lines/LineSegments2.js";
-import { LineSegmentsGeometry } from "./vendor/potree/libs/three.js/lines/LineSegmentsGeometry.js";
 import { ladeGelaende } from "./flaeche.js?v=7";
 import { Drehsteuerung } from "./drehen.js?v=6";
 
@@ -217,44 +215,6 @@ for (const eb of ft.ebenen || []) ladeEbene(eb).catch((err) => console.warn("Ebe
 if ((ft.ebenen || []).length) {
   $id("quellen").textContent += " " + ft.ebenen.map((eb) => eb.quelle).filter(Boolean).join(" ");
 }
-
-// ---------- Gletscherstände 1850 → 2016 als Umrisse auf dem Gelände (dunkel = alt, hell = jung) ----------
-const STAND_FARBE = { 1850: "#2e4a66", 1931: "#41709b", 1973: "#5d97c8", 2016: "#8cc8f0" };
-async function ladeStaende(gs) {
-  const d = await json(gs.pfad);
-  const [E0, N0] = d.ursprung;
-  const zeile = document.createElement("div");
-  zeile.className = "zeile staende";
-  zeile.innerHTML = `<span>${esc(gs.name || "Glacier outlines")}</span>`;
-  for (const st of d.jahre) {
-    // alle Umrisse eines Jahres als ein Objekt (Segmente a→b)
-    const seg = [];
-    for (const f of st.linien) {
-      for (let i = 0; i + 5 < f.length; i += 3) seg.push(f[i], f[i + 1], f[i + 2], f[i + 3], f[i + 4], f[i + 5]);
-    }
-    const geo = new LineSegmentsGeometry();
-    geo.setPositions(seg);
-    const farbe = STAND_FARBE[st.jahr] || "#8cc8f0";
-    const mat = new LineMaterial({ color: new THREE.Color(farbe).getHex(), linewidth: 1.5, resolution: new THREE.Vector2(1, 1) });
-    viewer.addEventListener("update", () => viewer.renderer.getSize(mat.resolution));
-    // ohne Tiefentest wie Route und Gletscherflächen: sonst verdecken die dichten 2-m-Punkte die Linien fast ganz
-    mat.depthTest = false;
-    const l = new LineSegments2(geo, mat);
-    l.renderOrder = 996; l.position.set(E0, N0, 0);
-    viewer.scene.scene.add(l);
-    const k = document.createElement("button");
-    k.className = "ebene stand";
-    k.style.setProperty("--farbe", farbe);
-    k.innerHTML = `<span class="stand-strich"></span>${st.jahr}`;
-    const setze = (an) => { l.visible = an; k.setAttribute("aria-pressed", String(an)); };
-    k.addEventListener("click", () => setze(k.getAttribute("aria-pressed") !== "true"));
-    setze(gs.an !== false);
-    zeile.append(k);
-  }
-  $id("ebenen").after(zeile);   // unter den Gletscherflächen, unabhängig von deren Ladezeit
-  if (gs.quelle) $id("quellen").textContent += " " + gs.quelle;
-}
-if (ft.gletscher_staende) ladeStaende(ft.gletscher_staende).catch((err) => console.warn("Gletscherstände", err));
 
 // ---------- Stationen ----------
 const stationen = await json(ft.stationen);

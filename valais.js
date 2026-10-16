@@ -38,7 +38,7 @@ L.control.zoom({ position: "bottomright" }).addTo(karte);
 const pane = (name, z) => { const p = karte.createPane(name); p.style.zIndex = z; return name; };
 pane("relief", 200); pane("historisch", 250);
 pane("flaechen", 400); pane("ehemalig", 410); pane("permafrost", 420); pane("maske", 430);
-pane("gletscher", 440); pane("linien", 450); pane("gebaeude", 455); pane("punkte", 460); pane("rand", 470); pane("fieldtrips", 480);
+pane("gletscher", 440); pane("linien", 450); pane("gebaeude", 455); pane("punkte", 460); pane("rand", 470);
 
 // Grundkarte: swissALTI3D-Relief (multidirektional), im CSS invertiert -> dunkel
 L.tileLayer(wmts("ch.swisstopo.swissalti3d-reliefschattierung"), { pane: "relief", maxNativeZoom: 17, className: "relief-kachel" }).addTo(karte);
@@ -133,39 +133,6 @@ const GletscherWolke = L.Layer.extend({
   },
 });
 let anzeige = () => {};
-
-// Fieldtrips: Routen aus data/fieldtrips.json (LV95), Klick → Popup mit Link zur 3D-Karte
-// LV95 → WGS84, Näherungsformeln swisstopo (Genauigkeit ca. 1 m)
-const lv95 = (e, n) => {
-  const y = (e - 2600000) / 1e6, x = (n - 1200000) / 1e6;
-  const lam = 2.6779094 + 4.728982 * y + 0.791484 * y * x + 0.1306 * y * x * x - 0.0436 * y * y * y;
-  const phi = 16.9023892 + 3.238272 * x - 0.270978 * y * y - 0.002528 * x * x - 0.0447 * y * y * x - 0.014 * x * x * x;
-  return [phi * 100 / 36, lam * 100 / 36];
-};
-const fieldtripRouten = (konfig) => {
-  const gruppe = L.layerGroup();
-  const svg = L.svg({ pane: "fieldtrips" });
-  for (const ft of konfig.fieldtrips || []) {
-    if (!ft.route) continue;
-    Promise.all([json(ft.route), ft.stationen ? json(ft.stationen).catch(() => []) : []]).then(([r, st]) => {
-      const ll = r.punkte.filter((_, i) => i % 3 === 0 || i === r.punkte.length - 1).map(([e, n]) => lv95(e, n));
-      const kurz = ft.id.replace(/^F_0?/, "F");
-      const html = `<strong>${esc(ft.titel)}</strong><br>${esc(ft.ort)} · ${st.length} station${st.length === 1 ? "" : "s"}`
-        + `<br><a href="karte.html?ft=${encodeURIComponent(ft.id)}">Open 3D map →</a>`;
-      const mitte = ll[Math.floor(ll.length / 2)];   // Schild in der Mitte: F2 und F3 beginnen am selben Ort
-      const auf = (e) => popup(e.latlng || L.latLng(mitte), html);
-      L.polyline(ll, { pane: "fieldtrips", renderer: svg, color: "#ffffff", weight: 2.2, opacity: 1, interactive: false }).addTo(gruppe);
-      // breiter unsichtbarer Streifen, damit die dünne Linie leicht zu treffen ist
-      L.polyline(ll, { pane: "fieldtrips", renderer: svg, color: "#ffffff", weight: 16, opacity: 0 }).on("click", auf).addTo(gruppe);
-      L.marker(mitte, { pane: "fieldtrips", icon: L.divIcon({ className: "ft-schild", html: esc(kurz), iconSize: null, iconAnchor: [0, 0] }) })
-        .on("click", auf).addTo(gruppe);
-    }).catch((err) => console.warn("Route", ft.id, err));
-  }
-  return gruppe;
-};
-G("Fieldtrips");
-E({ name: "Fieldtrip routes — click for the 3D map", art: "linie", farbe: "#ffffff", an: true, datei: "../fieldtrips.json", bau: fieldtripRouten });
-
 G("Glaciers — GLAMOS inventories 1850 → 2016");
 const gletscherWolke = new GletscherWolke();
 E({ name: "Glacier extent as point cloud (animation 1850 → 2016)", art: "punkt", farbe: "#ffffff", an: true, animation: true,
@@ -338,7 +305,6 @@ try {
 $id("quellen").innerHTML = `
 <p><strong>Area:</strong> Canton of Valais; districts Aigle and Riviera–Pays-d'Enhaut (VD); administrative districts Frutigen-Niedersimmental, Obersimmental-Saanen and Interlaken-Oberhasli (BE). Boundaries: swissBOUNDARIES3D 2026-01, swisstopo.</p>
 <p><strong>Relief:</strong> swissALTI3D multidirectional hillshade, swisstopo, via wmts.geo.admin.ch (colours inverted). <strong>Historical map:</strong> swisstopo “Zeitreise” series (Siegfried map and national maps), state of 31 December of the chosen year, via wmts.geo.admin.ch (colours inverted).</p>
-<p><strong>Fieldtrip routes:</strong> from <code>data/fieldtrips.json</code>; traced afterwards in Strava, not GPS-recorded (see the 3D maps). Converted from LV95 with the swisstopo approximation formulas (about 1 m).</p>
 <p><strong>Glaciers:</strong> Swiss Glacier Inventories SGI1850, SGI1931, SGI1973, SGI2010 and SGI2016, GLAMOS – Glacier Monitoring Switzerland, downloaded 13 October 2026 (DOIs 10.18750/inventory.sgi1850.r1992, …sgi1931.r2022, …sgi1973.r1976, …sgi2010.r2010, …sgi2016.r2020). All glaciers whose outline touches the area. The inventories rest on different sources: 1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps (mean year); 2010 from aerial images 2008–2011; 2016 from aerial images 2013–2018 (swissTLM3D). Their outlines are not strictly comparable. <em>Display:</em> a point cloud on a 40 m grid (points randomly offset within each cell) covering every area that is ice in at least one inventory. A point disappears after the last inventory in which it lies inside a glacier, so the cloud only shrinks (where a later inventory shows more ice, e.g. 2016 vs 2010, the point simply stays). Between two inventory dates the retreat is interpolated: points farther from the next outline vanish earlier. This in-between motion illustrates the change; it is not measured year by year.</p>
 <p class="lit-klein">Linsbauer, A., M. Huss, E. Hodel, A. Bauder, M. Fischer, Y. Weidmann, H. Bärtschi, and E. Schmassmann. “The New Swiss Glacier Inventory SGI2016: From a Topographical to a Glaciological Dataset.” <em>Frontiers in Earth Science</em> (2021). https://doi.org/10.3389/feart.2021.704189.<br>
 Fischer, M., M. Huss, C. Barboux, and M. Hoelzle. “The New Swiss Glacier Inventory SGI2010: Relevance of Using High-Resolution Source Data in Areas Dominated by Very Small Glaciers.” <em>Arctic, Antarctic, and Alpine Research</em> 46 (2014): 933–45.<br>
