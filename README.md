@@ -35,12 +35,21 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
   In `fieldtrips.json` zeigt `weitere_routen` die jeweils andere Route gestrichelt und blass an.
   Stationen: `data/stationen_F_02.json`, `data/stationen_F_03.json` (noch leer).
   Build-Skripte: `rohdaten/gelaende/build_F_23/`. Die alten Ordner `pointclouds/F_02_v2/` und `F2_01_gletscher_v2/` werden nicht mehr verwendet.
+- Gletscherstände in den 3D-Karten: `data/gletscher_staende_F_01.json`, `data/gletscher_staende_F_23.json` (in `fieldtrips.json`
+  unter `gletscher_staende`). Umrisse SGI1850, SGI1931, SGI1973, SGI2016 (GLAMOS), nur über dem dargestellten Gelände,
+  alle 15 m ein Punkt, Höhe aus swissALTI3D + 3 m. Format: `ursprung` [E, N] und je Jahr `linien` als flache Listen
+  [dE, dN, h, …] in ganzen Metern. In `app.js` je Jahr ein Linienobjekt, in der Legende einzeln schaltbar
+  (Farben 1850 dunkel → 2016 hell). Skript: `rohdaten/gelaende/build_gletscher_staende/staende.py`.
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header
   `content-type: multipart/byteranges` bei den Range-Anfragen ist entfernt, weil GitHub Pages solche Anfragen mit 400 ablehnt.
 
 Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
+
+Fieldtrip-Routen in der Übersicht (`valais.js`, Gruppe „Fieldtrips“): liest `data/fieldtrips.json` und die Routendateien,
+rechnet LV95 → WGS84 mit den Näherungsformeln von swisstopo (ca. 1 m), weisse Linie mit Schild (F1, F2 …) in der Routenmitte,
+Klick → Popup mit Link auf `karte.html?ft=…`. Neue Fieldtrips mit `route` erscheinen dort automatisch.
 
 ## Quellen und Lizenzen
 

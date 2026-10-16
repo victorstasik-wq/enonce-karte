@@ -80,7 +80,13 @@
         "abstand": 25000
       },
       "route": "data/route_F_01.json",
-      "stationen": "data/stationen_F_01.json"
+      "stationen": "data/stationen_F_01.json",
+      "gletscher_staende": {
+        "pfad": "data/gletscher_staende_F_01.json",
+        "name": "Glacier extent",
+        "an": true,
+        "quelle": "Historical glacier outlines: Swiss Glacier Inventories SGI1850, SGI1931, SGI1973 and SGI2016, GLAMOS – Glacier Monitoring Switzerland (doi:10.18750/inventory.sgi1850.r1992, 10.18750/inventory.sgi1931.r2022, 10.18750/inventory.sgi1973.r1976, 10.18750/inventory.sgi2016.r2020); only the parts over the shown terrain, heights from swissALTI3D. The inventories rest on different sources (1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps; 2016 from aerial images 2013–2018), so the outlines are not strictly comparable."
+      }
     },
     {
       "id": "F_02",
@@ -196,7 +202,13 @@
           "pfad": "data/route_F_03.json",
           "name": "Route F3 (Mauvoisin – Le Châble)"
         }
-      ]
+      ],
+      "gletscher_staende": {
+        "pfad": "data/gletscher_staende_F_23.json",
+        "name": "Glacier extent",
+        "an": true,
+        "quelle": "Historical glacier outlines: Swiss Glacier Inventories SGI1850, SGI1931, SGI1973 and SGI2016, GLAMOS – Glacier Monitoring Switzerland (doi:10.18750/inventory.sgi1850.r1992, 10.18750/inventory.sgi1931.r2022, 10.18750/inventory.sgi1973.r1976, 10.18750/inventory.sgi2016.r2020); only the parts over the shown terrain, heights from swissALTI3D. The inventories rest on different sources (1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps; 2016 from aerial images 2013–2018), so the outlines are not strictly comparable."
+      }
     },
     {
       "id": "F_03",
@@ -312,7 +324,13 @@
           "name": "Route F2 (Cabane de Chanrion)"
         }
       ],
-      "stationen": "data/stationen_F_03.json"
+      "stationen": "data/stationen_F_03.json",
+      "gletscher_staende": {
+        "pfad": "data/gletscher_staende_F_23.json",
+        "name": "Glacier extent",
+        "an": true,
+        "quelle": "Historical glacier outlines: Swiss Glacier Inventories SGI1850, SGI1931, SGI1973 and SGI2016, GLAMOS – Glacier Monitoring Switzerland (doi:10.18750/inventory.sgi1850.r1992, 10.18750/inventory.sgi1931.r2022, 10.18750/inventory.sgi1973.r1976, 10.18750/inventory.sgi2016.r2020); only the parts over the shown terrain, heights from swissALTI3D. The inventories rest on different sources (1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps; 2016 from aerial images 2013–2018), so the outlines are not strictly comparable."
+      }
     },
     {
       "id": "F_04",
