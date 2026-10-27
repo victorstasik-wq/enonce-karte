@@ -47,7 +47,7 @@ Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
 Inhaltsverzeichnis (Victors Gliederung vom 21.10.2026, englische Titel als Vorschlag von Claude) und das Diagramm
 „Anatomie der Arbeit“ (v8 vom 21.10.2026) als `data/anatomie_der_arbeit.svg`. Das SVG ist die Fassung aus dem Artifact,
 nur umgefärbt auf den dunklen Grund der Website: Grautöne umgekehrt, Weiss → #0f1113, Rot → Stationsorange #ff6400;
-in der Lesehilfe „schwarz“ → „weiss“. Menüeintrag über `uebersicht` in `data/fieldtrips.json`.
+alle Texte ins Englische übersetzt (Buchtitel und Ortsnamen im Original), Hinterlegungen an die Textlänge angepasst. Menüeintrag über `uebersicht` in `data/fieldtrips.json`.
 
 ## Quellen und Lizenzen
 
