@@ -33,3 +33,11 @@ body.praes .mark { background: #fff; color: #000; padding: 0.06em 0.3em; -webkit
   .folie-bild { max-height: 70vh; }
   .praes-nav, .praes-zahl { display: none; }
 }
+/* Niedrige Bildschirme (Beamer 1280×720/800): Schrift nach Höhe begrenzen, damit Folie 1 ohne Scrollen passt */
+@media (min-width: 901px) and (max-height: 860px) {
+  .folie { padding-top: 66px; padding-bottom: 66px; }
+  .folie-text { gap: 12px; }
+  .folie-titel { font-size: min(4vw, 6.2vh); }
+  .folie-frage { font-size: min(1.7vw, 2.7vh); }
+  .folie-punkte, .folie-kapitel { font-size: min(1.25vw, 2.25vh); gap: 6px; }
+}
