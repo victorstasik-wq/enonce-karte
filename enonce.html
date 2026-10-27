@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="style.css?v=39">
-<link rel="stylesheet" href="enonce.css?v=3">
+<link rel="stylesheet" href="enonce.css?v=4">
 </head>
 <body class="karte-seite enonce-seite">
   <header id="kopf">
@@ -131,15 +131,15 @@
       </details>
     </section>
 
-    <figure class="anatomie">
+    <figure class="anatomie" id="anatomie-abb">
       <div class="anatomie-kopf">
         <figcaption class="label"><span class="mark">Anatomy of the work</span></figcaption>
         <button type="button" class="ganz-knopf" data-ziel="gesamt" hidden><span class="mark">Show whole diagram</span></button>
       </div>
-      <div class="anatomie-rahmen" id="anatomie" role="img" aria-label="Diagram: the Valais as main axis, the fieldtrips as side valleys, theory as the ground beneath; around them the themes vernacular, gaze, condition, time, assembly, object, bricolage, periphery. Click a heading in the contents to zoom in."></div>
+      <div class="anatomie-rahmen" id="anatomie" tabindex="0" role="button" aria-label="Diagram: the Valais as main axis, the fieldtrips as side valleys, theory as the ground beneath; around them the themes vernacular, gaze, condition, time, assembly, object, bricolage, periphery. Click to open it in a window where you can zoom; a heading in the contents zooms to its part."></div>
     </figure>
   </main>
 
-  <script type="module" src="enonce.js?v=6"></script>
+  <script type="module" src="enonce.js?v=7"></script>
 </body>
 </html>

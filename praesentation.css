@@ -1,0 +1,35 @@
+/* Präsentation: fünf Folien im Stil der Website, eine Folie pro Bildschirm */
+html:has(body.praes), body.praes { height: 100%; overflow: hidden; }
+body.praes .mark { background: #fff; color: #000; padding: 0.06em 0.3em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.praes-zurueck { position: fixed; left: 32px; top: 24px; z-index: 5; color: #000; text-decoration: none; font-size: 14px; }
+.praes-zahl { position: fixed; right: 32px; top: 24px; z-index: 5; font-size: 14px; letter-spacing: .08em; }
+#folien { position: relative; height: 100%; }
+.folie { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px;
+  padding: 84px 40px 88px; box-sizing: border-box; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+.folie.aktiv { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+.folie-text { display: flex; flex-direction: column; gap: 18px; overflow-y: auto; padding-right: 8px; }
+.folie .label { margin: 0; }
+.folie-titel { margin: 0; font-size: clamp(30px, 4vw, 56px); line-height: 1.12; font-weight: 600; text-transform: uppercase; letter-spacing: .01em; }
+.folie-frage { margin: 0; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.45; font-weight: 600; max-width: 34em; }
+.folie-punkte, .folie-kapitel { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.45; max-width: 38em; }
+.folie-punkte li::before { content: ""; }
+.folie-punkte.klein { font-size: clamp(14px, 1.05vw, 16px); }
+.folie-kapitel b { display: inline-block; min-width: 1.5em; }
+.folie-satz { margin: 0; font-size: clamp(15px, 1.2vw, 18px); max-width: 38em; }
+.folie-unter { margin-top: 6px !important; }
+.folie-live { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 10px; font-size: 15px; }
+.folie-live a { color: #000; text-decoration: none; }
+.folie-live a:hover .mark, .folie-live a:focus-visible .mark { background: var(--station); }
+.folie-bild { margin: 0; display: flex; align-items: center; justify-content: center; min-height: 0; }
+.folie-bild img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.folie-karte iframe { width: 100%; height: 100%; border: 0; pointer-events: none; }
+.praes-nav { position: fixed; right: 32px; bottom: 24px; display: flex; gap: 8px; z-index: 5; }
+.praes-nav button { background: none; border: 0; padding: 0; font: inherit; font-size: 16px; cursor: pointer; }
+.praes-nav button:focus-visible { outline: 1px solid #fff; outline-offset: 3px; }
+.praes-nav button:disabled { opacity: .35; cursor: default; }
+@media (max-width: 900px) {
+  html:has(body.praes), body.praes { overflow: auto; }
+  .folie { position: static; opacity: 1; visibility: visible; grid-template-columns: 1fr; padding: 72px 16px 40px; }
+  .folie-bild { max-height: 70vh; }
+  .praes-nav, .praes-zahl { display: none; }
+}

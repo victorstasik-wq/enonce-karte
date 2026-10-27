@@ -1,5 +1,6 @@
 // Seite „Énoncé“: Inhaltsverzeichnis und Diagramm „Anatomy of the work“.
-// Klick auf einen Eintrag im Inhaltsverzeichnis zoomt das Diagramm auf den zugehörigen Bereich (viewBox).
+// Klick auf einen Eintrag im Inhaltsverzeichnis zoomt das Diagramm auf den zugehörigen Bereich; Klick aufs Diagramm
+// öffnet es in einem Fenster, in dem man frei zoomen und verschieben kann.
 const $id = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => (
   { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
@@ -31,34 +32,120 @@ const vereinigt = (namen) => {
   return [x0 - rand, y0 - rand, x1 - x0 + 2 * rand, y1 - y0 + 2 * rand];
 };
 
+// ---------- Zoom über CSS-Transform (flüssig: der Browser verschiebt ein Bild statt das SVG neu zu zeichnen) ----------
+const VB = [1191, 1684];
+class Zoom {
+  constructor(rahmen, svgText) {
+    this.r = rahmen;
+    this.b = document.createElement("div"); this.b.className = "zoom-buehne";
+    this.b.innerHTML = svgText;
+    const svg = this.b.querySelector("svg");
+    svg.removeAttribute("width"); svg.removeAttribute("height"); svg.setAttribute("aria-hidden", "true");
+    rahmen.appendChild(this.b);
+    this.s = 1; this.tx = 0; this.ty = 0; this.ziel = BEREICHE.gesamt;
+    this.b.addEventListener("transitionend", () => this.b.classList.remove("bewegt"));
+    new ResizeObserver(() => this.zeige(this.ziel, false)).observe(rahmen);
+  }
+  masse() {
+    const fw = this.r.clientWidth, fh = this.r.clientHeight;
+    const g = Math.min(fw / VB[0], fh / VB[1]);              // Grundmassstab: ganzes Diagramm passt hinein
+    this.b.style.width = VB[0] * g + "px"; this.b.style.height = VB[1] * g + "px";
+    return { fw, fh, g };
+  }
+  setze(s, tx, ty, weich) {
+    this.s = s; this.tx = tx; this.ty = ty;
+    this.b.classList.toggle("weich", weich);
+    if (weich) this.b.classList.add("bewegt");
+    this.b.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+  }
+  zeige(ziel, weich = true) {                               // Bereich [x, y, w, h] in Diagramm-Koordinaten
+    this.ziel = ziel;
+    const { fw, fh, g } = this.masse(), [x, y, w, h] = ziel;
+    const s = Math.min(fw / (w * g), fh / (h * g));
+    this.setze(s, fw / 2 - (x + w / 2) * g * s, fh / 2 - (y + h / 2) * g * s, weich && !ruhig);
+  }
+  zoomBei(px, py, f) {                                      // um einen Punkt im Rahmen zoomen (Mausrad, Pinch, Knöpfe)
+    const s = Math.min(14, Math.max(0.6, this.s * f)), k = s / this.s;
+    this.setze(s, px - (px - this.tx) * k, py - (py - this.ty) * k, false);
+  }
+  verschiebe(dx, dy) { this.setze(this.s, this.tx + dx, this.ty + dy, false); }
+}
+const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // ---------- Diagramm laden ----------
 const rahmen = $id("anatomie");
-let svg = null, jetzt = BEREICHE.gesamt.slice(), lauf = null;
+let haupt = null, svgText = "";
 try {
-  const text = await (await fetch("data/anatomie_der_arbeit.svg?v=7", { cache: "no-cache" })).text();
-  rahmen.innerHTML = text.replace(/^<\?xml[^>]*>\s*/, "");
-  svg = rahmen.querySelector("svg");
-  svg.removeAttribute("width"); svg.removeAttribute("height");
-  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
-  svg.setAttribute("aria-hidden", "true");
+  svgText = (await (await fetch("data/anatomie_der_arbeit.svg?v=8", { cache: "no-cache" })).text()).replace(/^<\?xml[^>]*>\s*/, "");
+  haupt = new Zoom(rahmen, svgText);
+  haupt.zeige(BEREICHE.gesamt, false);
 } catch (e) {
   rahmen.textContent = "Diagram could not be loaded.";
 }
 
-const setze = (v) => { jetzt = v; svg?.setAttribute("viewBox", v.map((z) => z.toFixed(1)).join(" ")); };
-const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
-function zoome(ziel) {
-  if (!svg) return;
-  if (lauf) cancelAnimationFrame(lauf);
-  const von = jetzt.slice(), t0 = performance.now(), dauer = ruhig ? 0 : 750;
-  const schritt = (t) => {
-    const f = dauer ? Math.min(1, (t - t0) / dauer) : 1;
-    const e = f < 0.5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2;
-    setze(von.map((v, i) => v + (ziel[i] - v) * e));
-    if (f < 1) lauf = requestAnimationFrame(schritt);
+// ---------- Fenster: Diagramm gross, frei zoomen und verschieben (wie die Fotos bei den Stationen) ----------
+const fenster = (() => {
+  const el = document.createElement("div");
+  el.id = "diagramm-galerie"; el.className = "diagramm-galerie"; el.hidden = true;
+  el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Anatomy of the work");
+  el.innerHTML = `
+    <div class="galerie-fenster diagramm-fenster" tabindex="-1">
+      <div class="diagramm-flaeche"></div>
+      <div class="diagramm-steuer">
+        <button type="button" class="z-plus" aria-label="Zoom in">+</button>
+        <button type="button" class="z-minus" aria-label="Zoom out">−</button>
+        <button type="button" class="z-ganz" aria-label="Whole diagram">Whole diagram</button>
+      </div>
+      <div class="galerie-zahl">Scroll or pinch to zoom · drag to move</div>
+      <button class="galerie-zu" aria-label="Close">×</button>
+    </div>`;
+  document.body.appendChild(el);
+  const flaeche = el.querySelector(".diagramm-flaeche"), kasten = el.querySelector(".diagramm-fenster");
+  let z = null, vorher = null;
+  const zu = () => { el.hidden = true; vorher?.focus(); };
+  el.querySelector(".galerie-zu").addEventListener("click", zu);
+  el.addEventListener("click", (e) => { if (e.target === el) zu(); });
+  document.addEventListener("keydown", (e) => {
+    if (el.hidden) return;
+    if (e.key === "Escape") zu();
+    else if (e.key === "+" || e.key === "=") z.zoomBei(flaeche.clientWidth / 2, flaeche.clientHeight / 2, 1.3);
+    else if (e.key === "-") z.zoomBei(flaeche.clientWidth / 2, flaeche.clientHeight / 2, 1 / 1.3);
+  });
+  el.querySelector(".z-plus").addEventListener("click", () => z.zoomBei(flaeche.clientWidth / 2, flaeche.clientHeight / 2, 1.4));
+  el.querySelector(".z-minus").addEventListener("click", () => z.zoomBei(flaeche.clientWidth / 2, flaeche.clientHeight / 2, 1 / 1.4));
+  el.querySelector(".z-ganz").addEventListener("click", () => z.zeige(BEREICHE.gesamt));
+  // Mausrad: zoomen an der Mausposition
+  flaeche.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const r = flaeche.getBoundingClientRect();
+    z.zoomBei(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * 0.0015));
+  }, { passive: false });
+  // Ziehen (eine Hand) und Pinch (zwei Finger)
+  const zeiger = new Map(); let pinch = null;
+  flaeche.addEventListener("pointerdown", (e) => { flaeche.setPointerCapture(e.pointerId); zeiger.set(e.pointerId, [e.clientX, e.clientY]); flaeche.classList.add("zieht"); });
+  flaeche.addEventListener("pointermove", (e) => {
+    if (!zeiger.has(e.pointerId)) return;
+    const alt = zeiger.get(e.pointerId); zeiger.set(e.pointerId, [e.clientX, e.clientY]);
+    if (zeiger.size === 1) z.verschiebe(e.clientX - alt[0], e.clientY - alt[1]);
+    else if (zeiger.size === 2) {
+      const [a, b] = [...zeiger.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      const r = flaeche.getBoundingClientRect();
+      if (pinch) z.zoomBei((a[0] + b[0]) / 2 - r.left, (a[1] + b[1]) / 2 - r.top, d / pinch);
+      pinch = d;
+    }
+  });
+  const los = (e) => { zeiger.delete(e.pointerId); if (zeiger.size < 2) pinch = null; if (!zeiger.size) flaeche.classList.remove("zieht"); };
+  flaeche.addEventListener("pointerup", los); flaeche.addEventListener("pointercancel", los);
+  return {
+    oeffne(ziel) {
+      vorher = document.activeElement; el.hidden = false;
+      if (!z) z = new Zoom(flaeche, svgText);
+      z.zeige(ziel, false); kasten.focus();
+    },
   };
-  lauf = requestAnimationFrame(schritt);
-}
+})();
+rahmen.addEventListener("click", () => { if (haupt) fenster.oeffne(haupt.ziel); });
+rahmen.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && haupt) { e.preventDefault(); fenster.oeffne(haupt.ziel); } });
 
 // ---------- Inhaltsverzeichnis ↔ Diagramm ----------
 const ganz = document.querySelector(".ganz-knopf");
@@ -66,15 +153,16 @@ const knoepfe = [...document.querySelectorAll(".toc-knopf")];
 function waehle(knopf) {
   const namen = knopf.dataset.ziel.split(" ");
   const ganzesBild = namen.length === 1 && namen[0] === "gesamt";
-  zoome(ganzesBild ? BEREICHE.gesamt : vereinigt(namen));
+  haupt?.zeige(ganzesBild ? BEREICHE.gesamt : vereinigt(namen));
   knoepfe.forEach((k) => k.setAttribute("aria-pressed", String(k === knopf)));
   ganz.hidden = ganzesBild;
-  // auf schmalen Bildschirmen steht das Diagramm unter der Liste: hinscrollen
-  if (matchMedia("(max-width: 900px)").matches) $id("anatomie").scrollIntoView({ behavior: ruhig ? "auto" : "smooth", block: "center" });
+  // das Diagramm steht unter dem Inhaltsverzeichnis: hinscrollen, wenn es nicht gut sichtbar ist
+  const r = rahmen.getBoundingClientRect();
+  if (r.top > innerHeight * 0.5 || r.bottom < innerHeight * 0.3) $id("anatomie-abb").scrollIntoView({ behavior: ruhig ? "auto" : "smooth", block: "start" });
 }
 knoepfe.forEach((k) => k.addEventListener("click", () => waehle(k)));
 ganz.addEventListener("click", () => {
-  zoome(BEREICHE.gesamt); ganz.hidden = true;
+  haupt?.zeige(BEREICHE.gesamt); ganz.hidden = true;
   knoepfe.forEach((k) => k.setAttribute("aria-pressed", "false"));
 });
 
