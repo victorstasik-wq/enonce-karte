@@ -27,13 +27,13 @@ const zeilen = await Promise.all(konfig.fieldtrips.map(async (f) => {
 $id("fieldtrips").innerHTML = zeilen.join("");
 
 // ---------- Übersichtskarten (z. B. Valais) ----------
-$id("uebersicht").innerHTML = (konfig.uebersicht || []).map((b) =>
+$id("uebersicht").innerHTML = (konfig.uebersicht || []).filter((b) => b.link !== "enonce.html").map((b) =>   // Énoncé steht in der eigenen Gruppe
   `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">${esc(b.meta || "")}</span></a></li>`).join("");
 
 // ---------- weitere Bereiche: Notebook / Fieldnotes, Literature ----------
 $id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.link
   ? `<li class="inaktiv"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">coming soon</span></li>`
-  : `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark"></span></a></li>`).join("");
+  : `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span></a></li>`).join("");
 
 // ---------- Menü „Content“: nur die Liste scrollt, die Seite selbst nicht ----------
 {

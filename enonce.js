@@ -35,7 +35,7 @@ const vereinigt = (namen) => {
 const rahmen = $id("anatomie");
 let svg = null, jetzt = BEREICHE.gesamt.slice(), lauf = null;
 try {
-  const text = await (await fetch("data/anatomie_der_arbeit.svg?v=5", { cache: "no-cache" })).text();
+  const text = await (await fetch("data/anatomie_der_arbeit.svg?v=6", { cache: "no-cache" })).text();
   rahmen.innerHTML = text.replace(/^<\?xml[^>]*>\s*/, "");
   svg = rahmen.querySelector("svg");
   svg.removeAttribute("width"); svg.removeAttribute("height");
@@ -77,6 +77,75 @@ ganz.addEventListener("click", () => {
   zoome(BEREICHE.gesamt); ganz.hidden = true;
   knoepfe.forEach((k) => k.setAttribute("aria-pressed", "false"));
 });
+
+// ---------- Reiter: Contents · Bibliography · Interviews and conversations · Notes ----------
+const menue = $id("menue");
+const reiterKnoepfe = [...document.querySelectorAll('.reiter [role="tab"]')];
+function zeigeReiter(name, merken = true) {
+  if (!document.getElementById("r-" + name)) name = "contents";
+  reiterKnoepfe.forEach((k) => k.setAttribute("aria-selected", String(k.dataset.reiter === name)));
+  document.querySelectorAll(".reiter-feld").forEach((f) => { f.hidden = f.id !== "r-" + name; });
+  if (merken) history.replaceState(null, "", name === "contents" ? location.pathname : "#" + name);
+}
+reiterKnoepfe.forEach((k) => k.addEventListener("click", () => zeigeReiter(k.dataset.reiter)));
+document.querySelectorAll(".reiter-link").forEach((k) => k.addEventListener("click", () => zeigeReiter(k.dataset.reiter)));
+// Direktlink (z. B. von der Startseite): enonce.html#bibliography öffnet das Menü auf diesem Reiter
+{
+  const h = location.hash.slice(1);
+  if (h) { menue.open = true; zeigeReiter(h, false); }
+  window.addEventListener("hashchange", () => { const n = location.hash.slice(1); if (n) { menue.open = true; zeigeReiter(n, false); } });
+}
+
+// ---------- Notes: Blätter zum Durchblättern (wie die Fotos bei den Stationen) ----------
+const galerie = (() => {
+  const el = document.createElement("div");
+  el.id = "galerie"; el.hidden = true;
+  el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Notes");
+  el.innerHTML = `
+    <div class="galerie-fenster notes-fenster">
+      <figure><img alt=""><figcaption></figcaption></figure>
+      <button class="galerie-pfeil zurueck" aria-label="Previous sheet">‹</button>
+      <button class="galerie-pfeil weiter" aria-label="Next sheet">›</button>
+      <div class="galerie-zahl"></div>
+      <button class="galerie-zu" aria-label="Close notes">×</button>
+    </div>`;
+  document.body.appendChild(el);
+  const img = el.querySelector("img"), text = el.querySelector("figcaption"), zahl = el.querySelector(".galerie-zahl");
+  const fenster = el.querySelector(".galerie-fenster"); fenster.tabIndex = -1;
+  let liste = [], nr = 0, vorher = null;
+  const zeige = () => {
+    const f = liste[nr];
+    img.src = f.datei; img.alt = f.legende || ""; text.textContent = f.legende || "";
+    zahl.textContent = `${nr + 1} / ${liste.length}`;
+    el.querySelectorAll(".galerie-pfeil").forEach((b) => { b.hidden = liste.length < 2; });
+    for (const d of [1, -1]) if (liste.length > 1) new Image().src = liste[(nr + d + liste.length) % liste.length].datei;
+  };
+  const blaettern = (d) => { if (liste.length < 2) return; nr = (nr + d + liste.length) % liste.length; zeige(); };
+  const zu = () => { el.hidden = true; vorher?.focus(); };
+  el.querySelector(".zurueck").addEventListener("click", () => blaettern(-1));
+  el.querySelector(".weiter").addEventListener("click", () => blaettern(1));
+  el.querySelector(".galerie-zu").addEventListener("click", zu);
+  el.addEventListener("click", (e) => { if (e.target === el) zu(); });
+  document.addEventListener("keydown", (e) => {
+    if (el.hidden) return;
+    if (e.key === "Escape") zu(); else if (e.key === "ArrowLeft") blaettern(-1); else if (e.key === "ArrowRight") blaettern(1);
+  });
+  let x0 = null;
+  fenster.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  fenster.addEventListener("touchend", (e) => {
+    if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) blaettern(dx < 0 ? 1 : -1);
+  });
+  return { oeffne(l, i) { liste = l; nr = i; vorher = document.activeElement; el.hidden = false; zeige(); fenster.focus(); } };
+})();
+try {
+  const notes = await (await fetch("data/notes/notes.json?v=1", { cache: "no-cache" })).json();
+  $id("notes-liste").innerHTML = notes.map((n, i) =>
+    `<li><button type="button" class="notes-knopf" data-i="${i}"><span class="mark"><span class="nr">${i + 1}</span>${esc(n.titel)}</span></button></li>`).join("");
+  $id("notes-liste").addEventListener("click", (e) => {
+    const b = e.target.closest(".notes-knopf"); if (b) galerie.oeffne(notes, Number(b.dataset.i));
+  });
+} catch {}
 
 // ---------- Fieldtrip-Menü oben rechts (wie auf den Kartenseiten) ----------
 try {

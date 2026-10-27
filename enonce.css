@@ -44,3 +44,46 @@ body.enonce-seite #kopf { position: absolute; }
   .anatomie { position: static; }
   .anatomie-rahmen { height: auto; min-height: 0; aspect-ratio: 1191 / 1684; }
 }
+
+/* Menü „Content“ (auf- und zuklappbar wie auf der Startseite) mit Reitern */
+.enonce-menue summary { font-size: 20px; }
+.enonce-menue .zeichen, .kapitel .zeichen { margin-left: 4px; }
+.reiter { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 16px; }
+.reiter button { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; cursor: pointer; letter-spacing: 0.04em; text-transform: uppercase; }
+.reiter button[aria-selected="false"] .mark { background: transparent; color: #fff; outline: 1px solid rgba(255,255,255,.5); outline-offset: -1px; }
+.reiter button:focus-visible { outline: 1px solid #fff; outline-offset: 2px; }
+.reiter-feld[hidden] { display: none; }
+.reiter-hinweis, .reiter-text { margin: 0 0 14px; font-size: 13px; }
+.reiter-text { font-size: 14px; }
+
+/* Kapitel: Unterkapitel auf- und zuklappbar */
+.kapitel summary { list-style: none; cursor: pointer; display: inline-flex; align-items: baseline; gap: 4px; }
+.kapitel summary::-webkit-details-marker { display: none; }
+.kapitel[open] > summary .zeichen { font-size: 0; }
+.kapitel[open] > summary .zeichen::after { content: "−"; font-size: 16px; }
+.kapitel .zeichen { font-weight: 600; font-size: 16px; }
+.reiter-link { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.reiter-link:hover .mark { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Bibliografie */
+.enonce-seite h3.label { margin: 18px 0 10px; font-weight: 400; }
+.bib { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.bib li { font-size: 13px; line-height: 1.45; padding-left: 1.6em; text-indent: -1.6em; color: #fff; }
+.bib a { color: inherit; text-underline-offset: 2px; word-break: break-all; }
+
+/* Notes */
+.notes-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.notes-knopf { background: none; border: 0; padding: 0; font: inherit; font-size: 14px; color: inherit; text-align: left; cursor: pointer; }
+.notes-knopf:hover .mark, .notes-knopf:focus-visible .mark { text-decoration: underline; text-underline-offset: 3px; }
+.notes-knopf .nr { display: inline-block; min-width: 1.6em; }
+
+
+/* Kapitel-Summary nicht wie die grosse „Content“-Summary formatieren; + / − je Kapitel */
+.enonce-menue .kapitel > summary { font-size: inherit; font-weight: inherit; text-transform: none; letter-spacing: normal; }
+.enonce-menue .kapitel:not([open]) > summary .zeichen { font-size: 16px; }
+.enonce-menue .kapitel:not([open]) > summary .zeichen::after { content: none; }
+.enonce-menue .kapitel[open] > summary .zeichen::after { font-size: 16px; }
+
+/* Notes: dunkles Fenster passend zu den Blättern, breiter als bei den Fotos */
+.notes-fenster { width: min(94vw, 1000px); background: rgba(15, 17, 19, 0.96); color: #fff; }
+.notes-fenster figcaption, .notes-fenster .galerie-zahl, .notes-fenster .galerie-pfeil, .notes-fenster .galerie-zu { color: #fff; }
