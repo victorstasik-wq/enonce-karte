@@ -203,10 +203,10 @@ const galerie = (() => {
   let liste = [], nr = 0, vorher = null;
   const zeige = () => {
     const f = liste[nr];
-    img.src = f.datei; img.alt = f.legende || ""; text.textContent = f.legende || "";
+    img.src = f.datei + "?v=2"; img.alt = f.titel || ""; text.textContent = f.legende || "";
     zahl.textContent = `${nr + 1} / ${liste.length}`;
     el.querySelectorAll(".galerie-pfeil").forEach((b) => { b.hidden = liste.length < 2; });
-    for (const d of [1, -1]) if (liste.length > 1) new Image().src = liste[(nr + d + liste.length) % liste.length].datei;
+    for (const d of [1, -1]) if (liste.length > 1) new Image().src = liste[(nr + d + liste.length) % liste.length].datei + "?v=2";
   };
   const blaettern = (d) => { if (liste.length < 2) return; nr = (nr + d + liste.length) % liste.length; zeige(); };
   const zu = () => { el.hidden = true; vorher?.focus(); };
@@ -227,7 +227,7 @@ const galerie = (() => {
   return { oeffne(l, i) { liste = l; nr = i; vorher = document.activeElement; el.hidden = false; zeige(); fenster.focus(); } };
 })();
 try {
-  const notes = await (await fetch("data/notes/notes.json?v=1", { cache: "no-cache" })).json();
+  const notes = await (await fetch("data/notes/notes.json?v=2", { cache: "no-cache" })).json();
   $id("notes-liste").innerHTML = notes.map((n, i) =>
     `<li><button type="button" class="notes-knopf" data-i="${i}"><span class="mark"><span class="nr">${i + 1}</span>${esc(n.titel)}</span></button></li>`).join("");
   $id("notes-liste").addEventListener("click", (e) => {
