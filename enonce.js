@@ -35,7 +35,7 @@ const vereinigt = (namen) => {
 const rahmen = $id("anatomie");
 let svg = null, jetzt = BEREICHE.gesamt.slice(), lauf = null;
 try {
-  const text = await (await fetch("data/anatomie_der_arbeit.svg?v=4", { cache: "no-cache" })).text();
+  const text = await (await fetch("data/anatomie_der_arbeit.svg?v=5", { cache: "no-cache" })).text();
   rahmen.innerHTML = text.replace(/^<\?xml[^>]*>\s*/, "");
   svg = rahmen.querySelector("svg");
   svg.removeAttribute("width"); svg.removeAttribute("height");
