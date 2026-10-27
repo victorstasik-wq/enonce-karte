@@ -69,9 +69,10 @@ let gruppe = null;
 const G = (titel, offen = true) => { gruppe = { titel, offen, ebenen: [] }; GRUPPEN.push(gruppe); };
 const E = (def) => { const e = { an: false, ...def }; gruppe.ebenen.push(e); return e; };
 
-// Gletscher: Punktwolke (2D, von oben), die von 1850 bis heute zurückgeht und dann auf dem letzten Stand bleibt
+// Gletscher: Punktwolke (2D, von oben), in Stufen der fünf GLAMOS-Inventare 1850 → 2016; zwischen zwei Inventaren
+// wird nichts erfunden: Punkte, die im nächsten Inventar fehlen, blenden beim Wechsel kurz aus (Victor, 27.10.2026)
 const GletscherWolke = L.Layer.extend({
-  initialize() { this.jahr = 1850; this.daten = null; this.dauer = 14000; },
+  initialize() { this.jahr = 1850; this.stufe = 0; this.blende = 0; this.daten = null; this.halten = 2000; this.ueberblenden = 600; },
   onAdd(map) {
     this._map = map;
     this._c = L.DomUtil.create("canvas", "gletscher-wolke");
@@ -90,16 +91,30 @@ const GletscherWolke = L.Layer.extend({
     if (this.daten) return;
     const [m, buf] = await Promise.all([json(D + "gletscher_punkte.json"), fetch(D + "gletscher_punkte.bin").then((r) => r.arrayBuffer())]);
     const n = m.anzahl, u8 = new Uint8Array(buf);
-    this.daten = { m, n, x: new Uint16Array(buf.slice(0, 2 * n)), y: new Uint16Array(buf.slice(2 * n, 4 * n)), t: u8.subarray(4 * n, 5 * n) };
+    const t = u8.subarray(4 * n, 5 * n), J = m.jahre;
+    // Stufe, in der der Punkt verschwindet: erstes Inventar, in dem er nicht mehr Gletscher ist (255 = bleibt)
+    const s = new Uint8Array(n);
+    for (let i = 0; i < n; i++) {
+      if (t[i] === 255) { s[i] = 255; continue; }
+      const jahr = 1850 + t[i]; let k = 1;
+      while (k < J.length - 1 && J[k] < jahr) k++;
+      s[i] = k;
+    }
+    this.daten = { m, n, x: new Uint16Array(buf.slice(0, 2 * n)), y: new Uint16Array(buf.slice(2 * n, 4 * n)), s };
   },
   abspielen() {
     cancelAnimationFrame(this._raf);
-    const t0 = performance.now(), ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const J = this.daten.m.jahre, letzte = J.length - 1;
+    const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (ruhig) { this.stufe = letzte; this.blende = 0; this._zeichne(); anzeige(J[letzte]); return; }
+    // je Stufe: halten, dann überblenden zur nächsten
+    const proStufe = this.halten + this.ueberblenden, t0 = performance.now();
     const schritt = (t) => {
-      const f = ruhig ? 1 : Math.min(1, (t - t0) / this.dauer);
-      this.jahr = 1850 + f * (2016 - 1850);
-      this._zeichne(); anzeige(Math.round(this.jahr));
-      if (f < 1) this._raf = requestAnimationFrame(schritt);
+      const z = t - t0, k = Math.min(letzte, Math.floor(z / proStufe)), r = z - k * proStufe;
+      this.stufe = k;
+      this.blende = k < letzte && r > this.halten ? (r - this.halten) / this.ueberblenden : 0;
+      this._zeichne(); anzeige(J[this.blende > 0.5 ? k + 1 : k]);
+      if (k < letzte) this._raf = requestAnimationFrame(schritt);
     };
     this._raf = requestAnimationFrame(schritt);
   },
@@ -114,20 +129,22 @@ const GletscherWolke = L.Layer.extend({
     const z = map.getZoom(), E = 40075016.68557849, H = E / 2, s = 256 * Math.pow(2, z) / E * dpr;
     const o = map.getPixelBounds().min;                 // Pixel des linken oberen Rands bei Zoom z
     const ox = (d.m.ox + H) * s - o.x * dpr, oy = (H - d.m.oy) * s - o.y * dpr, k = d.m.schritt * s;
-    const grenze = this.jahr - 1850, W = c.width, Hh = c.height;
+    const W = c.width, Hh = c.height, st = this.stufe, bl = this.blende;
     // Punktgrösse: 1 Pixel; weiss mit leichter Transparenz, damit Dichte sichtbar bleibt
     const farbe = (230 << 24) | (255 << 16) | (255 << 8) | 255;   // ABGR (little endian): a=230, b, g, r = 255
+    const blass = ((Math.round(230 * (1 - bl)) & 255) << 24) | (255 << 16) | (255 << 8) | 255;   // verschwindende Punkte
     const breit = z >= 13 ? 2 : 1;
     // weit draussen nur jeden n-ten Punkt zeichnen, damit es eine Punktwolke bleibt und keine Fläche wird
     const mpp = 1 / s * Math.cos(46.3 * Math.PI / 180);            // Meter (am Boden) pro Bildpixel
     const n = Math.max(1, Math.ceil(Math.pow(mpp / d.m.abstand_m, 2) / 1.1));
     for (let i = 0; i < d.n; i += n) {
-      const ti = d.t[i];
-      if (ti !== 255 && ti <= grenze) continue;          // schon verschwunden
+      const si = d.s[i];
+      if (si <= st) continue;                              // in diesem Inventar kein Gletscher mehr
+      const f = si === st + 1 && bl > 0 ? blass : farbe;   // fehlt im nächsten Inventar: blendet aus
       const x = (ox + d.x[i] * k) | 0, y = (oy - d.y[i] * k) | 0;
       if (x < 0 || y < 0 || x >= W - 1 || y >= Hh - 1) continue;
-      const j = y * W + x; px[j] = farbe;
-      if (breit === 2) { px[j + 1] = farbe; px[j + W] = farbe; px[j + W + 1] = farbe; }
+      const j = y * W + x; px[j] = f;
+      if (breit === 2) { px[j + 1] = f; px[j + W] = f; px[j + W + 1] = f; }
     }
     ctx.putImageData(img, 0, 0);
   },
@@ -135,7 +152,7 @@ const GletscherWolke = L.Layer.extend({
 let anzeige = () => {};
 G("Glaciers — GLAMOS inventories 1850 → 2016");
 const gletscherWolke = new GletscherWolke();
-E({ name: "Glacier extent as point cloud (animation 1850 → 2016)", art: "punkt", farbe: "#ffffff", an: true, animation: true,
+E({ name: "Glacier extent as point cloud (inventories 1850 · 1931 · 1973 · 2010 · 2016)", art: "punkt", farbe: "#ffffff", animation: true,
   bau: () => gletscherWolke });
 
 // Permafrost (eigene Darstellung der BAFU-Hinweiskarte)
@@ -145,7 +162,7 @@ E({ name: "likely, extensive (classes 4–6)", art: "voll", farbe: F.permaWahrsc
 
 // Landnutzung
 G("Land use 2025 — BLW agricultural areas, swissTLM3D");
-E({ name: "Alpine summer pastures (Sömmerungsweiden)", art: "voll", farbe: F.almen, an: true, datei: "almen.json", bau: flaeche(F.almen, 0.42) });
+E({ name: "Alpine summer pastures (Sömmerungsweiden)", art: "voll", farbe: F.almen, datei: "almen.json", bau: flaeche(F.almen, 0.42) });
 E({ name: "Agricultural land (meadows, pastures, arable, vineyards, orchards)", art: "voll", farbe: F.landwirtschaft, datei: "landwirtschaft.json", bau: flaeche(F.landwirtschaft, 0.55) });
 E({ name: "Buildings on or next to summer pastures (≤ 30 m)", art: "quadrat", farbe: F.alpgebaeude, datei: "alpgebaeude.json",
   bau: (d) => L.geoJSON(d, { pane: "gebaeude", style: { stroke: true, weight: 1.2, color: F.alpgebaeude, opacity: 1, fill: true, fillColor: F.alpgebaeude, fillOpacity: 0.9 },
@@ -238,7 +255,7 @@ function zeichneLegende() {
         const i = alle.indexOf(e);
         let extra = "";
         if (e.regler) extra = `<label class="regler"><input type="range" min="400" max="3000" step="100" value="${e.regler.min}" data-regler="${i}"><span>${e.regler.min} m</span></label>`;
-        if (e.animation) extra = `<span class="regler"><span class="gl-jahr">${Math.round(gletscherWolke.jahr)}</span><button class="gl-wieder" type="button">↺ replay</button></span>`;
+        if (e.animation) extra = `<span class="regler"><span class="gl-jahr">${gletscherWolke.daten ? gletscherWolke.daten.m.jahre[gletscherWolke.stufe] : 1850}</span><button class="gl-wieder" type="button">↺ replay</button></span>`;
         if (e.jahr) extra = `<label class="regler"><input type="range" min="1870" max="2020" step="10" value="${e.jahr.wert}" data-jahr="${i}"><span>${e.jahr.wert}</span></label>`;
         return `<div class="ebene-zeile"><button class="ebene" data-i="${i}" aria-pressed="${e.an}"${e.fehlt ? " disabled" : ""}>
           <span class="zeile"><span class="flaeche ${e.art}" style="--farbe:${e.farbe}"></span><span>${esc(e.name)}${e.fehlt ? " — data missing" : ""}</span></span>
@@ -305,7 +322,7 @@ try {
 $id("quellen").innerHTML = `
 <p><strong>Area:</strong> Canton of Valais; districts Aigle and Riviera–Pays-d'Enhaut (VD); administrative districts Frutigen-Niedersimmental, Obersimmental-Saanen and Interlaken-Oberhasli (BE). Boundaries: swissBOUNDARIES3D 2026-01, swisstopo.</p>
 <p><strong>Relief:</strong> swissALTI3D multidirectional hillshade, swisstopo, via wmts.geo.admin.ch (colours inverted). <strong>Historical map:</strong> swisstopo “Zeitreise” series (Siegfried map and national maps), state of 31 December of the chosen year, via wmts.geo.admin.ch (colours inverted).</p>
-<p><strong>Glaciers:</strong> Swiss Glacier Inventories SGI1850, SGI1931, SGI1973, SGI2010 and SGI2016, GLAMOS – Glacier Monitoring Switzerland, downloaded 13 October 2026 (DOIs 10.18750/inventory.sgi1850.r1992, …sgi1931.r2022, …sgi1973.r1976, …sgi2010.r2010, …sgi2016.r2020). All glaciers whose outline touches the area. The inventories rest on different sources: 1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps (mean year); 2010 from aerial images 2008–2011; 2016 from aerial images 2013–2018 (swissTLM3D). Their outlines are not strictly comparable. <em>Display:</em> a point cloud on a 40 m grid (points randomly offset within each cell) covering every area that is ice in at least one inventory. A point disappears after the last inventory in which it lies inside a glacier, so the cloud only shrinks (where a later inventory shows more ice, e.g. 2016 vs 2010, the point simply stays). Between two inventory dates the retreat is interpolated: points farther from the next outline vanish earlier. This in-between motion illustrates the change; it is not measured year by year.</p>
+<p><strong>Glaciers:</strong> Swiss Glacier Inventories SGI1850, SGI1931, SGI1973, SGI2010 and SGI2016, GLAMOS – Glacier Monitoring Switzerland, downloaded 13 October 2026 (DOIs 10.18750/inventory.sgi1850.r1992, …sgi1931.r2022, …sgi1973.r1976, …sgi2010.r2010, …sgi2016.r2020). All glaciers whose outline touches the area. The inventories rest on different sources: 1850 reconstructed from historical maps and geomorphological evidence; 1931 from terrestrial images and historical maps (mean year); 2010 from aerial images 2008–2011; 2016 from aerial images 2013–2018 (swissTLM3D). Their outlines are not strictly comparable. <em>Display:</em> a point cloud on a 40 m grid (points randomly offset within each cell) covering every area that is ice in at least one inventory. A point disappears after the last inventory in which it lies inside a glacier, so the cloud only shrinks (where a later inventory shows more ice, e.g. 2016 vs 2010, the point simply stays). The layer steps through the five inventories only: at each step the points that are no longer ice in the next inventory fade out. Nothing is shown for the years between two inventories.</p>
 <p class="lit-klein">Linsbauer, A., M. Huss, E. Hodel, A. Bauder, M. Fischer, Y. Weidmann, H. Bärtschi, and E. Schmassmann. “The New Swiss Glacier Inventory SGI2016: From a Topographical to a Glaciological Dataset.” <em>Frontiers in Earth Science</em> (2021). https://doi.org/10.3389/feart.2021.704189.<br>
 Fischer, M., M. Huss, C. Barboux, and M. Hoelzle. “The New Swiss Glacier Inventory SGI2010: Relevance of Using High-Resolution Source Data in Areas Dominated by Very Small Glaciers.” <em>Arctic, Antarctic, and Alpine Research</em> 46 (2014): 933–45.<br>
 Müller, F., T. Caflisch, and G. Müller. <em>Firn und Eis der Schweizer Alpen (Gletscherinventar)</em>. Publ. Nr. 57/57a. Zürich: Geographisches Institut, ETH Zürich, 1976.<br>

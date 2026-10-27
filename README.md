@@ -52,6 +52,11 @@ Stand 27.10.: Punktwolken-Texturen entfernt (nur Umrisse), Körperbegriffe aus d
 Rumpf-Rechteck ersetzt durch Talquerschnitt (Condition) und schematische Jahreskurve (Time). Das SVG wird in
 `enonce.js` eingebettet; ein Klick auf einen Eintrag im Inhaltsverzeichnis zoomt über die viewBox auf den
 zugehörigen Bereich (Tabelle `BEREICHE`, Zuordnung über `data-ziel` in `enonce.html`).
+Stand 27.10. (2): In Rhône, See und Seitentälern ist die Punkt-Schraffur wieder da; entfernt: „a new tradition is
+forming“, „theory still open“, „no station yet“ und der Routenhinweis bei den Höhenprofilen.
+Übersichtskarte: Gletscher und Sömmerungsweiden sind beim Öffnen aus. Die Gletscher-Animation zeigt nur noch die
+fünf Inventare (1850, 1931, 1973, 2010, 2016) als Stufen; beim Wechsel blenden die Punkte aus, die im nächsten Inventar
+kein Gletscher mehr sind. Keine Zwischenjahre mehr.
 
 ## Quellen und Lizenzen
 
