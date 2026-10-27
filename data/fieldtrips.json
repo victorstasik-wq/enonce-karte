@@ -3,6 +3,11 @@
   "start": "F_01",
   "uebersicht": [
     {
+      "name": "Énoncé",
+      "link": "enonce.html",
+      "meta": "Contents · Anatomy of the work"
+    },
+    {
       "name": "Western Alps (Overview)",
       "link": "valais.html",
       "meta": "Valais · Vaud Alps · Bernese Oberland"
