@@ -35,6 +35,8 @@ const vereinigt = (namen) => {
 // ---------- Zoom über CSS-Transform (flüssig: der Browser verschiebt ein Bild statt das SVG neu zu zeichnen) ----------
 const VB = [1191, 1684];
 class Zoom {
+  // Zoom per CSS-Transform (flüssig). Nach jeder Bewegung wird der Massstab in echte Grösse umgesetzt,
+  // damit der Browser das SVG neu als Vektor zeichnet und nichts verpixelt.
   constructor(rahmen, svgText) {
     this.r = rahmen;
     this.b = document.createElement("div"); this.b.className = "zoom-buehne";
@@ -42,21 +44,39 @@ class Zoom {
     const svg = this.b.querySelector("svg");
     svg.removeAttribute("width"); svg.removeAttribute("height"); svg.setAttribute("aria-hidden", "true");
     rahmen.appendChild(this.b);
-    this.s = 1; this.tx = 0; this.ty = 0; this.ziel = BEREICHE.gesamt;
-    this.b.addEventListener("transitionend", () => this.b.classList.remove("bewegt"));
+    this.s = 1; this.tx = 0; this.ty = 0; this.g = 1; this.fest = false; this.uhr = 0; this.ziel = BEREICHE.gesamt;
     new ResizeObserver(() => this.zeige(this.ziel, false)).observe(rahmen);
   }
   masse() {
     const fw = this.r.clientWidth, fh = this.r.clientHeight;
-    const g = Math.min(fw / VB[0], fh / VB[1]);              // Grundmassstab: ganzes Diagramm passt hinein
-    this.b.style.width = VB[0] * g + "px"; this.b.style.height = VB[1] * g + "px";
-    return { fw, fh, g };
+    this.g = Math.min(fw / VB[0], fh / VB[1]) || 1;          // Grundmassstab: ganzes Diagramm passt hinein
+    return { fw, fh, g: this.g };
   }
+  groesse(f) { this.b.style.width = VB[0] * this.g * f + "px"; this.b.style.height = VB[1] * this.g * f + "px"; }
   setze(s, tx, ty, weich) {
+    clearTimeout(this.uhr);
+    if (this.fest && s === this.s && !weich) {                 // nur verschieben: scharf bleiben
+      this.tx = tx; this.ty = ty;
+      this.b.style.transform = `translate(${tx}px, ${ty}px)`;
+      return;
+    }
+    // zurück in den Transform-Modus, ohne sichtbaren Sprung
+    this.b.classList.remove("weich");
+    this.groesse(1);
+    this.b.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.s})`;
+    if (weich) void this.b.offsetWidth;
+    this.fest = false;
     this.s = s; this.tx = tx; this.ty = ty;
     this.b.classList.toggle("weich", weich);
-    if (weich) this.b.classList.add("bewegt");
+    this.b.classList.toggle("bewegt", weich);
     this.b.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+    this.uhr = setTimeout(() => this.fixiere(), weich ? 760 : 160);
+  }
+  fixiere() {                                                // Massstab in echte Breite und Höhe umsetzen
+    this.b.classList.remove("weich", "bewegt");
+    this.groesse(this.s);
+    this.b.style.transform = `translate(${this.tx}px, ${this.ty}px)`;
+    this.fest = true;
   }
   zeige(ziel, weich = true) {                               // Bereich [x, y, w, h] in Diagramm-Koordinaten
     this.ziel = ziel;
