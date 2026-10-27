@@ -48,6 +48,10 @@ Inhaltsverzeichnis (Victors Gliederung vom 21.10.2026, englische Titel als Vorsc
 „Anatomie der Arbeit“ (v8 vom 21.10.2026) als `data/anatomie_der_arbeit.svg`. Das SVG ist die Fassung aus dem Artifact,
 nur umgefärbt auf den dunklen Grund der Website: Grautöne umgekehrt, Weiss → #0f1113, Rot → Stationsorange #ff6400;
 alle Texte ins Englische übersetzt (Buchtitel und Ortsnamen im Original), Hinterlegungen an die Textlänge angepasst. Menüeintrag über `uebersicht` in `data/fieldtrips.json`.
+Stand 27.10.: Punktwolken-Texturen entfernt (nur Umrisse), Körperbegriffe aus den Überschriften entfernt, das
+Rumpf-Rechteck ersetzt durch Talquerschnitt (Condition) und schematische Jahreskurve (Time). Das SVG wird in
+`enonce.js` eingebettet; ein Klick auf einen Eintrag im Inhaltsverzeichnis zoomt über die viewBox auf den
+zugehörigen Bereich (Tabelle `BEREICHE`, Zuordnung über `data-ziel` in `enonce.html`).
 
 ## Quellen und Lizenzen
 

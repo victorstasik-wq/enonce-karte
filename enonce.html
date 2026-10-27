@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Énoncé – Assembled Periphery (Archive)</title>
+<title>Énoncé – Assembled Periphery</title>
 <meta name="description" content="Table of contents and anatomy of the work — Énoncé théorique, Victor Stasik, EPFL Architecture.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
 <link rel="stylesheet" href="style.css?v=39">
-<link rel="stylesheet" href="enonce.css?v=1">
+<link rel="stylesheet" href="enonce.css?v=2">
 </head>
 <body class="karte-seite enonce-seite">
   <header id="kopf">
     <div class="kopf-links">
-      <div id="projekt" class="leise klein"><a href="index.html" class="zurueck-start">← Assembled Periphery (Archive)</a></div>
+      <div id="projekt" class="leise klein"><a href="index.html" class="zurueck-start">← Assembled Periphery</a></div>
       <h1 id="titel">Énoncé</h1>
       <div id="untertitel" class="leise">Table of contents · Anatomy of the work</div>
     </div>
@@ -29,67 +29,66 @@
     <section class="toc" aria-labelledby="toc-titel">
       <h2 id="toc-titel" class="label"><span class="mark">Contents</span></h2>
       <ol class="toc-liste">
-        <li><span class="mark kap"><span class="nr">0</span>Introduction</span>
+        <li><button type="button" class="toc-knopf" data-ziel="gesamt"><span class="mark kap"><span class="nr">0</span>Introduction</span></button>
           <ol>
-            <li><span class="mark"><span class="nr">0.1</span>Opening: two measuring stations</span></li>
-            <li><span class="mark"><span class="nr">0.2</span>The Assembled Periphery: the two terms</span></li>
-            <li><span class="mark"><span class="nr">0.3</span>Point of view</span></li>
-            <li><span class="mark"><span class="nr">0.4</span>Ungers and Lévi-Strauss: reading and assembling</span></li>
-            <li><span class="mark"><span class="nr">0.5</span>How the text is built</span></li>
-            <li><span class="mark"><span class="nr">0.6</span>Stance</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="f2"><span class="mark"><span class="nr">0.1</span>Opening: two measuring stations</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="assembly periphery"><span class="mark"><span class="nr">0.2</span>The Assembled Periphery: the two terms</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="gaze"><span class="mark"><span class="nr">0.3</span>Point of view</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="ungers_ls"><span class="mark"><span class="nr">0.4</span>Ungers and Lévi-Strauss: reading and assembling</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="gesamt"><span class="mark"><span class="nr">0.5</span>How the text is built</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="vernacular"><span class="mark"><span class="nr">0.6</span>Stance</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">1</span>The Alps as Condition</span>
+        <li><button type="button" class="toc-knopf" data-ziel="condition"><span class="mark kap"><span class="nr">1</span>The Alps as Condition</span></button>
           <ol>
-            <li><span class="mark"><span class="nr">1.1</span>Choice of sites</span></li>
-            <li><span class="mark"><span class="nr">1.2</span>Landscape</span></li>
-            <li><span class="mark"><span class="nr">1.3</span>Paths</span></li>
-            <li><span class="mark"><span class="nr">1.4</span>What happened to them: access, change, periphery</span></li>
-            <li><span class="mark"><span class="nr">1.5</span>Above shapes the conditions below</span></li>
-            <li><span class="mark"><span class="nr">1.6</span>Method</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="fieldtrips"><span class="mark"><span class="nr">1.1</span>Choice of sites</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="condition"><span class="mark"><span class="nr">1.2</span>Landscape</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="fieldtrips"><span class="mark"><span class="nr">1.3</span>Paths</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="periphery"><span class="mark"><span class="nr">1.4</span>What happened to them: access, change, periphery</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="condition"><span class="mark"><span class="nr">1.5</span>Above shapes the conditions below</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="gaze"><span class="mark"><span class="nr">1.6</span>Method</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">2</span>Fieldtrips</span>
+        <li><button type="button" class="toc-knopf" data-ziel="fieldtrips"><span class="mark kap"><span class="nr">2</span>Fieldtrips</span></button>
           <ol>
-            <li><a href="karte.html?ft=F_01"><span class="mark"><span class="nr">2.1</span>Lämmerenhütte (Gemmi)</span></a></li>
-            <li><a href="karte.html?ft=F_02"><span class="mark"><span class="nr">2.2</span>Val de Bagnes: Chanrion, Mauvoisin, Le Châble</span></a></li>
-            <li><span class="mark"><span class="nr">2.3</span>Further fieldtrips</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="f1"><span class="mark"><span class="nr">2.1</span>Lämmerenhütte (Gemmi)</span></button> <a class="karte-link" href="karte.html?ft=F_01"><span class="mark">3D map ↗</span></a></li>
+            <li><button type="button" class="toc-knopf" data-ziel="f23"><span class="mark"><span class="nr">2.2</span>Val de Bagnes: Chanrion, Mauvoisin, Le Châble</span></button> <a class="karte-link" href="karte.html?ft=F_02"><span class="mark">3D map ↗</span></a></li>
+            <li><button type="button" class="toc-knopf" data-ziel="fieldtrips"><span class="mark"><span class="nr">2.3</span>Further fieldtrips</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">3</span>Conversation with Someone Who Builds</span>
+        <li><button type="button" class="toc-knopf" data-ziel="bricolage"><span class="mark kap"><span class="nr">3</span>Conversation with Someone Who Builds</span></button>
           <ol>
-            <li><span class="mark"><span class="nr">3.1</span>Interview</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="bricolage"><span class="mark"><span class="nr">3.1</span>Interview</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">4</span>Assembly</span>
+        <li><button type="button" class="toc-knopf" data-ziel="assembly"><span class="mark kap"><span class="nr">4</span>Assembly</span></button>
           <ol>
-            <li><span class="mark"><span class="nr">4.1</span>Comparing the moments</span></li>
-            <li><span class="mark"><span class="nr">4.2</span>Condition, time and periphery</span></li>
-            <li><span class="mark"><span class="nr">4.3</span>The architectural in the object and in the gaze</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="object"><span class="mark"><span class="nr">4.1</span>Comparing the moments</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="condition time"><span class="mark"><span class="nr">4.2</span>Condition, time and periphery</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="gaze assembly"><span class="mark"><span class="nr">4.3</span>The architectural in the object and in the gaze</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">5</span>Position and Architectural Question</span>
+        <li><button type="button" class="toc-knopf" data-ziel="vernacular"><span class="mark kap"><span class="nr">5</span>Position and Architectural Question</span></button>
           <ol>
-            <li><span class="mark"><span class="nr">5.1</span>The vernacular of the present</span></li>
-            <li><span class="mark"><span class="nr">5.2</span>The architect as reader, not inventor</span></li>
-            <li><span class="mark"><span class="nr">5.3</span>The question</span></li>
+            <li><button type="button" class="toc-knopf" data-ziel="vernacular"><span class="mark"><span class="nr">5.1</span>The vernacular of the present</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="theorie"><span class="mark"><span class="nr">5.2</span>The architect as reader, not inventor</span></button></li>
+            <li><button type="button" class="toc-knopf" data-ziel="vernacular"><span class="mark"><span class="nr">5.3</span>The question</span></button></li>
           </ol>
         </li>
-        <li><span class="mark kap"><span class="nr">6</span>Conclusion: Atlas of Assemblies</span></li>
+        <li><button type="button" class="toc-knopf" data-ziel="object"><span class="mark kap"><span class="nr">6</span>Conclusion: Atlas of Assemblies</span></button></li>
         <li class="apparat"><span class="mark">Bibliography · Image credits · Appendix: field log</span></li>
       </ol>
     </section>
 
     <figure class="anatomie">
-      <figcaption class="label"><span class="mark">Anatomy of the work</span></figcaption>
-      <a href="data/anatomie_der_arbeit.svg" target="_blank" rel="noopener" class="anatomie-bild">
-        <img src="data/anatomie_der_arbeit.svg" width="1191" height="1684" loading="lazy"
-             alt="Diagram “Anatomie der Arbeit”: the Valais as spine, the fieldtrips as side valleys, theory as the ground beneath; organs stand for the themes of the work (head: vernacular, eyes: gaze, chest: condition, lungs: time, heart: assembly, blood: object, hands: bricolage, skin: periphery).">
-      </a>
-      <p class="anatomie-fuss"><a href="data/anatomie_der_arbeit.svg" target="_blank" rel="noopener"><span class="mark">Open full size ↗</span></a></p>
+      <div class="anatomie-kopf">
+        <figcaption class="label"><span class="mark">Anatomy of the work</span></figcaption>
+        <button type="button" class="ganz-knopf" data-ziel="gesamt" hidden><span class="mark">Show whole diagram</span></button>
+      </div>
+      <div class="anatomie-rahmen" id="anatomie" role="img" aria-label="Diagram: the Valais as main axis, the fieldtrips as side valleys, theory as the ground beneath; around them the themes vernacular, gaze, condition, time, assembly, object, bricolage, periphery. Click a heading in the contents to zoom in."></div>
     </figure>
   </main>
 
-  <script type="module" src="enonce.js?v=1"></script>
+  <script type="module" src="enonce.js?v=2"></script>
 </body>
 </html>
