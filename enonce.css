@@ -1,9 +1,10 @@
-/* Seite „Énoncé“: Inhaltsverzeichnis links, Diagramm rechts; auf schmalen Bildschirmen untereinander.
-   Die Seite scrollt (anders als die Kartenseiten). */
-html:has(body.enonce-seite), body.enonce-seite { height: auto; min-height: 100%; overflow: auto; }
-body.enonce-seite #kopf { position: absolute; }
-.enonce-inhalt { display: flex; flex-direction: column; gap: 56px; padding: 190px 32px 64px; max-width: 1500px; margin: 0 auto; box-sizing: border-box; }
-.toc { max-width: 720px; }
+/* Seite „Énoncé“: wie die Kartenseiten steht die Seite still. Links das Menü (scrollt in sich, klappt auf),
+   rechts immer das Diagramm über die ganze Höhe (Victor 27.10.). Auf schmalen Bildschirmen untereinander. */
+html:has(body.enonce-seite), body.enonce-seite { height: 100%; overflow: hidden; }
+body.enonce-seite #kopf { position: absolute; z-index: 3; }
+.enonce-inhalt { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(300px, 460px) minmax(0, 1fr);
+  gap: 40px; padding: 170px 32px 24px; box-sizing: border-box; }
+.toc { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 10px; scrollbar-width: thin; }
 .enonce-seite .mark { background: #fff; color: #000; padding: 0.06em 0.3em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .enonce-seite h2.label { margin: 0 0 16px; font-weight: 400; }
 
@@ -22,12 +23,12 @@ body.enonce-seite #kopf { position: absolute; }
 .toc-liste a:hover .mark, .toc-liste a:focus-visible .mark { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Diagramm: bleibt beim Scrollen stehen; Zoom über die viewBox (enonce.js) */
-.anatomie { margin: 0; scroll-margin-top: 16px; }
-.anatomie-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin: 0 0 16px; }
+.anatomie { margin: -100px 0 0; min-height: 0; display: flex; flex-direction: column; }
+.anatomie-kopf { display: flex; justify-content: flex-start; align-items: baseline; gap: 16px; margin: 0 0 10px; padding-right: 190px; }
 .anatomie figcaption { margin: 0; }
 .ganz-knopf { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; cursor: pointer; }
 .ganz-knopf[hidden] { display: none; }
-.anatomie-rahmen { position: relative; height: calc(100vh - 70px); min-height: 480px; overflow: hidden; cursor: zoom-in; }
+.anatomie-rahmen { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; cursor: zoom-in; }
 .anatomie-rahmen:focus-visible { outline: 1px solid #fff; outline-offset: 4px; }
 .zoom-buehne { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .zoom-buehne.weich { transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
@@ -54,8 +55,12 @@ body.enonce-seite #kopf { position: absolute; }
 .karte-link .mark { font-size: 12px !important; }
 
 @media (max-width: 900px) {
-  .enonce-inhalt { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 170px 16px 48px; }
-  .anatomie-rahmen { height: auto; min-height: 0; aspect-ratio: 1191 / 1684; }
+  html:has(body.enonce-seite), body.enonce-seite { height: auto; min-height: 100%; overflow: auto; }
+  .enonce-inhalt { position: static; display: flex; flex-direction: column; gap: 40px; padding: 170px 16px 48px; }
+  .toc { overflow: visible; }
+  .anatomie { margin: 0; }
+  .anatomie-kopf { padding-right: 0; }
+  .anatomie-rahmen { flex: none; aspect-ratio: 1191 / 1684; }
 }
 
 /* Menü „Content“ (auf- und zuklappbar wie auf der Startseite) mit Reitern */
@@ -100,3 +105,14 @@ body.enonce-seite #kopf { position: absolute; }
 /* Notes: dunkles Fenster passend zu den Blättern, breiter als bei den Fotos */
 .notes-fenster { width: min(94vw, 1000px); background: rgba(15, 17, 19, 0.96); color: #fff; }
 .notes-fenster figcaption, .notes-fenster .galerie-zahl, .notes-fenster .galerie-pfeil, .notes-fenster .galerie-zu { color: #fff; }
+
+/* Gespräche unterwegs: Fliesstext zum Lesen, ohne Hinterlegung */
+.gespraech { margin: 0 0 22px; }
+.gespraech > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: baseline; gap: 4px; font-size: inherit; font-weight: inherit; text-transform: none; letter-spacing: normal; }
+.gespraech > summary::-webkit-details-marker { display: none; }
+.enonce-menue .gespraech:not([open]) > summary .zeichen { font-size: 16px; }
+.enonce-menue .gespraech:not([open]) > summary .zeichen::after { content: none; }
+.enonce-menue .gespraech[open] > summary .zeichen::after { font-size: 16px; }
+.gespraech-meta { margin: 10px 0 12px; font-size: 13px; }
+.gespraech-text { max-width: 38em; }
+.gespraech-text p { margin: 0 0 0.75em; font-size: 14px; line-height: 1.6; color: #fff; }
