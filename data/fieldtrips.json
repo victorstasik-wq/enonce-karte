@@ -329,9 +329,128 @@
     {
       "id": "F_05",
       "titel": "Fieldtrip 05",
-      "ort": "",
-      "nav": "F5",
-      "inaktiv": true
+      "ort": "Val Ferret · Cabane des Ars Dessus",
+      "nav": "F5 Val Ferret",
+      "gelaende": {
+        "pfad": "pointclouds/R_01_v2/basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024 — one continuous terrain for Val Ferret, Val d’Entremont (Grand-Saint-Bernard) and Val de Bagnes: the catchment of the Drance above Martigny plus 1.2 km beyond the surrounding ridges, cut at the Swiss border; measured 2 m points around the routes F2, F3, F5 and the stations (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
+        "copyright": "© swisstopo"
+      },
+      "verdichtung": [
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1078/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2582_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2582_1102/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2586_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2586_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1098/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1094/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2602_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2602_1090/metadata.json"
+        }
+      ],
+      "ebenen": [],
+      "start": {
+        "ziel": [
+          2575800,
+          1092000,
+          1800
+        ],
+        "azimut": 340,
+        "neigung": 38,
+        "abstand": 26000
+      },
+      "route": "data/route_F_05.json",
+      "stationen": "data/stationen_F_05.json",
+      "weitere_routen": [
+        {
+          "pfad": "data/route_F_02.json",
+          "name": "Route F2 (Cabane de Chanrion)"
+        },
+        {
+          "pfad": "data/route_F_03.json",
+          "name": "Route F3 (Mauvoisin – Le Châble)"
+        }
+      ]
     },
     {
       "id": "F_06",
@@ -354,88 +473,100 @@
       "ort": "Drance catchment above Martigny",
       "nav": "Ferret · Entremont · Bagnes",
       "gelaende": {
-        "pfad": "pointclouds/R_01_v1/basis_10m/metadata.json",
-        "quelle": "swissALTI3D 2024 — one continuous terrain for Val Ferret, Val d’Entremont (Grand-Saint-Bernard) and Val de Bagnes: the catchment of the Drance above Martigny plus 1.2 km beyond the surrounding ridges, cut at the Swiss border; measured 2 m points around the routes and stations (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
+        "pfad": "pointclouds/R_01_v2/basis_10m/metadata.json",
+        "quelle": "swissALTI3D 2024 — one continuous terrain for Val Ferret, Val d’Entremont (Grand-Saint-Bernard) and Val de Bagnes: the catchment of the Drance above Martigny plus 1.2 km beyond the surrounding ridges, cut at the Swiss border; measured 2 m points around the routes F2, F3, F5 and the stations (edges follow ridges and catchment boundaries where possible), 10 m points elsewhere; grey values from computed shading (light from north-west, cast shadows, ambient occlusion)",
         "copyright": "© swisstopo"
       },
       "verdichtung": [
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2570_1082/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1082/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2570_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1086/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2574_1078/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2570_1090/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2574_1082/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1078/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2574_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1082/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2574_1098/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1086/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2574_1102/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1090/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2578_1098/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2578_1102/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2582_1098/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2574_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2582_1102/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2586_1094/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2586_1098/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2578_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2590_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2582_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2590_1090/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2582_1102/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2590_1094/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2586_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2590_1098/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2586_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2594_1082/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1086/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2594_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1090/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2594_1090/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2594_1094/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2590_1098/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2598_1082/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1082/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2598_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1086/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2598_1090/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1090/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2602_1086/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2594_1094/metadata.json"
         },
         {
-          "pfad": "pointclouds/R_01_v1/2m/dicht_2602_1090/metadata.json"
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1082/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2598_1090/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2602_1086/metadata.json"
+        },
+        {
+          "pfad": "pointclouds/R_01_v2/2m/dicht_2602_1090/metadata.json"
         }
       ],
       "ebenen": [
@@ -444,8 +575,8 @@
           "name": "Otemma Glacier — extent 2016 (SGI2016)",
           "an": true,
           "farbe": "#9cc8ea",
-          "grau": "pointclouds/R_01_v1/gletscher_B82-27/grau/metadata.json",
-          "farbig": "pointclouds/R_01_v1/gletscher_B82-27/farbig/metadata.json",
+          "grau": "pointclouds/R_01_v2/gletscher_B82-27/grau/metadata.json",
+          "farbig": "pointclouds/R_01_v2/gletscher_B82-27/farbig/metadata.json",
           "umriss": "data/gletscher_F2_01.json",
           "quelle": "Glacier outlines: Swiss Glacier Inventory 2016 (GLAMOS, doi:10.18750/inventory.sgi2016.r2020)."
         },
@@ -454,8 +585,8 @@
           "name": "Giétro Glacier — extent 2016 (SGI2016)",
           "an": true,
           "farbe": "#9cc8ea",
-          "grau": "pointclouds/R_01_v1/gletscher_B82-14/grau/metadata.json",
-          "farbig": "pointclouds/R_01_v1/gletscher_B82-14/farbig/metadata.json",
+          "grau": "pointclouds/R_01_v2/gletscher_B82-14/grau/metadata.json",
+          "farbig": "pointclouds/R_01_v2/gletscher_B82-14/farbig/metadata.json",
           "umriss": "data/gletscher_F3_gietro.json",
           "quelle": ""
         }
@@ -476,6 +607,10 @@
         {
           "pfad": "data/route_F_03.json",
           "name": "Route F3 (Mauvoisin – Le Châble)"
+        },
+        {
+          "pfad": "data/route_F_05.json",
+          "name": "Route F5 (Orsières – Les Ars Dessus – Sembrancher)"
         }
       ]
     }
