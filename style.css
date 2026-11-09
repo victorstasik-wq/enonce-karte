@@ -297,3 +297,16 @@ body.karte-seite #nav { flex-direction: column; align-items: flex-end; gap: 8px;
 .valais-seite .gl-wieder:hover, .valais-seite .gl-wieder:focus-visible { border-color: #fff; }
 /* leise Route eines anschliessenden Fieldtrips */
 #legende .strich.weitere { background: repeating-linear-gradient(90deg, #5e6e7c 0 7px, transparent 7px 11px); height: 3px; }
+
+/* ---------- Bibliografie (eigene Seite, Gelände dahinter) ---------- */
+body.bib-seite { overflow: auto; }
+.bib-inhalt { display: flex; flex-direction: column; gap: 18px; max-width: 720px; padding-top: 6vh; }
+.bib-zurueck { align-self: flex-start; color: #000; text-decoration: none; font-size: 14px; margin-bottom: 4vh; }
+.bib-zurueck:hover .mark, .bib-zurueck:focus-visible .mark { text-decoration: underline; text-underline-offset: 3px; }
+.bib-liste { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+.bib-liste .label { margin: 14px 0 0; }
+.bib-hinweis { margin: 0; font-size: 13px; }
+.bib { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.bib li { font-size: 14px; line-height: 1.5; padding-left: 1.6em; text-indent: -1.6em; color: #fff; text-shadow: 0 0 6px rgba(15,17,19,.9), 0 0 2px rgba(15,17,19,.9); }
+body.bib-seite .start-verlauf { background: linear-gradient(90deg, rgba(15,17,19,.92) 0%, rgba(15,17,19,.78) 45%, rgba(15,17,19,0) 75%); }
+@media (max-width: 760px) { body.bib-seite .start-verlauf { background: rgba(15,17,19,.82); } }

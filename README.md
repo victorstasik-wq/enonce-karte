@@ -5,8 +5,9 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 
 ## Aufbau
 
-- `index.html`, `start.js` – Startseite „Assembled Periphery (Archive)“: Titel, Einleitung (Platzhalter), Liste der Fieldtrips,
-  im Hintergrund dreht sich langsam das Gelände von Fieldtrip 01. Alte Links `index.html?ft=…` leiten zur Karte weiter.
+- `index.html`, `start.js` – Startseite „Assembled Periphery“: Titel und Menü „Content“ (Bibliografie, Übersichtskarte,
+  Fieldtrips); im Hintergrund dreht sich langsam das Gelände (`hintergrund.js`, Gelände = `start` in `data/fieldtrips.json`).
+  Alte Links `index.html?ft=…` leiten zur Karte weiter.
 - `karte.html`, `app.js`, `style.css` – die Fieldtrip-Karte
 - `data/fieldtrips.json` – welche Fieldtrips es gibt und welche Dateien dazugehören
 - `data/route_F_01.json` – Route F_01 in LV95 (aus `F_01.gpx`, Höhe aus dem Gelände + 4 m)
@@ -42,18 +43,13 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 
 Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
 
-## Seite „Énoncé“ (`enonce.html`, `enonce.css`, `enonce.js`)
+## Seite „Bibliography“ (`bibliography.html`)
 
-Inhaltsverzeichnis (Victors Gliederung vom 21.10.2026, englische Titel als Vorschlag von Claude) und das Diagramm
-„Anatomie der Arbeit“ (v8 vom 21.10.2026) als `data/anatomie_der_arbeit.svg`. Das SVG ist die Fassung aus dem Artifact,
-nur umgefärbt auf den dunklen Grund der Website: Grautöne umgekehrt, Weiss → #0f1113, Rot → Stationsorange #ff6400;
-alle Texte ins Englische übersetzt (Buchtitel und Ortsnamen im Original), Hinterlegungen an die Textlänge angepasst. Menüeintrag über `uebersicht` in `data/fieldtrips.json`.
-Stand 27.10.: Punktwolken-Texturen entfernt (nur Umrisse), Körperbegriffe aus den Überschriften entfernt, das
-Rumpf-Rechteck ersetzt durch Talquerschnitt (Condition) und schematische Jahreskurve (Time). Das SVG wird in
-`enonce.js` eingebettet; ein Klick auf einen Eintrag im Inhaltsverzeichnis zoomt über die viewBox auf den
-zugehörigen Bereich (Tabelle `BEREICHE`, Zuordnung über `data-ziel` in `enonce.html`).
-Stand 27.10. (2): In Rhône, See und Seitentälern ist die Punkt-Schraffur wieder da; entfernt: „a new tradition is
-forming“, „theory still open“, „no station yet“ und der Routenhinweis bei den Höhenprofilen.
+Seit 09.11.2026 ist vom Énoncé auf der Website nur die Bibliografie übrig (Chicago, Arbeitsliste vom 27.10.).
+Inhaltsverzeichnis, Diagramm „Anatomie der Arbeit“, Interviews, Notes und die Präsentationsseite sind entfernt
+(in der Git-Geschichte bis Commit 65a60b3 erhalten; der F3-Gesprächstext liegt in `ET/Interviews/`).
+Hinter der Liste dreht sich dasselbe Gelände wie auf der Startseite (`hintergrund.js`, gemeinsam mit `start.js`).
+
 Übersichtskarte: Gletscher und Sömmerungsweiden sind beim Öffnen aus. Die Gletscher-Animation zeigt nur noch die
 fünf Inventare (1850, 1931, 1973, 2010, 2016) als Stufen; beim Wechsel blenden die Punkte aus, die im nächsten Inventar
 kein Gletscher mehr sind. Keine Zwischenjahre mehr.

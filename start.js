@@ -1,10 +1,12 @@
-// Startseite „Assembled Periphery (Archive)“: Titel, Einleitung, Liste der Fieldtrips,
-// im Hintergrund dreht sich langsam das Gelände von Fieldtrip 01 (nicht bedienbar).
+// Startseite „Assembled Periphery“: Titel, Menü „Content“ (Bibliografie, Übersicht, Fieldtrips),
+// im Hintergrund dreht sich langsam das Gelände (hintergrund.js, nicht bedienbar).
 
 // alte Direktlinks (index.html?ft=…&station=…) führen weiter zur Karte
 if (location.search.includes("ft=") || location.search.includes("station=")) {
   location.replace("karte.html" + location.search);
 }
+
+import { starteHintergrund } from "./hintergrund.js?v=1";
 
 const $id = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => (
@@ -27,10 +29,10 @@ const zeilen = await Promise.all(konfig.fieldtrips.map(async (f) => {
 $id("fieldtrips").innerHTML = zeilen.join("");
 
 // ---------- Übersichtskarten (z. B. Valais) ----------
-$id("uebersicht").innerHTML = (konfig.uebersicht || []).filter((b) => b.link !== "enonce.html").map((b) =>   // Énoncé steht in der eigenen Gruppe
+$id("uebersicht").innerHTML = (konfig.uebersicht || []).map((b) =>
   `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">${esc(b.meta || "")}</span></a></li>`).join("");
 
-// ---------- weitere Bereiche: Notebook / Fieldnotes, Literature ----------
+// ---------- Énoncé: Bibliografie ----------
 $id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.link
   ? `<li class="inaktiv"><span class="ft-name mark">${esc(b.name)}</span><span class="ft-meta mark">coming soon</span></li>`
   : `<li><a href="${esc(b.link)}"><span class="ft-name mark">${esc(b.name)}</span></a></li>`).join("");
@@ -48,53 +50,4 @@ $id("bereiche").innerHTML = (konfig.bereiche || []).map((b) => b.inaktiv || !b.l
 }
 
 // ---------- Hintergrund: langsam drehendes Gelände ----------
-const ft = konfig.fieldtrips.find((f) => f.id === konfig.start && !f.inaktiv);
-if (ft && ft.gelaende && ft.start) {
-  const viewer = new Potree.Viewer($id("hintergrund"));
-  viewer.setEDLEnabled(false);
-  viewer.setFOV(60);
-  viewer.setPointBudget(2_500_000);
-  viewer.setBackground(null);
-  viewer.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  viewer.setFilterPointSourceIDRange(0, -1);   // zuerst nichts zeigen, dann verdichten
-
-  const stil = (pc) => {
-    const m = pc.material;
-    m.activeAttributeName = "rgba";
-    m.pointSizeType = Potree.PointSizeType.FIXED;
-    m.size = 1.2 * Math.min(window.devicePixelRatio || 1, 2);
-    m.shape = Potree.PointShape.SQUARE;
-  };
-  const laden = (pfad, name) => new Promise((ok, fehler) =>
-    Potree.loadPointCloud(pfad, name, (e) => (e.pointcloud ? ok(e.pointcloud) : fehler(e))));
-
-  // Kamera kreist um das Ziel der Startansicht (eine Umdrehung in 4 Minuten)
-  const [ze, zn, zh] = ft.start.ziel;
-  const ne = (ft.start.neigung * Math.PI) / 180, ab = ft.start.abstand * 1.05;
-  const az0 = (ft.start.azimut * Math.PI) / 180, t0 = performance.now();
-  const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  viewer.addEventListener("update", () => {
-    const az = az0 + (ruhig ? 0 : ((performance.now() - t0) / 240000) * 2 * Math.PI);
-    const v = viewer.scene.view;
-    v.position.set(ze + ab * Math.sin(az) * Math.cos(ne), zn + ab * Math.cos(az) * Math.cos(ne), zh + ab * Math.sin(ne));
-    v.lookAt(new v.position.constructor(ze, zn, zh));
-  });
-
-  try {
-    const basis = await laden(ft.gelaende.pfad, "basis");
-    stil(basis); viewer.scene.addPointCloud(basis);
-    for (const [i, v] of (ft.verdichtung || []).entries()) {
-      laden(v.pfad, `dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
-    }
-    // verdichten wie auf der Karte: zuerst wenige Punkte, dann immer mehr
-    setTimeout(() => {
-      const t = { x: 0 };
-      new TWEEN.Tween(t).to({ x: 1 }, 7000).easing(TWEEN.Easing.Linear.None)
-        .onUpdate(() => viewer.setFilterPointSourceIDRange(0, Math.pow(t.x, 3) * 1015))
-        .onComplete(() => viewer.setFilterPointSourceIDRange(0, 65535))
-        .start();
-    }, 1500);
-  } catch (e) {
-    console.warn("Hintergrund konnte nicht geladen werden", e);
-  }
-}
+starteHintergrund(konfig, $id("hintergrund"));

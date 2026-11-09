@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bibliography – Assembled Periphery</title>
+<meta name="description" content="Bibliography of the Énoncé théorique „Assembled Periphery“, Victor Stasik, EPFL Architecture. Chicago style.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600&display=swap">
+<link rel="stylesheet" href="vendor/potree/build/potree/potree.css">
+<link rel="stylesheet" href="style.css?v=40">
+</head>
+<body class="start bib-seite">
+  <div id="hintergrund" aria-hidden="true"></div>
+  <div class="start-verlauf" aria-hidden="true"></div>
+
+  <main class="start-inhalt bib-inhalt">
+    <a href="index.html" class="bib-zurueck"><span class="mark">← Assembled Periphery</span></a>
+    <p class="start-ober"><span class="mark">Énoncé théorique — Victor Stasik · EPFL Architecture</span></p>
+    <h1 class="start-titel"><span class="mark">Bibliography</span></h1>
+    <div class="bib-liste">
+      <p class="bib-hinweis"><span class="mark">Chicago style · working list, 27 Oct 2026</span></p>
+    <h3 class="label"><span class="mark">Sources</span></h3>
+    <ul class="bib">
+      <li>Abraham, Raimund. <i>Elementare Architektur / Architectonics.</i> Photographs by Josef Dapra. Salzburg: Anton Pustet, 2001. First published 1963.</li>
+      <li>Anderegg, Klaus, Werner Bellwald, Roland Flückiger-Seiler, Hildegard Loretan, and Denyse Raymond. <i>Die Bauernhäuser des Kantons Wallis / Les maisons rurales du Valais.</i> Vol. 3.1. Translated by Benno Furrer, Laurent Auberson, and Denyse Raymond. Die Bauernhäuser der Schweiz 15.1. Basel: Schweizerische Gesellschaft für Volkskunde; Visp: Rotten Verlag, 2011.</li>
+      <li>Burckhardt, Lucius. <i>Warum ist Landschaft schön? Die Spaziergangswissenschaft.</i> Edited by Markus Ritter and Martin Schmitz. Berlin: Martin Schmitz Verlag, 2006.</li>
+      <li>Bürgi, Hanspeter, ed. <i>Labor der Extreme: Klima – Alpen – Architektur.</i> Zurich: Edition Hochparterre, 2026.</li>
+      <li>Kissling, Thomas, ed. <i>Fest Flüssig Biotisch: Alpine Landschaften im Wandel.</i> Zurich: Lars Müller Publishers, 2021.</li>
+      <li>Lévi-Strauss, Claude. <i>The Savage Mind.</i> The Nature of Human Society Series. London: Weidenfeld and Nicolson, 1966. Originally published as <i>La Pensée sauvage</i> (Paris: Plon, 1962).</li>
+      <li>Linke, Armin, dir. <i>Alpi.</i> Research by Piero Zanini, Renato Rinaldi, and Armin Linke. 2011. 16 mm film transferred to digital, colour, sound, 60 min.</li>
+      <li>Mosayebi, Elli, Violeta Burckhardt, Julian Meier, Matthew Phillips, Nelly Pilz, and Franziska Singer, eds. <i>Anatomy of Change: Architecture and Time in Ticino.</i> Zurich: Triest Verlag, 2025.</li>
+      <li>Olgiati, Valerio, and Markus Breitschmid. <i>Non-Referential Architecture.</i> 2nd ed. Zurich: Park Books, 2019.</li>
+      <li>Ungers, O. M. <i>Morphologie: City Metaphors.</i> 3rd ed. Cologne: Verlag der Buchhandlung Walther König, 2017. First published 1982.</li>
+    </ul>
+    <h3 class="label"><span class="mark">Further reading</span></h3>
+    <ul class="bib">
+      <li>Darò, Carlotta. <i>The Architecture of the Wire: Infrastructures of Telecommunication.</i> Translated by Christian Hubert. Cambridge, MA: MIT Press, 2025.</li>
+      <li>Easterling, Keller. <i>Extrastatecraft: The Power of Infrastructure Space.</i> London: Verso, 2014.</li>
+      <li>Egloff, Wilhelm, and Annemarie Egloff-Bodmer. <i>Les maisons rurales du Valais / Die Bauernhäuser des Kantons Wallis.</i> Vol. 1, <i>Le pays, la construction en bois, la maison d’habitation / Das Land, der Holzbau, das Wohnhaus.</i> Die Bauernhäuser der Schweiz 13. Basel: Schweizerische Gesellschaft für Volkskunde, 1987.</li>
+      <li>Kerschbaumer, Gabriel. <i>Hochalpine Architektur.</i> Klein Publishing, 2017.</li>
+      <li>Sulzer, Peter. <i>Jean Prouvé: Œuvre complète.</i> 4 vols. Basel: Birkhäuser, 1995–2008.</li>
+    </ul>
+    </div>
+  </main>
+
+  <p class="start-credit"><span class="mark" id="credit">Background: terrain, swissALTI3D © swisstopo</span></p>
+
+  <script src="vendor/potree/libs/jquery/jquery-3.1.1.min.js"></script>
+  <script src="vendor/potree/libs/other/BinaryHeap.js"></script>
+  <script src="vendor/potree/libs/tween/tween.min.js"></script>
+  <script src="vendor/potree/libs/proj4/proj4.js"></script>
+  <script src="vendor/potree/build/potree/potree.js"></script>
+  <script type="module">
+    import { starteHintergrund } from "./hintergrund.js?v=1";
+    const konfig = await (await fetch("data/fieldtrips.json", { cache: "no-cache" })).json();
+    starteHintergrund(konfig, document.getElementById("hintergrund"));
+  </script>
+</body>
+</html>

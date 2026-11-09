@@ -3,11 +3,6 @@
   "start": "F_01",
   "uebersicht": [
     {
-      "name": "Énoncé",
-      "link": "enonce.html",
-      "meta": "Contents · Anatomy of the work"
-    },
-    {
       "name": "Western Alps (Overview)",
       "link": "valais.html",
       "meta": "Valais · Vaud Alps · Bernese Oberland"
@@ -343,24 +338,8 @@
   ],
   "bereiche": [
     {
-      "name": "Contents & Anatomy",
-      "link": "enonce.html"
-    },
-    {
       "name": "Bibliography",
-      "link": "enonce.html#bibliography"
-    },
-    {
-      "name": "Interviews and conversations",
-      "link": "enonce.html#interviews"
-    },
-    {
-      "name": "Notes",
-      "link": "enonce.html#notes"
-    },
-    {
-      "name": "Presentation: structure of the research",
-      "link": "praesentation.html"
+      "link": "bibliography.html"
     }
   ]
 }
