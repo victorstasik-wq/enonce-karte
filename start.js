@@ -6,7 +6,7 @@ if (location.search.includes("ft=") || location.search.includes("station=")) {
   location.replace("karte.html" + location.search);
 }
 
-import { starteHintergrund } from "./hintergrund.js?v=1";
+import { starteHintergrund } from "./hintergrund.js?v=2";
 
 const $id = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => (

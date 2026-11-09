@@ -33,14 +33,15 @@ viewer.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 const params = new URLSearchParams(location.search);
 const konfig = await json(params.get("konfig") || "data/fieldtrips.json");
 const ftId = params.get("ft") || konfig.start;
-const ft = konfig.fieldtrips.find((f) => f.id === ftId && !f.inaktiv) || konfig.fieldtrips[0];
+const alleGebiete = [...konfig.fieldtrips, ...(konfig.regionen || [])];   // Regionen (z. B. R_01) haben eigene Karten, stehen aber nicht in der Fieldtrip-Liste
+const ft = alleGebiete.find((f) => f.id === ftId && !f.inaktiv) || konfig.fieldtrips[0];
 
 $id("projekt").innerHTML = `<a href="index.html" class="zurueck-start">← Assembled Periphery</a>`;
 $id("titel").textContent = ft.titel;
 document.title = `${ft.titel} – Assembled Periphery`;
 
 // Navigation: aktive Fieldtrips als Link, noch nicht vorhandene als grauer Text
-$id("nav").innerHTML = (konfig.uebersicht || []).map((b) => `<a href="${esc(b.link)}">${esc(b.name)}</a>`).join("") + konfig.fieldtrips.map((f) => f.inaktiv
+$id("nav").innerHTML = (konfig.uebersicht || []).map((b) => `<a href="${esc(b.link)}"${b.link === `karte.html?ft=${ft.id}` ? ' aria-current="page"' : ""}>${esc(b.name)}</a>`).join("") + konfig.fieldtrips.map((f) => f.inaktiv
   ? `<span aria-disabled="true" title="Not online yet">${esc(f.nav)}</span>`
   : `<a href="?ft=${encodeURIComponent(f.id)}"${f.id === ft.id ? ' aria-current="page"' : ""}>${esc(f.nav)}</a>`
 ).join("");

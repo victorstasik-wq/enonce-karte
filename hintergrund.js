@@ -1,7 +1,7 @@
 // Hintergrund der Startseite und der Bibliografie: langsam drehendes Gelände (nicht bedienbar).
-// Welches Gelände: konfig.start (Fieldtrip-ID) in data/fieldtrips.json, Kamera aus dessen „start“.
+// Welches Gelände: konfig.start (Fieldtrip- oder Regions-ID) in data/fieldtrips.json, Kamera aus dessen „start“.
 export async function starteHintergrund(konfig, el) {
-  const ft = konfig.fieldtrips.find((f) => f.id === konfig.start && !f.inaktiv);
+  const ft = [...konfig.fieldtrips, ...(konfig.regionen || [])].find((f) => f.id === konfig.start && !f.inaktiv);
   if (ft && ft.gelaende && ft.start) {
     const viewer = new Potree.Viewer(el);
     viewer.setEDLEnabled(false);
