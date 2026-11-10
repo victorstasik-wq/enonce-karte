@@ -1,0 +1,56 @@
+{
+	"version": "2.0",
+	"name": "dicht_2574_1078",
+	"description": "",
+	"points": 530175,
+	"projection": "",
+	"hierarchy": {
+		"firstChunkSize": 4994, 
+		"stepSize": 4, 
+		"depth": 4
+	},
+	"offset": [2574841, 1080161, 1972.4400000000001],
+	"scale": [0.01, 0.01, 0.01],
+	"spacing": 14.828125,
+	"boundingBox": {
+		"min": [2574841, 1080161, 1972.4400000000001], 
+		"max": [2576739, 1082059, 3870.4400000000001]
+	},
+	"encoding": "BROTLI",
+	"attributes": [
+		{
+			"name": "position",
+			"description": "",
+			"size": 12,
+			"numElements": 3,
+			"elementSize": 4,
+			"type": "int32",
+			"min": [2574841, 1080161, 1972.4400000000001],
+			"max": [2576739, 1081999, 2457.04],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		},{
+			"name": "rgb",
+			"description": "",
+			"size": 6,
+			"numElements": 3,
+			"elementSize": 2,
+			"type": "uint16",
+			"min": [19968, 20992, 22272],
+			"max": [60672, 60928, 61184],
+			"scale": [1, 1, 1],
+			"offset": [0, 0, 0]
+		},{
+			"name": "point source id",
+			"description": "",
+			"size": 2,
+			"numElements": 1,
+			"elementSize": 2,
+			"type": "uint16",
+			"min": [0],
+			"max": [1008],
+			"scale": [1],
+			"offset": [0]
+		}
+	]
+}

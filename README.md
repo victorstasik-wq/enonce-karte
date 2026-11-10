@@ -41,12 +41,12 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header
   `content-type: multipart/byteranges` bei den Range-Anfragen ist entfernt, weil GitHub Pages solche Anfragen mit 400 ablehnt.
 
-- **Region R_01 „Val Ferret · Entremont · Bagnes“** (seit 09.11.2026): `pointclouds/R_01_v2/` (`basis_10m`, `2m/dicht_*`,
+- **Region R_01 „Val Ferret · Entremont · Bagnes“** (seit 09.11.2026): `pointclouds/R_01_v3/` (`basis_10m`, `2m/dicht_*`,
   `gletscher_B82-27` Otemma, `gletscher_B82-14` Giétro, je `grau`/`farbig`). Gebiet: Einzugsgebiet der Drance oberhalb
   Martigny (aus dem 10-m-Raster per Flutung von den Auslässen berechnet, Auslass 2'572'135 / 1'103'065) plus 1,2 km über die
   umliegenden Grate, geschnitten mit dem Kanton Wallis (Landesgrenze), dünne Ausläufer entfernt. swissALTI3D 2 m, 851 Kacheln
-  (E 2566–2606, N 1078–1108; Liste `rohdaten/gelaende/kacheln_R_01.txt`). 2-m-Zone wie bei F2/F3 um die Routen F2, F3, F5 (`data/route_F_05.json`, aus `f05.gpx`, Höhen aus dem 2-m-Modell)
-  und die Stationen F2_01 und Les Ars Dessus. Fieldtrip 05 nutzt dasselbe Gelände. Steht in `data/fieldtrips.json`
+  (E 2566–2606, N 1078–1108; Liste `rohdaten/gelaende/kacheln_R_01.txt`). 2-m-Zone wie bei F2/F3 um die Routen F2, F3, F5 und F6 (`data/route_F_05.json`, `data/route_F_06.json`, aus den GPX in
+  `rohdaten/gpx/`, Höhen aus dem 2-m-Modell) und die Stationen F2_01 und Les Ars Dessus. Fieldtrips 05 und 06 nutzen dasselbe Gelände. Steht in `data/fieldtrips.json`
   unter `regionen` (nicht in der Fieldtrip-Liste) und ist `start`, also auch das drehende Gelände auf Startseite und
   Bibliografie. Build-Skripte: `rohdaten/gelaende/build_R_01/`.
 
