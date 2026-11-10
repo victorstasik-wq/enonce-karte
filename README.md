@@ -35,7 +35,9 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
   Routen: `data/route_F_02.json`, `data/route_F_03.json` (aus `rohdaten/gpx/F_03.gpx`, Höhen aus dem 2-m-Modell).
   In `fieldtrips.json` zeigt `weitere_routen` die jeweils andere Route gestrichelt und blass an.
   Stationen: `data/stationen_F_02.json`, `data/stationen_F_03.json` (noch leer).
-  Build-Skripte: `rohdaten/gelaende/build_F_23/`. Die alten Ordner `pointclouds/F_02_v2/` und `F2_01_gletscher_v2/` werden nicht mehr verwendet.
+  Build-Skripte: `rohdaten/gelaende/build_F_23/`. **Seit 10.11.2026 nutzen F2 und F3 das Gelände der Region R_01** (siehe unten); `F_23_v1`, `F_02_v2` und
+  `F2_01_gletscher_v2` sind aus dem Repo genommen (GitHub Pages brach beim Veröffentlichen mit über 790 MB ab).
+  Sie liegen in der Git-Geschichte und lokal in `ET/_entfernt_website_0911/pointclouds/`.
 - `flaeche.js` – alternative Darstellung als geschlossene Fläche (zurzeit nicht genutzt; wird nur mit `flaeche`
   in `fieldtrips.json` geladen)
 - `vendor/potree/` – Potree 1.8.2 (nur benötigte Teile). Eine Änderung in `build/potree/potree.js`: der Header
