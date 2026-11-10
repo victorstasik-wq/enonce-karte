@@ -187,6 +187,8 @@ viewer.setControls(steuerung);
 
 // ---------- Zusätzliche Ebenen (z. B. Gletscherfläche), in der Legende ein- und ausschaltbar ----------
 async function ladeEbene(eb) {
+  // nur_grau: Fläche gehört zum weissen Gelände (keine Farbe, kein Eintrag in der Legende)
+  if (eb.nur_grau) { const g = await laden(eb.grau, eb.id + "_grau"); stil(g); viewer.scene.addPointCloud(g); return; }
   const [grau, farbig, umriss] = await Promise.all([laden(eb.grau, eb.id + "_grau"), laden(eb.farbig, eb.id + "_farbig"), json(eb.umriss)]);
   for (const pc of [grau, farbig]) { stil(pc); viewer.scene.addPointCloud(pc); }
   const linien = umriss.ringe.map((ring) => {
@@ -204,10 +206,17 @@ async function ladeEbene(eb) {
   const knopf = document.createElement("button");
   knopf.className = "zeile ebene";
   knopf.innerHTML = `<span class="flaeche" style="--farbe:${esc(eb.farbe)}"></span><span>${esc(eb.name)}</span>`;
-  const setze = (an) => {
-    farbig.visible = an; grau.visible = !an; linien.forEach((l) => { l.visible = an; });
-    knopf.setAttribute("aria-pressed", String(an));
+  // zoom (m): farbig erst, wenn die Kamera näher als diese Distanz an der Fläche ist; sonst weiss wie das Gelände
+  const punkte = umriss.ringe.flat();
+  const mitteE = new THREE.Vector3(...[0, 1, 2].map((i) => punkte.reduce((s, p) => s + p[i], 0) / punkte.length));
+  let an = eb.an !== false;
+  const zeige = () => {
+    const f = an && (!eb.zoom || viewer.scene.view.position.distanceTo(mitteE) < eb.zoom);
+    if (farbig.visible === f && grau.visible === !f) return;
+    farbig.visible = f; grau.visible = !f; linien.forEach((l) => { l.visible = f; });
   };
+  if (eb.zoom) viewer.addEventListener("update", zeige);
+  const setze = (a) => { an = a; zeige(); knopf.setAttribute("aria-pressed", String(an)); };
   knopf.addEventListener("click", () => setze(knopf.getAttribute("aria-pressed") !== "true"));
   $id("ebenen").append(knopf);
   setze(eb.an !== false);

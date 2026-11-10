@@ -1,6 +1,6 @@
 {
 	"version": "2.0",
-	"name": "gletscher_B82-27_farbig",
+	"name": "gletscher_B82-27_frost",
 	"description": "",
 	"points": 3148669,
 	"projection": "",
@@ -36,8 +36,8 @@
 			"numElements": 3,
 			"elementSize": 2,
 			"type": "uint16",
-			"min": [9216, 21760, 32000],
-			"max": [52480, 58368, 62720],
+			"min": [29952, 31744, 33024],
+			"max": [54272, 57856, 60160],
 			"scale": [1, 1, 1],
 			"offset": [0, 0, 0]
 		},{

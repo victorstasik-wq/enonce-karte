@@ -54,7 +54,7 @@
   <script src="vendor/potree/libs/proj4/proj4.js"></script>
   <script src="vendor/potree/build/potree/potree.js"></script>
   <script type="module">
-    import { starteHintergrund } from "./hintergrund.js?v=2";
+    import { starteHintergrund } from "./hintergrund.js?v=3";
     const konfig = await (await fetch("data/fieldtrips.json", { cache: "no-cache" })).json();
     starteHintergrund(konfig, document.getElementById("hintergrund"));
   </script>

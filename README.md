@@ -52,6 +52,11 @@ Website: https://victorstasik-wq.github.io/enonce-karte/
   unter `regionen` (nicht in der Fieldtrip-Liste) und ist `start`, also auch das drehende Gelände auf Startseite und
   Bibliografie. Build-Skripte: `rohdaten/gelaende/build_R_01/`.
 
+- **Gletscher (seit 10.11.2026):** Nur der Otemma-Gletscher wird markiert, nur bei Fieldtrip 02 und erst beim
+  Hineinzoomen (`zoom: 9000` = Kamera näher als 9 km an der Gletscherfläche), gefüllt in Frost #d4e2eb aus der Palette
+  (`gletscher_B82-27/frost`). Sonst und überall sonst sind Otemma und Giétro weiss wie das Gelände (`nur_grau`); auch der
+  Hintergrund von Startseite und Bibliografie lädt sie, damit keine Löcher bleiben.
+
 Direktaufruf einer Station: `karte.html?ft=F_01&station=ID`
 
 ## Seite „Bibliography“ (`bibliography.html`)

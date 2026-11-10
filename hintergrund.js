@@ -36,6 +36,9 @@ export async function starteHintergrund(konfig, el) {
     try {
       const basis = await laden(ft.gelaende.pfad, "basis");
       stil(basis); viewer.scene.addPointCloud(basis);
+      for (const eb of ft.ebenen || []) {   // Gletscherflächen als weisses Gelände, sonst fehlen sie als Loch
+        laden(eb.grau, `${eb.id}_grau`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
+      }
       for (const [i, v] of (ft.verdichtung || []).entries()) {
         laden(v.pfad, `dicht_${i}`).then((pc) => { stil(pc); viewer.scene.addPointCloud(pc); }).catch(() => {});
       }
