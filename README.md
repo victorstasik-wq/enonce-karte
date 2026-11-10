@@ -70,6 +70,13 @@ Hinter der Liste dreht sich dasselbe Gelände wie auf der Startseite (`hintergru
 fünf Inventare (1850, 1931, 1973, 2010, 2016) als Stufen; beim Wechsel blenden die Punkte aus, die im nächsten Inventar
 kein Gletscher mehr sind. Keine Zwischenjahre mehr.
 
+## Veröffentlichen (GitHub Pages)
+
+Nach jedem Push baut GitHub die Seite neu (Reiter **Actions**, „pages build and deployment“). Bricht der Schritt
+„deploy“ mit „Timeout reached, aborting!“ ab, liegt das bei GitHub: angemeldet im Reiter Actions den Lauf öffnen und
+oben rechts **Re-run jobs → Re-run failed jobs** wählen, oder einfach erneut pushen. Online bleibt so lange der letzte
+erfolgreiche Stand.
+
 ## Quellen und Lizenzen
 
 - Gelände: swissALTI3D 2024/2025, Bundesamt für Landestopografie swisstopo, © swisstopo.
